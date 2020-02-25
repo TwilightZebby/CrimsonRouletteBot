@@ -1,0 +1,16 @@
+# For security
+config.js
+database.sqlite
+/bot_modules
+/dataStores
+
+# For tidyness
+/helpful_stuff
+/node_modules
+/.vs
+
+# Hiding incomplete stuff
+
+
+# To hide my plans :P
+TODO.md

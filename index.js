@@ -3,6 +3,7 @@ const fs = require('fs'); // Node's native file system
 const Discord = require("discord.js"); // Bringing in Discord.js
 const { client } = require('./bot_modules/constants.js'); // Brings in the Discord Bot's Client and Sequelize Database
 const { PREFIX, TOKEN } = require('./config.js'); // Slapping the PREFIX and token into their own vars
+const { ConfigData, GuildLevels } = require('./bot_modules/tables.js'); // Brings in the Databases
 client.commands = new Discord.Collection(); // Extends JS's native map class
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js')); // Picks up all the .js files in the commands folder
 const cooldowns = new Discord.Collection(); // For Cooldowns to work
@@ -21,10 +22,89 @@ for (const file of commandFiles) { // Slaps all the command files into the Colle
 
 // To make sure the bot is up and running
 client.on("ready", () => {
-  console.log("I am ready!");
+  // Sync them Databases
+  ConfigData.sync();
+  GuildLevels.sync();
+
   client.user.setActivity(`${PREFIX}help`); // Sets a Playing Status on the Bot
+  console.log("I am ready!");
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***********************************************/
+// WHEN BOT JOINS A GUILD
+//     - Create Guild's entries into ConfigData Database
+client.on('guildCreate', async (guild) => {
+
+  // Add Guild to Config Database
+  // NOT to Levelling DB since that is User-based not Guild-based
+  try {
+
+    const guildConfig = await ConfigData.create({
+      guildID: guild.id,
+      // Other values default to the default ones set in /bot_modules/tables.js
+    });
+    
+  } catch (e) {
+
+    // Catch errors
+    return console.error(e);
+
+  }
+
+  // End of guildCreate Event
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***********************************************/
+// WHEN BOT LEAVES A GUILD
+//    - Delete all Database entries for that Guild
+client.on('guildDelete', async (guild) => {
+
+  // Grab the Guild's ID and delete all entries in the Database for it
+  const configDelete = await ConfigData.destroy({ where: { guildID: guild.id } })
+        .catch(err => console.error(`ERROR: Something happened. - index.js guildDelete - \n${err}`));
+  if(!configDelete) {
+    console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);
+  }
+
+  const levelDelete = await GuildLevels.destroy({ where: { guildID: guild.id } })
+    .catch(err => console.error(`ERROR: Something happened. - index.js levelDelete - \n${err}`));
+  if(!levelDelete) {
+    return console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);
+  }
+
+});
 
 
 

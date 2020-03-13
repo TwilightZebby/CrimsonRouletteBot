@@ -11,8 +11,10 @@ module.exports = {
     execute(message) {
       const guideEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Guide Module');
 
-      guideEmbed.setTitle(`Guide to Crimson Roulette Bot`)
-      guideEmbed.addFields({ name: `\u200B`, value: `This is a placeholder for the Guide.\nPlease check again at a later date!` })
+      guideEmbed.setTitle(`Guide to Crimson Roulette Bot`);
+      guideEmbed.addFields({ name: `\u200B`, value: `This is a placeholder for the Guide.\nPlease check again at a later date!` });
+
+      return message.channel.send(guideEmbed);
 
       //END OF COMMAND
     },

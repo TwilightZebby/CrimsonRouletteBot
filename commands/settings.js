@@ -21,7 +21,7 @@ module.exports = {
 
         // Fetch the Guild's current configValues from the Database
         let guildConfig = await ConfigData.findOrCreate({ where: { guildID: message.guild.id } })
-          .catch(e => { console.error(`Error searching for ConfigData - config CMD guildConfig -\n${e}`) });
+        .catch(e => { console.error(`Error searching for ConfigData - config CMD guildConfig -\n${e}`) });
         
         // If no data was found
         if ( !guildConfig ) {
@@ -40,6 +40,7 @@ module.exports = {
         let vcTokens = guildConfig[0].dataValues.voiceTokens;
         let riskRoul = guildConfig[0].dataValues.riskyRoul;
         let crimRoul = guildConfig[0].dataValues.crimRoul;
+        let announceChannel = guildConfig[0].dataValues.lvlChannel;
 
         // Now place into Embed to show User
         configEmbed.setTitle(`${message.guild.name}'s Current Configuration`);
@@ -47,11 +48,12 @@ module.exports = {
         configEmbed.addFields(
           { name: `Allow Levelling`, value: tokenLevel, inline: true },
           { name: `Level Downs`, value: lvlDown, inline: true },
+          { name: `Broadcast Channel`, value: `\<\#${announceChannel}\>`, inline: true },
           { name: `Voice Channel Tokens`, value: vcTokens },
           { name: `Risky Roulette Results`, value: riskRoul, inline: true },
           { name: `Roulette Commands`, value: crimRoul, inline: true },
-          { name: `Level Up Message (Not yet customisable)`, value: lvlUpMsg },
-          { name: `Level Down Message (Not yet customisable)`, value: lvlDwnMsg },
+          { name: `Level Up Message (Customisable via Dashboard)`, value: lvlUpMsg },
+          { name: `Level Down Message (Customisable via Dashboard)`, value: lvlDwnMsg },
           { name: `\u200B`, value: `Further explaination on what each Setting does can be found [here at top.gg](https://placeholder.com 'https://placeholder.com')\nTo edit a setting, use \`${PREFIX}config [setting] / [value]\`, making sure to INCLUDE the forward slash (/) between the Setting and Value!` }
         );
 
@@ -97,12 +99,39 @@ module.exports = {
 
       switch(settingName) {
 
+        // Broadcast Levels Channel
+        case "broadcast channel" || "broadcast" || "levels channel" || "lvl channel":
+          
+          let channelID;
+
+          try {
+            channelID = message.guild.channels.resolveID(settingValue);
+            console.log(channelID);
+            channelID = channelID.substring(2, channelID.length - 1);
+            console.log(channelID);
+          } catch(err) {
+            console.error(err);
+            configEmbed.setTitle(`Something went wrong...`);
+            configEmbed.setDescription(`I am unable to find that Channel. Please try again using a Channel Mention (eg: \`#channel\`)`);
+            return message.channel.send(configEmbed);
+          }
+
+          updateConfig = await ConfigData.update( { lvlChannel: channelID }, { where: { guildID: message.guild.id } })
+          .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
+
+          if ( updateConfig ) {
+            configEmbed.setTitle(`Successfully updated Config!`);
+            configEmbed.setDescription(`The Setting **${settingName}** has been set to ${settingValue}`);
+            return message.channel.send(configEmbed);
+          }
+          break;
+
         // Allow Levelling
         case "allow levelling" || "levelling":
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
           updateConfig = await ConfigData.update( { tokenLevels: settingValue }, { where: { guildID: message.guild.id } })
-            .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
+          .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
 
           if ( updateConfig ) {
             configEmbed.setTitle(`Successfully updated Config!`);
@@ -116,7 +145,7 @@ module.exports = {
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
           updateConfig = await ConfigData.update( { levelDown: settingValue }, { where: { guildID: message.guild.id } })
-            .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
+          .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
 
           if ( updateConfig ) {
             configEmbed.setTitle(`Successfully updated Config!`);
@@ -130,7 +159,7 @@ module.exports = {
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
           updateConfig = await ConfigData.update( { voiceTokens: settingValue }, { where: { guildID: message.guild.id } })
-            .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
+          .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
 
           if ( updateConfig ) {
             configEmbed.setTitle(`Successfully updated Config!`);
@@ -144,7 +173,7 @@ module.exports = {
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
           updateConfig = await ConfigData.update( { riskyRoul: settingValue }, { where: { guildID: message.guild.id } })
-            .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
+          .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
 
           if ( updateConfig ) {
             configEmbed.setTitle(`Successfully updated Config!`);
@@ -158,7 +187,7 @@ module.exports = {
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
           updateConfig = await ConfigData.update( { crimRoul: settingValue }, { where: { guildID: message.guild.id } })
-            .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
+          .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
 
           if ( updateConfig ) {
             configEmbed.setTitle(`Successfully updated Config!`);

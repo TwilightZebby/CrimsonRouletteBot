@@ -8,6 +8,7 @@ database.sqlite
 /helpful_stuff
 /node_modules
 /.vs
+/images
 
 # Hiding incomplete stuff
 

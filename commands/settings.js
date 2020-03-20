@@ -49,11 +49,11 @@ module.exports = {
           { name: `Allow Levelling`, value: tokenLevel, inline: true },
           { name: `Level Downs`, value: lvlDown, inline: true },
           { name: `Broadcast Channel`, value: `\<\#${announceChannel}\>`, inline: true },
-          { name: `Voice Channel Tokens`, value: vcTokens },
+          //{ name: `Voice Channel Tokens`, value: vcTokens },
           { name: `Risky Roulette Results`, value: riskRoul, inline: true },
           { name: `Roulette Commands`, value: crimRoul, inline: true },
-          { name: `Level Up Message (Customisable via Dashboard)`, value: lvlUpMsg },
-          { name: `Level Down Message (Customisable via Dashboard)`, value: lvlDwnMsg },
+          { name: `Level Up Message`, value: lvlUpMsg },
+          { name: `Level Down Message`, value: lvlDwnMsg },
           { name: `\u200B`, value: `Further explaination on what each Setting does can be found [here at top.gg](https://placeholder.com 'https://placeholder.com')\nTo edit a setting, use \`${PREFIX}config [setting] / [value]\`, making sure to INCLUDE the forward slash (/) between the Setting and Value!` }
         );
 
@@ -89,7 +89,6 @@ module.exports = {
       let settingName = argSubStrings.shift();
       settingName = settingName.toLowerCase();
       let settingValue = argSubStrings.shift();
-      settingValue = settingValue.toLowerCase();
 
       configEmbed.spliceFields(0, 24); // Delete the previous Fields ready to re-use this Embed
 
@@ -98,6 +97,52 @@ module.exports = {
       let updateConfig;
 
       switch(settingName) {
+
+        // Lvl Up Messages
+        case "level up message" || "level up msg" || "lvl up msg":
+          // check that "user" and "levelNum" exists
+          if ( !settingValue.includes("user") ) {
+            configEmbed.setTitle(`Something went wrong...`);
+            configEmbed.setDescription(`"user" was not found in that string. Please try again! (example: \`user has levelled up to Level levelNum!\`)`);
+            return message.channel.send(configEmbed);
+          } else if ( !settingValue.includes("levelNum") ) {
+            configEmbed.setTitle(`Something went wrong...`);
+            configEmbed.setDescription(`"levelNum" was not found in that string. Please try again! (example: \`user has levelled up to Level levelNum!\`)`);
+            return message.channel.send(configEmbed);
+          }
+
+          updateConfig = await ConfigData.update( { levelUpMsg: settingValue }, { where: { guildID: message.guild.id } })
+          .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
+
+          if ( updateConfig ) {
+            configEmbed.setTitle(`Successfully updated Config!`);
+            configEmbed.setDescription(`The Setting **${settingName}** has been set to \`${settingValue}\``);
+            return message.channel.send(configEmbed);
+          }
+          break;
+
+        // Lvl Up Messages
+        case "level down message" || "level down msg" || "lvl down msg":
+          // check that "user" and "levelNum" exists
+          if ( !settingValue.includes("user") ) {
+            configEmbed.setTitle(`Something went wrong...`);
+            configEmbed.setDescription(`"user" was not found in that string. Please try again! (example: \`user has levelled down to Level levelNum!\`)`);
+            return message.channel.send(configEmbed);
+          } else if ( !settingValue.includes("levelNum") ) {
+            configEmbed.setTitle(`Something went wrong...`);
+            configEmbed.setDescription(`"levelNum" was not found in that string. Please try again! (example: \`user has levelled down to Level levelNum!\`)`);
+            return message.channel.send(configEmbed);
+          }
+
+          updateConfig = await ConfigData.update( { levelDownMsg: settingValue }, { where: { guildID: message.guild.id } })
+          .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
+
+          if ( updateConfig ) {
+            configEmbed.setTitle(`Successfully updated Config!`);
+            configEmbed.setDescription(`The Setting **${settingName}** has been set to \`${settingValue}\``);
+            return message.channel.send(configEmbed);
+          }
+          break;
 
         // Broadcast Levels Channel
         case "broadcast channel" || "broadcast" || "levels channel" || "lvl channel":
@@ -128,6 +173,7 @@ module.exports = {
 
         // Allow Levelling
         case "allow levelling" || "levelling":
+          settingValue = settingValue.toLowerCase();
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
           updateConfig = await ConfigData.update( { tokenLevels: settingValue }, { where: { guildID: message.guild.id } })
@@ -142,6 +188,7 @@ module.exports = {
 
         // Level Down
         case "level down" || "lvl down":
+          settingValue = settingValue.toLowerCase();
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
           updateConfig = await ConfigData.update( { levelDown: settingValue }, { where: { guildID: message.guild.id } })
@@ -155,7 +202,8 @@ module.exports = {
           break;
 
         // Voice Channel Tokens
-        case "voice channel tokens" || "voice channel token" || "vc tokens":
+        /*case "voice channel tokens" || "voice channel token" || "vc tokens":
+          settingValue = settingValue.toLowerCase();
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
           updateConfig = await ConfigData.update( { voiceTokens: settingValue }, { where: { guildID: message.guild.id } })
@@ -166,10 +214,11 @@ module.exports = {
             configEmbed.setDescription(`The Setting **${settingName}** has been set to ${settingValue}`);
             return message.channel.send(configEmbed);
           }
-          break;
+          break;*/
 
         // Risky Roulette Results
         case "risky roulette results" || "risky roulette":
+          settingValue = settingValue.toLowerCase();
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
           updateConfig = await ConfigData.update( { riskyRoul: settingValue }, { where: { guildID: message.guild.id } })
@@ -184,6 +233,7 @@ module.exports = {
 
         // All Roulette Commands
         case "roulette commands" || "roulette cmds":
+          settingValue = settingValue.toLowerCase();
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
           updateConfig = await ConfigData.update( { crimRoul: settingValue }, { where: { guildID: message.guild.id } })

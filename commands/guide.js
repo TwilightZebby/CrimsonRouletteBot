@@ -7,7 +7,7 @@ module.exports = {
     usage: ' ',
     //aliases: [''],
     //args: true,
-    commandType: 'general',
+    commandType: 'info',
     execute(message) {
       const guideEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Guide Module');
 

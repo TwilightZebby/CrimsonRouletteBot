@@ -15,6 +15,14 @@ module.exports = {
       const configEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Config');
 
 
+      // Only the Guild Owner can use this command
+      if ( message.author.id !== message.guild.ownerID ) {
+        configEmbed.setTitle(`Something went wrong....`);
+        configEmbed.setDescription(`Sorry, but only the Guild/Server Owner can use this command!`);
+        return message.channel.send(configEmbed);
+      }
+
+
 
       // If there is NO args inputted, show current configValues
       if ( !args.length ) {
@@ -151,11 +159,9 @@ module.exports = {
 
           try {
             channelID = message.guild.channels.resolveID(settingValue);
-            console.log(channelID);
             channelID = channelID.substring(2, channelID.length - 1);
-            console.log(channelID);
           } catch(err) {
-            console.error(err);
+            //console.error(err);
             configEmbed.setTitle(`Something went wrong...`);
             configEmbed.setDescription(`I am unable to find that Channel. Please try again using a Channel Mention (eg: \`#channel\`)`);
             return message.channel.send(configEmbed);

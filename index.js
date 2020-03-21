@@ -156,6 +156,11 @@ client.on("message", async (message) => {
     .catch(e => { console.error(`Error searching for LevelData - index.js dbLevels -\n${e}`) });
 
 
+    // If Levelling is disabled, RETURN
+    if ( dbConfig[0].tokenLevels === false ) {
+      return;
+    }
+
 
     // Cooldown Stuff
     // To prevent spamming to gain Tokens

@@ -49,6 +49,74 @@ client.on("ready", () => {
 
 
 /***********************************************/
+// WHEN A NEW MEMBER JOINS A GUILD
+//     - Creates a new row in the Levels DB to ensure working functionailty with cmds such as TOP
+client.on('guildMemberAdd', async (member) => {
+
+  try {
+
+    let levelDb = await GuildLevels.create({
+      guildID: member.guild.id,
+      userID: member.id,
+    });
+
+  } catch (e) {
+
+    return console.error(e);
+
+  }
+
+  // End of guildMemberAdd Event
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***********************************************/
+// WHEN A MEMBER LEAVES A GUILD
+//     - To delete them from the Levels DB to make sure they don't pollute the Leaderboard(s)
+client.on('guildMemberRemove', async (member) => {
+
+  const levelDelete = await GuildLevels.destroy({ where: { guildID: member.guild.id, userID: member.id } })
+  .catch(err => console.error(err));
+  
+  if(!levelDelete) {
+    return console.log(`Nothing was deleted for ${member.displayName} upon leaving`);
+  }
+
+  // End of guildMemberRemove Event
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***********************************************/
 // WHEN BOT JOINS A GUILD
 //     - Create Guild's entries into ConfigData Database
 client.on('guildCreate', async (guild) => {

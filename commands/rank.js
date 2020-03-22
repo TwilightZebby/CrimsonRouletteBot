@@ -12,6 +12,7 @@ module.exports = {
     usage: ' ',
     //aliases: [''],
     //args: true,
+    guildOnly: true,
     commandType: 'info',
     async execute(message) {
 
@@ -19,7 +20,7 @@ module.exports = {
 
       let dbLevels = await GuildLevels.findOrCreate({ where: { guildID: message.guild.id, userID: message.author.id } })
       .catch(e => { 
-        console.error(`Error searching for LevelData - index.js dbLevels -\n${e}`);
+        console.error(e);
         rankEmbed.setTitle(`Something went wrong...`);
         rankEmbed.setDescription(`There was an error fetching ${message.author}'s current Level/Tokens. Please try again later.`);
         return message.channel.send(rankEmbed);

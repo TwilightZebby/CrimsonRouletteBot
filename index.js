@@ -23,7 +23,7 @@ for (const file of commandFiles) { // Slaps all the command files into the Colle
 
 
 // To make sure the bot is up and running
-client.on("ready", () => {
+client.once("ready", () => {
   // Sync them Databases
   ConfigData.sync();
   GuildLevels.sync();

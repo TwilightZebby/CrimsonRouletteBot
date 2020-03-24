@@ -105,6 +105,7 @@ module.exports = {
       let newTokens;
       let newBet;
       let lostTokens;
+      let display;
 
 
       switch ( result ) {
@@ -127,10 +128,11 @@ module.exports = {
         
         case "win10":
           // Win 10% of Bet back ontop of Bet
-          tenPercent = bet * 1.1;
+          tenPercent = bet * 0.1;
+          display = bet + tenPercent;
 
           await Recalculate("add", tenPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
-          roulEmbed.setDescription(`...and won back 110% of their Bet to receive ${tenPercent.toFixed()} Tokens!`);
+          roulEmbed.setDescription(`...and won back 110% of their Bet to receive ${display.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b'); // Green
           message.channel.send(roulEmbed);
           break;
@@ -138,10 +140,11 @@ module.exports = {
 
         case "win50":
           // Win 50% of bet ontop of bet
-          fiftyPercent = bet * 1.5;
+          fiftyPercent = bet * 0.5;
+          display = bet + fiftyPercent;
 
           await Recalculate("add", fiftyPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
-          roulEmbed.setDescription(`...and won back 150% of their Bet to receive ${fiftyPercent.toFixed()} Tokens!`);
+          roulEmbed.setDescription(`...and won back 150% of their Bet to receive ${display.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
           break;
@@ -315,7 +318,7 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
 
 
 
-
+  resultAmount = parseInt(resultAmount);
   let updateDB;
 
   if ( sumMethod === "add" ) {

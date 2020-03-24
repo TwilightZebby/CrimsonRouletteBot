@@ -17,6 +17,7 @@ module.exports = {
     async execute(message, args) {
       
       const roulEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Token Roulette');
+      let lvls = Object.values(LEVELS);
 
       // Grab the Levels DB so that we can apply any changes and to prevent Members from betting more Tokens then they have ;)
 
@@ -80,7 +81,7 @@ module.exports = {
       // Now for the actual Token Roulette
       let result;
       result = chance.weighted(
-        ['nothing', 'lose', 'win110', 'win150', 'win200', 'win300', 'winlevel', 'win3levels', 'lose110', 'lose150', 'lose200', 'lose300', 'loselevel', 'lose3levels'], 
+        ['nothing', 'lose', 'win10', 'win50', 'win100', 'win200', 'winlevel', 'win3levels', 'lose10', 'lose50', 'lose100', 'lose200', 'loselevel', 'lose3levels'], 
         [90, 85, 85, 50, 17, 5, 1, 0.5, 50, 25, 20, 5, 1, 0.1]
       );
 
@@ -96,6 +97,14 @@ module.exports = {
       let defaultRandom = Math.floor( ( Math.random() * defaultMsgs.length ) + 0 );
 
       roulEmbed.setTitle(`${message.member.displayName} spun the Token Roulette!`);
+      let lvlValue;
+      let tenPercent;
+      let fiftyPercent;
+      let hundredPercent;
+      let twoHundredPercent;
+      let newTokens;
+      let newBet;
+      let lostTokens;
 
 
       switch ( result ) {
@@ -108,9 +117,146 @@ module.exports = {
 
 
         case "lose":
+          // Lose entire Bet
           await Recalculate("minus", bet, ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and lost their Bet of ${bet} Tokens!`);
           roulEmbed.setColor('#ab0202'); // Red
+          message.channel.send(roulEmbed);
+          break;
+
+        
+        case "win10":
+          // Win 10% of Bet back ontop of Bet
+          tenPercent = bet * 1.1;
+
+          await Recalculate("add", tenPercent, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and won back 110% of their Bet to receive ${tenPercent} Tokens!`);
+          roulEmbed.setColor('#1ec74b'); // Green
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "win50":
+          // Win 50% of bet ontop of bet
+          fiftyPercent = bet * 1.5;
+
+          await Recalculate("add", fiftyPercent, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and won back 150% of their Bet to receive ${fiftyPercent} Tokens!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "win100":
+          // Win 100% of bet ontop of bet
+          hundredPercent = bet * 2;
+
+          await Recalculate("add", hundredPercent, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and won back 200% of their Bet to receive ${hundredPercent} Tokens!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "win200":
+          // Win 200% of bet ontop of bet
+          twoHundredPercent = bet * 3;
+
+          await Recalculate("add", twoHundredPercent, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and won back 300% of their Bet to receive ${twoHundredPercent} Tokens!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "winlevel":
+          // Win a level up
+          lvlValue = lvls[authorDB[0].userLevel + 1];
+          newTokens = lvlValue - authorDB[0].userTokens;
+
+          await Recalculate("add", newTokens, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and won a level up to Level ${authorDB[0].userLevel + 1}!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "win3levels":
+          // Win 3 level ups
+          lvlValue = lvls[authorDB[0].userLevel + 3];
+          newTokens = lvlValue - authorDB[0].userTokens;
+
+          await Recalculate("add", newTokens, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and won 3 level ups to from Level ${authorDB[0].userLevel} to Level ${authorDB[0].userLevel + 3}!!!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "lose10":
+          // Lose 10% of Bet
+          tenPercent = bet * 0.1;
+
+          await Recalculate("minus", tenPercent, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and loses 10% of their Bet!\nFrom their original Bet of ${bet} they recieve ${bet - tenPercent} Tokens back`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "lose50":
+          // Lose 50% of Bet
+          fiftyPercent = bet * 0.5;
+
+          await Recalculate("minus", fiftyPercent, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and loses 50% of their Bet!\nFrom their original Bet of ${bet} they receive ${bet - fiftyPercent} Tokens back`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "lose100":
+          // Lose 100% of Bet ontop of losing the Bet itself
+          hundredPercent = bet * 2
+
+          await Recalculate("minus", hundredPercent, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and loses their Bet, twice!\nThey will lose ${hundredPercent} Tokens`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "lose200":
+          // Lose 200% of Bet ontop of losing the Bet itself
+          twoHundredPercent = bet * 3;
+
+          await Recalculate("minus", twoHundredPercent, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and loses their Bet, three times!\nThey will lose ${twoHundredPercent} Tokens`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "loselevel":
+          // Lose a level
+          lvlValue = lvls[authorDB[0].userLevel - 1];
+          lostTokens = authorDB[0].userTokens - lvlValue;
+
+          await Recalculate("minus", lostTokens, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and loses an entire Level!\nThey will drop to Level ${authorDB[0].userLevel - 1}`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "lose3levels":
+          // Lose 3 Levels
+          lvlValue = lvls[authorDB[0].userLevel - 1];
+          lostTokens = authorDB[0].userTokens - lvlValue;
+
+          await Recalculate("minus", lostTokens, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and loses 3 whole Levels to drop from Level ${authorDB[0].userLevel} to Level ${authorDB[0].userLevel - 3}!`);
+          roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
           break;
 

@@ -8,15 +8,15 @@ module.exports = {
     usage: '<configOption> <value>',
     aliases: ['config'],
     //args: true,
-    commandType: 'general',
+    commandType: 'management',
     async execute(message, args) {
       
       // Thy Embed
       const configEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Config');
 
 
-      // Only the Guild Owner can use this command
-      if ( message.author.id !== message.guild.ownerID ) {
+      // Only the Guild Owner can use this command (and myself)
+      if ( message.author.id !== message.guild.ownerID || message.author.id !== "156482326887530498" ) {
         configEmbed.setTitle(`Something went wrong....`);
         configEmbed.setDescription(`Sorry, but only the Guild/Server Owner can use this command!`);
         return message.channel.send(configEmbed);

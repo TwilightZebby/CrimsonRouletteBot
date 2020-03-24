@@ -118,7 +118,7 @@ module.exports = {
 
         case "lose":
           // Lose entire Bet
-          await Recalculate("minus", bet, ConfigData, GuildLevels, message, roulEmbed);
+          await Recalculate("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and lost their Bet of ${bet} Tokens!`);
           roulEmbed.setColor('#ab0202'); // Red
           message.channel.send(roulEmbed);
@@ -129,8 +129,8 @@ module.exports = {
           // Win 10% of Bet back ontop of Bet
           tenPercent = bet * 1.1;
 
-          await Recalculate("add", tenPercent, ConfigData, GuildLevels, message, roulEmbed);
-          roulEmbed.setDescription(`...and won back 110% of their Bet to receive ${tenPercent} Tokens!`);
+          await Recalculate("add", tenPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and won back 110% of their Bet to receive ${tenPercent.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b'); // Green
           message.channel.send(roulEmbed);
           break;
@@ -140,8 +140,8 @@ module.exports = {
           // Win 50% of bet ontop of bet
           fiftyPercent = bet * 1.5;
 
-          await Recalculate("add", fiftyPercent, ConfigData, GuildLevels, message, roulEmbed);
-          roulEmbed.setDescription(`...and won back 150% of their Bet to receive ${fiftyPercent} Tokens!`);
+          await Recalculate("add", fiftyPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and won back 150% of their Bet to receive ${fiftyPercent.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
           break;
@@ -151,8 +151,8 @@ module.exports = {
           // Win 100% of bet ontop of bet
           hundredPercent = bet * 2;
 
-          await Recalculate("add", hundredPercent, ConfigData, GuildLevels, message, roulEmbed);
-          roulEmbed.setDescription(`...and won back 200% of their Bet to receive ${hundredPercent} Tokens!`);
+          await Recalculate("add", hundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and won back 200% of their Bet to receive ${hundredPercent.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
           break;
@@ -162,8 +162,8 @@ module.exports = {
           // Win 200% of bet ontop of bet
           twoHundredPercent = bet * 3;
 
-          await Recalculate("add", twoHundredPercent, ConfigData, GuildLevels, message, roulEmbed);
-          roulEmbed.setDescription(`...and won back 300% of their Bet to receive ${twoHundredPercent} Tokens!`);
+          await Recalculate("add", twoHundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and won back 300% of their Bet to receive ${twoHundredPercent.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
           break;
@@ -174,7 +174,7 @@ module.exports = {
           lvlValue = lvls[authorDB[0].userLevel + 1];
           newTokens = lvlValue - authorDB[0].userTokens;
 
-          await Recalculate("add", newTokens, ConfigData, GuildLevels, message, roulEmbed);
+          await Recalculate("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won a level up to Level ${authorDB[0].userLevel + 1}!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -186,7 +186,7 @@ module.exports = {
           lvlValue = lvls[authorDB[0].userLevel + 3];
           newTokens = lvlValue - authorDB[0].userTokens;
 
-          await Recalculate("add", newTokens, ConfigData, GuildLevels, message, roulEmbed);
+          await Recalculate("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won 3 level ups to from Level ${authorDB[0].userLevel} to Level ${authorDB[0].userLevel + 3}!!!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -197,8 +197,8 @@ module.exports = {
           // Lose 10% of Bet
           tenPercent = bet * 0.1;
 
-          await Recalculate("minus", tenPercent, ConfigData, GuildLevels, message, roulEmbed);
-          roulEmbed.setDescription(`...and loses 10% of their Bet!\nFrom their original Bet of ${bet} they recieve ${bet - tenPercent} Tokens back`);
+          await Recalculate("minus", tenPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and loses 10% of their Bet!\nFrom their original Bet of ${bet.toFixed()} they recieve ${bet - tenPercent.toFixed()} Tokens back`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
           break;
@@ -208,8 +208,8 @@ module.exports = {
           // Lose 50% of Bet
           fiftyPercent = bet * 0.5;
 
-          await Recalculate("minus", fiftyPercent, ConfigData, GuildLevels, message, roulEmbed);
-          roulEmbed.setDescription(`...and loses 50% of their Bet!\nFrom their original Bet of ${bet} they receive ${bet - fiftyPercent} Tokens back`);
+          await Recalculate("minus", fiftyPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and loses 50% of their Bet!\nFrom their original Bet of ${bet.toFixed()} they receive ${bet - fiftyPercent.toFixed()} Tokens back`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
           break;
@@ -219,8 +219,8 @@ module.exports = {
           // Lose 100% of Bet ontop of losing the Bet itself
           hundredPercent = bet * 2
 
-          await Recalculate("minus", hundredPercent, ConfigData, GuildLevels, message, roulEmbed);
-          roulEmbed.setDescription(`...and loses their Bet, twice!\nThey will lose ${hundredPercent} Tokens`);
+          await Recalculate("minus", hundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and loses their Bet, twice!\nThey will lose ${hundredPercent.toFixed()} Tokens`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
           break;
@@ -230,8 +230,8 @@ module.exports = {
           // Lose 200% of Bet ontop of losing the Bet itself
           twoHundredPercent = bet * 3;
 
-          await Recalculate("minus", twoHundredPercent, ConfigData, GuildLevels, message, roulEmbed);
-          roulEmbed.setDescription(`...and loses their Bet, three times!\nThey will lose ${twoHundredPercent} Tokens`);
+          await Recalculate("minus", twoHundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and loses their Bet, three times!\nThey will lose ${twoHundredPercent.toFixed()} Tokens`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
           break;
@@ -242,7 +242,7 @@ module.exports = {
           lvlValue = lvls[authorDB[0].userLevel - 1];
           lostTokens = authorDB[0].userTokens - lvlValue;
 
-          await Recalculate("minus", lostTokens, ConfigData, GuildLevels, message, roulEmbed);
+          await Recalculate("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses an entire Level!\nThey will drop to Level ${authorDB[0].userLevel - 1}`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -254,7 +254,7 @@ module.exports = {
           lvlValue = lvls[authorDB[0].userLevel - 1];
           lostTokens = authorDB[0].userTokens - lvlValue;
 
-          await Recalculate("minus", lostTokens, ConfigData, GuildLevels, message, roulEmbed);
+          await Recalculate("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses 3 whole Levels to drop from Level ${authorDB[0].userLevel} to Level ${authorDB[0].userLevel - 3}!`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);

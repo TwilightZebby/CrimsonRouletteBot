@@ -6,7 +6,7 @@ module.exports = {
     description: 'List all of my commands or info about a specific command.',
     usage: '[command name]',
     commandType: 'general',
-    execute(message, args) {
+    async execute(message, args) {
       const { commands } = message.client;
       const helpEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Help Module');
 
@@ -39,13 +39,43 @@ module.exports = {
 
 
 
-      // Specific Command Help
+      // Fetch the command
+      function commandSearch(name, commands) {
 
+        // First, check Command Names
+        let result = commands.get(name);
+
+        // if undefined, check aliases
+        if (!result) {
+
+          for (let [key, value] of commands) {
+            if (value.aliases === undefined) {
+              continue;
+            }
+
+            if (value.aliases.includes(name)) {
+              return commands.get(key);
+            }
+          };
+
+        } else {
+
+          return result;
+
+        }
+      }
+
+
+
+
+      // Specific Command Help
       const name = args[0].toLowerCase();
-      const command = commands.get(name);
+      const command = commandSearch(name, commands);
+      
+      
 
       if(!command) {
-        helpEmbed.addFields({ name: "\u200B", value: "Yo, that\'s not a vaild command!" });
+        helpEmbed.setDescription("Yo, that\'s not a vaild command!");
         
 
         return message.channel.send(helpEmbed);

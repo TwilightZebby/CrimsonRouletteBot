@@ -6,17 +6,25 @@ const Chance = require("chance");
 let chance = new Chance();
 
 module.exports = {
-    name: 'roulette',
-    description: `Try your luck with the Token Roulette! Will you earn a free Level Up? Or will you lose a Level? :o\nNote: Your bet uses Tokens, not Levels`,
+    name: 'crimsonroul',
+    description: `The same as the standard Roulette - but featuring more risky results! *Has the chance of affecting multiple Server Members!*`,
     usage: '<bet>',
-    aliases: ['roul'],
+    aliases: ['crim', 'crimsonroulette', 'cr'],
     args: true,
     guildOnly: true,
-    //cooldown: 3600, // 1 Hour
-    commandType: 'fun',
+    //cooldown: 86400, // 24 Hours
+    commandType: 'wip',
     async execute(message, args) {
 
-      const roulEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Token Roulette');
+      if ( message.author.id !== '156482326887530498' ) {
+        return message.reply(`Sorry, but this command is currently Work In Progress.\nAs such, only this Bot\'s Developer can use it at the moment`);
+      }
+
+
+
+
+
+      const roulEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Crimson Roulette');
 
       // Check that the Guild's settings have this enabled
       let gConfig = await ConfigData.findOrCreate({ where: { guildID: message.guild.id } })
@@ -30,6 +38,10 @@ module.exports = {
       if ( gConfig[0].crimRoul === false ) {
         roulEmbed.setTitle(`🚫 Command Disabled`);
         roulEmbed.setDescription(`Sorry, but the Owner of this Server has disabled use of both Roulette commands...`);
+        return message.channel.send(roulEmbed);
+      } else if ( gConfig[0].riskyRoul === false ) {
+        roulEmbed.setTitle(`🚫 Command Disabled`);
+        roulEmbed.setDescription(`Sorry, but the Owner of this Server has disabled use of this command...`);
         return message.channel.send(roulEmbed);
       }
 
@@ -104,8 +116,10 @@ module.exports = {
       // Now for the actual Token Roulette
       let result;
       result = chance.weighted(
-        ['nothing', 'lose', 'win10', 'win50', 'win100', 'win200', 'winlevel', 'win3levels', 'lose10', 'lose50', 'lose100', 'lose200', 'loselevel', 'lose3levels'], 
-        [90, 85, 85, 50, 17, 5, 1, 0.5, 50, 25, 20, 5, 1, 0.1]
+        ['nothing', 'lose', 'win10', 'win50', 'win100', 'win200', 'winlevel', 'win3levels', 'lose10', 'lose50', 'lose100', 'lose200', 'loselevel', 'lose3levels',
+         '2win', '2lose'], 
+        [90, 85, 85, 50, 17, 5, 1, 0.5, 50, 25, 20, 5, 1, 0.1,
+         15, 15]
       );
 
       // For random "default" result messages
@@ -126,24 +140,65 @@ module.exports = {
       let hundredPercent;
       let twoHundredPercent;
       let newTokens;
-      let newBet;
       let lostTokens;
       let display;
 
 
+      // Store of all the Guild's Members
+      let memberStore = message.guild.members.cache;
+      memberStore = Array.from(memberStore.values());
+      let randomNumber;
+      //randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+      let randomMember;
+      randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+      randomMember = await memberStore[randomNumber];
+
+
+
+
       switch ( result ) {
+
+        case "2lose":
+          // Author + 1 random member loses Bet
+          do {
+            randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+            randomMember = await memberStore[randomNumber];
+          } while ( randomMember.user.bot === true );
+
+          await RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and lost their Bet of ${bet.toFixed()} Tokens! This bad luck also spread causing \<\@${randomMember.id}\> to lose ${bet.toFixed()} Tokens as well!`);
+          roulEmbed.setColor('#ab0202'); // Red
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "2win":
+          // Author + 1 random Member wins Bet (back)
+          do {
+            randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+            randomMember = await memberStore[randomNumber];
+          } while ( randomMember.user.bot === true );
+
+          // Since we're not actually doing anything to Author's Tokens, just give the randomMember the Bet's amount
+          RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and won their Bet back! Additionally, \<\@${randomMember.id}\> also gets ${bet.toFixed()} Tokens!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
 
         case "nothing":
           roulEmbed.setDescription(`\*Sad Trombone Noises\*\nWelp, you landed right in the middle. You neither win nor lose anything...\nYou do, however, get your Bet back though!`);
-          roulEmbed.setColor('#34ebde');
-          message.channel.send(roulEmbed); // Aqua / Light Blue
+          roulEmbed.setColor('#34ebde'); // Aqua / Light Blue
+          message.channel.send(roulEmbed); 
           break;
 
 
         case "lose":
           // Lose entire Bet
-          await Recalculate("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
-          roulEmbed.setDescription(`...and lost their Bet of ${bet} Tokens!`);
+          await RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          roulEmbed.setDescription(`...and lost their Bet of ${bet.toFixed()} Tokens!`);
           roulEmbed.setColor('#ab0202'); // Red
           message.channel.send(roulEmbed);
           break;
@@ -154,7 +209,7 @@ module.exports = {
           tenPercent = bet * 0.1;
           display = bet + tenPercent;
 
-          await Recalculate("add", tenPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("add", tenPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won back 110% of their Bet to receive ${display.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b'); // Green
           message.channel.send(roulEmbed);
@@ -166,7 +221,7 @@ module.exports = {
           fiftyPercent = bet * 0.5;
           display = bet + fiftyPercent;
 
-          await Recalculate("add", fiftyPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("add", fiftyPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won back 150% of their Bet to receive ${display.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -177,7 +232,7 @@ module.exports = {
           // Win 100% of bet ontop of bet
           hundredPercent = bet * 2;
 
-          await Recalculate("add", hundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("add", hundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won back 200% of their Bet to receive ${hundredPercent.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -188,7 +243,7 @@ module.exports = {
           // Win 200% of bet ontop of bet
           twoHundredPercent = bet * 3;
 
-          await Recalculate("add", twoHundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("add", twoHundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won back 300% of their Bet to receive ${twoHundredPercent.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -200,7 +255,7 @@ module.exports = {
           lvlValue = lvls[authorDB[0].userLevel + 1];
           newTokens = lvlValue - authorDB[0].userTokens;
 
-          await Recalculate("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won a level up to Level ${authorDB[0].userLevel + 1}!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -212,7 +267,7 @@ module.exports = {
           lvlValue = lvls[authorDB[0].userLevel + 3];
           newTokens = lvlValue - authorDB[0].userTokens;
 
-          await Recalculate("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won 3 level ups to from Level ${authorDB[0].userLevel} to Level ${authorDB[0].userLevel + 3}!!!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -223,7 +278,7 @@ module.exports = {
           // Lose 10% of Bet
           tenPercent = bet * 0.1;
 
-          await Recalculate("minus", tenPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("minus", tenPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses 10% of their Bet!\nFrom their original Bet of ${bet.toFixed()} they recieve ${bet - tenPercent.toFixed()} Tokens back`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -234,7 +289,7 @@ module.exports = {
           // Lose 50% of Bet
           fiftyPercent = bet * 0.5;
 
-          await Recalculate("minus", fiftyPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("minus", fiftyPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses 50% of their Bet!\nFrom their original Bet of ${bet.toFixed()} they receive ${bet - fiftyPercent.toFixed()} Tokens back`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -245,7 +300,7 @@ module.exports = {
           // Lose 100% of Bet ontop of losing the Bet itself
           hundredPercent = bet * 2
 
-          await Recalculate("minus", hundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("minus", hundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses their Bet, twice!\nThey will lose ${hundredPercent.toFixed()} Tokens`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -256,7 +311,7 @@ module.exports = {
           // Lose 200% of Bet ontop of losing the Bet itself
           twoHundredPercent = bet * 3;
 
-          await Recalculate("minus", twoHundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("minus", twoHundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses their Bet, three times!\nThey will lose ${twoHundredPercent.toFixed()} Tokens`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -268,7 +323,7 @@ module.exports = {
           lvlValue = lvls[authorDB[0].userLevel - 1];
           lostTokens = authorDB[0].userTokens - lvlValue;
 
-          await Recalculate("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses an entire Level!\nThey will drop to Level ${authorDB[0].userLevel - 1}`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -280,7 +335,7 @@ module.exports = {
           lvlValue = lvls[authorDB[0].userLevel - 1];
           lostTokens = authorDB[0].userTokens - lvlValue;
 
-          await Recalculate("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses 3 whole Levels to drop from Level ${authorDB[0].userLevel} to Level ${authorDB[0].userLevel - 3}!`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -318,8 +373,27 @@ module.exports = {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // FUNCTIONS to re-calculate Token and Level Amounts
-async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, roulEmbed) {
+async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, message, roulEmbed) {
 
   // Fetch the Guild's Config Data AND User's Level Data
   let guildConfig = await configDB.findOrCreate({ where: { guildID: message.guild.id } })
@@ -481,6 +555,208 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
             let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
             let lvlMessage = guildConfig[0].levelUpMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
+            lvlMessage = lvlMessage.replace("levelNum", ulevel);
+            announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+          }
+        }
+      }
+    }
+
+
+  }
+
+
+  // End of Function
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, levelDB, message, roulEmbed) {
+
+  // Fetch the Guild's Config Data AND User's Level Data
+  let guildConfig = await configDB.findOrCreate({ where: { guildID: message.guild.id } })
+  .catch(e => { 
+    console.error(e);
+    roulEmbed.setTitle(`Something went wrong...`);
+    roulEmbed.setDescription(`There was an error fetching ${message.guild.name} Config Data. Please try again later.`);
+    return message.channel.send(roulEmbed);
+  });
+
+  let userData = await levelDB.findOrCreate({ where: { guildID: message.guild.id, userID: memberObj.id } })
+  .catch(e => { 
+    console.error(e);
+    roulEmbed.setTitle(`Something went wrong...`);
+    roulEmbed.setDescription(`There was an error fetching ${memberObj}'s current Level/Tokens. Please try again later.`);
+    return message.channel.send(roulEmbed);
+  });
+
+
+
+
+  resultAmount = parseInt(resultAmount);
+  let updateDB;
+
+  if ( sumMethod === "add" ) {
+
+
+    // Perform operation on Tokens
+    let newTokenAmount = userData[0].userTokens + resultAmount;
+
+    updateDB = await levelDB.update( { userTokens: newTokenAmount }, { where: { guildID: message.guild.id, userID: memberObj.id } })
+    .catch(err => { console.error(err); });
+
+
+    // Recalculate Levels
+    let oldLevel = userData[0].userLevel;
+    let ulevel;
+
+    let lvls = Object.values(LEVELS);
+    for (let i = 0; i < lvls.length; i++) {
+
+      if (newTokenAmount < lvls[i]) {
+
+        ulevel = i - 1;
+
+        // Level 0 Catch
+        if (ulevel < 0) {
+          ulevel = 0;
+        }
+
+        // Update Database
+        updateDB = await levelDB.update({
+            userLevel: ulevel
+          }, {
+            where: {
+              guildID: message.guild.id,
+              userID: memberObj.id
+            }
+          })
+          .catch(err => {
+            console.error(err);
+          });
+
+
+        //Check thy Levels
+        if (updateDB) {
+
+          i += 99999999; // Breaks out of loop
+
+          if (guildConfig[0].lvlChannel === null || guildConfig[0].lvlChannel === undefined) {
+            return;
+          } else if (ulevel < oldLevel) {
+
+            let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
+            let lvlMessage = guildConfig[0].levelDownMsg;
+            lvlMessage = lvlMessage.replace("user", `\<\@${memberObj.id}\>`);
+            lvlMessage = lvlMessage.replace("levelNum", ulevel);
+            announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+          } else if (ulevel > oldLevel) {
+
+            let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
+            let lvlMessage = guildConfig[0].levelUpMsg;
+            lvlMessage = lvlMessage.replace("user", `\<\@${memberObj.id}\>`);
+            lvlMessage = lvlMessage.replace("levelNum", ulevel);
+            announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+          }
+
+        }
+      }
+
+    }
+
+
+  } 
+  else if ( sumMethod === "minus" ) {
+
+
+    // Perform operation on Tokens
+    let newTokenAmount = userData[0].userTokens - resultAmount;
+
+    // Check that Token amount doesn't fall below zero (just in case)
+    if ( newTokenAmount < 0 ) {
+      newTokenAmount = 0;
+    }
+
+    updateDB = await levelDB.update( { userTokens: newTokenAmount }, { where: { guildID: message.guild.id, userID: memberObj.id } })
+    .catch(err => { console.error(err); });
+
+
+    // Recalculate Levels
+    let oldLevel = userData[0].userLevel;
+    let ulevel;
+
+    let lvls = Object.values(LEVELS);
+    for (let i = 0; i < lvls.length; i++) {
+
+      if (newTokenAmount < lvls[i]) {
+
+        ulevel = i - 1;
+
+        // Level 0 Catch
+        if (ulevel < 0) {
+          ulevel = 0;
+        }
+
+        // Update Database
+        updateDB = await levelDB.update({
+            userLevel: ulevel
+          }, {
+            where: {
+              guildID: message.guild.id,
+              userID: memberObj.id
+            }
+          })
+          .catch(err => {
+            console.error(err);
+          });
+
+
+        //Check thy Levels
+        if (updateDB) {
+
+          i += 99999999; // Breaks out of loop
+
+          if (guildConfig[0].lvlChannel === null || guildConfig[0].lvlChannel === undefined) {
+            return;
+          } else if (ulevel < oldLevel) {
+
+            let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
+            let lvlMessage = guildConfig[0].levelDownMsg;
+            lvlMessage = lvlMessage.replace("user", `\<\@${memberObj.id}\>`);
+            lvlMessage = lvlMessage.replace("levelNum", ulevel);
+            announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+          } else if (ulevel > oldLevel) {
+
+            let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
+            let lvlMessage = guildConfig[0].levelUpMsg;
+            lvlMessage = lvlMessage.replace("user", `\<\@${memberObj.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
             announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
 

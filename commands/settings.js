@@ -157,19 +157,24 @@ module.exports = {
           
           let channelID;
 
-          try {
-            channelID = message.guild.channels.resolveID(settingValue);
-            channelID = channelID.substring(2, channelID.length - 1);
-          } catch(err) {
-            //console.error(err);
-            configEmbed.setTitle(`Something went wrong...`);
-            configEmbed.setDescription(`I am unable to find that Channel. Please try again using a Channel Mention (eg: \`#channel\`)`);
-            return message.channel.send(configEmbed);
+          if ( settingValue === "null" ) {
+            channelID = null;
+          } else {
+
+            try {
+              channelID = message.guild.channels.resolveID(settingValue);
+              channelID = channelID.substring(2, channelID.length - 1);
+            } catch(err) {
+              //console.error(err);
+              configEmbed.setTitle(`Something went wrong...`);
+              configEmbed.setDescription(`I am unable to find that Channel. Please try again using a Channel Mention (eg: \`#channel\`)`);
+              return message.channel.send(configEmbed);
+            }
           }
 
           updateConfig = await ConfigData.update( { lvlChannel: channelID }, { where: { guildID: message.guild.id } })
           .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
-
+  
           if ( updateConfig ) {
             configEmbed.setTitle(`Successfully updated Config!`);
             configEmbed.setDescription(`The Setting **${settingName}** has been set to ${settingValue}`);

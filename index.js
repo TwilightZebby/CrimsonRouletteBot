@@ -122,13 +122,35 @@ client.on('guildMemberRemove', async (member) => {
 client.on('guildCreate', async (guild) => {
 
   // Add Guild to Config Database
-  // NOT to Levelling DB since that is User-based not Guild-based
   try {
 
     const guildConfig = await ConfigData.create({
       guildID: guild.id,
       // Other values default to the default ones set in /bot_modules/tables.js
     });
+
+    // Add each Member to Levelling DB to get this Bot working on VPS
+    let memStore = Array.from(guild.members.cache.values());
+    // Filter out Bots
+    for ( let i = 0; i < memStore.length; i++ ) {
+      if ( memStore[i].user.bot === true ) {
+
+        memStore.splice(i, 1);
+
+      }
+    }
+
+    // Now loop to add actual Members to the Levelling DB
+    let memLvlDB;
+    for ( let i = 0; i < memStore.length; i++ ) {
+
+      memLvlDB = await GuildLevels.create({
+        guildID: guild.id,
+        userID: memStore[i].id,
+        // Other values default to 0
+      }).catch(console.error);
+
+    }
     
   } catch (e) {
 

@@ -159,6 +159,7 @@ module.exports = {
       let lostTokens;
       let display;
       let ranMemberDB;
+      let memberArray = [];
 
 
       // Store of all the Guild's Members
@@ -177,7 +178,6 @@ module.exports = {
 
         case "5lose":
           // Author + 5 random Members loses Bet
-          let fiveRandomwinners = [];
           // Grab 5 random members and take Tokens from them
           for ( let i = 0; i < 5; i++ ) {
 
@@ -188,11 +188,11 @@ module.exports = {
 
             await RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
-            fiveRandomwinners.push(randomMember);
+            memberArray.push(randomMember);
 
           }
           
-          roulEmbed.setDescription(`...and lost their Bet! Additionally, \<\@${fiveRandomwinners[0].id}\> \<\@${fiveRandomwinners[1].id}\> \<\@${fiveRandomwinners[2].id}\> \<\@${fiveRandomwinners[3].id}\> \<\@${fiveRandomwinners[4].id}\> also loses ${bet.toFixed()} Tokens!`);
+          roulEmbed.setDescription(`...and lost their Bet! Additionally, \<\@${memberArray[0].id}\> \<\@${memberArray[1].id}\> \<\@${memberArray[2].id}\> \<\@${memberArray[3].id}\> \<\@${memberArray[4].id}\> also loses ${bet.toFixed()} Tokens!`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
           break;
@@ -200,7 +200,6 @@ module.exports = {
 
         case "5win":
           // Author + 5 random Members wins Bet (back)
-          let fiveRandomwinners = [];
           // Grab 5 random members and throw Tokens at them
           for ( let i = 0; i < 5; i++ ) {
 
@@ -211,11 +210,11 @@ module.exports = {
 
             await RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
-            fiveRandomwinners.push(randomMember);
+            memberArray.push(randomMember);
 
           }
           
-          roulEmbed.setDescription(`...and won their Bet back! Additionally, \<\@${fiveRandomwinners[0].id}\> \<\@${fiveRandomwinners[1].id}\> \<\@${fiveRandomwinners[2].id}\> \<\@${fiveRandomwinners[3].id}\> \<\@${fiveRandomwinners[4].id}\> also gets ${bet.toFixed()} Tokens!`);
+          roulEmbed.setDescription(`...and won their Bet back! Additionally, \<\@${memberArray[0].id}\> \<\@${memberArray[1].id}\> \<\@${memberArray[2].id}\> \<\@${memberArray[3].id}\> \<\@${memberArray[4].id}\> also gets ${bet.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
           break;

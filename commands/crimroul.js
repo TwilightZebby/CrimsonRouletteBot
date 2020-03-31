@@ -275,7 +275,7 @@ module.exports = {
             randomMember = await memberStore[randomNumber];
           } while ( randomMember.user.bot === true );
 
-          await RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and lost double their Bet for themselves and \<\@${randomMember.id}\>! They both lose ${newTokens.toFixed()} Tokens!`);
           roulEmbed.setColor('#ab0202');
@@ -292,7 +292,7 @@ module.exports = {
           } while ( randomMember.user.bot === true );
 
           await RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
-          await RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+          await RecalculateMember("add", display.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won double their Bet for themselves and \<\@${randomMember.id}\>! They both get ${display.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);

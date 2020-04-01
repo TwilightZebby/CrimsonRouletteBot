@@ -16,13 +16,6 @@ module.exports = {
     commandType: 'wip',
     async execute(message, args) {
 
-      if ( message.author.id !== '156482326887530498' ) {
-        return message.reply(`Sorry, but this command is currently Work In Progress.\nAs such, only this Bot\'s Developer can use it at the moment`);
-      }
-
-
-
-
 
       const roulEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Crimson Roulette');
 
@@ -133,9 +126,9 @@ module.exports = {
       let result;
       result = chance.weighted(
         ['nothing', 'lose', 'win10', 'win50', 'win100', 'win200', 'winlevel', 'win3levels', 'lose10', 'lose50', 'lose100', 'lose200', 'loselevel', 'lose3levels',
-         '2win', '2lose', '2windouble', '2losedouble', '2winlevel', '2loselevel', '5win', '5lose'], 
+         '2win', '2lose', '2windouble', '2losedouble', '2winlevel', '2loselevel', '5win', '5lose', '5windouble', '5losedouble'], 
         [90, 85, 85, 50, 17, 5, 1, 0.5, 50, 25, 20, 5, 1, 0.1,
-         15, 15, 8, 8, 3, 3, 5, 5]
+         15, 15, 8, 8, 3, 3, 5, 5, 2, 2]
       );
 
       // For random "default" result messages
@@ -176,6 +169,54 @@ module.exports = {
 
       switch ( result ) {
 
+        case "5losedouble":
+          // Author + 5 random Members loses double Bet
+          newTokens = bet * 2
+          // Grab 5 random members and take Tokens from them
+          for ( let i = 0; i < 5; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+            memberArray.push(`\<\@` + randomMember.id + `\>`);
+
+          }
+          await RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          
+          roulEmbed.setDescription(`...and loses double their Bet! Additionally, ${memberArray.join(' ')} also loses ${newTokens.toFixed()} Tokens!`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "5windouble":
+          // Author + 5 random Members wins double Bet
+          newTokens = bet * 2
+          // Grab 5 random members and give Tokens to them
+          for ( let i = 0; i < 5; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+            memberArray.push(`\<\@` + randomMember.id + `\>`);
+
+          }
+          await RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          
+          roulEmbed.setDescription(`...and win double their Bet! Additionally, ${memberArray.join(' ')} also wins ${newTokens.toFixed()} Tokens!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
         case "5lose":
           // Author + 5 random Members loses Bet
           // Grab 5 random members and take Tokens from them
@@ -188,11 +229,11 @@ module.exports = {
 
             await RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
-            memberArray.push(randomMember);
+            memberArray.push(`\<\@` + randomMember.id + `\>`);
 
           }
           
-          roulEmbed.setDescription(`...and lost their Bet! Additionally, \<\@${memberArray[0].id}\> \<\@${memberArray[1].id}\> \<\@${memberArray[2].id}\> \<\@${memberArray[3].id}\> \<\@${memberArray[4].id}\> also loses ${bet.toFixed()} Tokens!`);
+          roulEmbed.setDescription(`...and lost their Bet! Additionally, ${memberArray.join(' ')} also loses ${bet.toFixed()} Tokens!`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
           break;
@@ -210,11 +251,11 @@ module.exports = {
 
             await RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
-            memberArray.push(randomMember);
+            memberArray.push(`\<\@` + randomMember.id + `\>`);
 
           }
           
-          roulEmbed.setDescription(`...and won their Bet back! Additionally, \<\@${memberArray[0].id}\> \<\@${memberArray[1].id}\> \<\@${memberArray[2].id}\> \<\@${memberArray[3].id}\> \<\@${memberArray[4].id}\> also gets ${bet.toFixed()} Tokens!`);
+          roulEmbed.setDescription(`...and won their Bet back! Additionally, ${memberArray.join(' ')} also gets ${bet.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
           break;

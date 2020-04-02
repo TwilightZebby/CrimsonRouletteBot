@@ -34,6 +34,12 @@ client.once("ready", () => {
 
 
 
+// Debugging
+process.on('warning', console.warn);
+// Extra Error Catching
+process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
+
+
 
 
 
@@ -493,8 +499,6 @@ client.on("message", async (message) => {
     console.error(error);
     message.reply('There was an error trying to execute that command!');
   }
-  // Extra Error Catching
-  process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
 
   /******************************************************/
 

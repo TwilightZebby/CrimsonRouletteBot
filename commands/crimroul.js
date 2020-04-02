@@ -126,9 +126,15 @@ module.exports = {
       let result;
       result = chance.weighted(
         ['nothing', 'lose', 'win10', 'win50', 'win100', 'win200', 'winlevel', 'win3levels', 'lose10', 'lose50', 'lose100', 'lose200', 'loselevel', 'lose3levels',
-         '2win', '2lose', '2windouble', '2losedouble', '2winlevel', '2loselevel', '5win', '5lose', '5windouble', '5losedouble'], 
+         '2win', '2lose', '2windouble', '2losedouble', '2winlevel', '2loselevel', '5win', '5lose', '5windouble', '5losedouble', '5loselevel', '5winlevel',
+         '25win', '25lose', '25winsdouble', '25losedouble', '25winslevel', '25loselevels', '50wins', '50lose', '50winsdouble', '50losedouble',
+         '50winslevel', '50loselevel', 'serverwinslevel', 'serverloselevel', 'serverwinslevel3', 'serverloselevel3',
+         'serverwinslevel5', 'serverloselevel5', 'serverlosehalflevels'], 
         [90, 85, 85, 50, 17, 5, 1, 0.5, 50, 25, 20, 5, 1, 0.1,
-         15, 15, 8, 8, 3, 3, 5, 5, 2, 2]
+         15, 15, 8, 8, 3, 3, 5, 5, 2, 2, 2, 2,
+         3, 3, 2, 2, 1.6, 1.6, 1.4, 1.4, 1, 1,
+         0.6, 0.6, 0.4, 0.4, 0.2, 0.2,
+         0.1, 0.1, 0.0000001]
       );
 
       // For random "default" result messages
@@ -153,6 +159,8 @@ module.exports = {
       let display;
       let ranMemberDB;
       let memberArray = [];
+      let memberCount;
+      let tempMemberObj;
 
 
       // Store of all the Guild's Members
@@ -168,6 +176,520 @@ module.exports = {
 
 
       switch ( result ) {
+
+        case "serverlosehalflevels":
+          // ALL of server loses HALF their current Level
+          memberCount = message.guild.memberCount;
+          for ( let i = 0; i < memberCount; i++ ) {
+            tempMemberObj = await memberStore[i];
+
+            if ( tempMemberObj.user.bot === true ) {
+              continue;
+            }
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            lvlValue = lvls[Math.floor(ranMemberDB[0].userLevel / 2)];
+            newTokens = ranMemberDB[0].userTokens - lvlValue;
+
+            await RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+
+          roulEmbed.setDescription(`...and caused *everyone on this server* to lose **half their current levels!**`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "serverloselevel5":
+          // ALL of server loses 5 Levels
+          memberCount = message.guild.memberCount;
+          for ( let i = 0; i < memberCount; i++ ) {
+            tempMemberObj = await memberStore[i];
+
+            if ( tempMemberObj.user.bot === true ) {
+              continue;
+            }
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            lvlValue = lvls[ranMemberDB[0].userLevel - 5];
+            newTokens = ranMemberDB[0].userTokens - lvlValue;
+
+            await RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+
+          roulEmbed.setDescription(`...and caused *everyone on this server* to lose 5 levels!`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "serverwinslevel5":
+          // ALL of server wins 5 Levels
+          memberCount = message.guild.memberCount;
+          for ( let i = 0; i < memberCount; i++ ) {
+            tempMemberObj = await memberStore[i];
+
+            if ( tempMemberObj.user.bot === true ) {
+              continue;
+            }
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            lvlValue = lvls[ranMemberDB[0].userLevel + 5];
+            newTokens = lvlValue - ranMemberDB[0].userTokens;
+
+            await RecalculateMember("add", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+
+          roulEmbed.setDescription(`...and caused *everyone on this server* to win 5 levels!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "serverloselevel3":
+          // ALL of server loses 3 Levels
+          memberCount = message.guild.memberCount;
+          for ( let i = 0; i < memberCount; i++ ) {
+            tempMemberObj = await memberStore[i];
+
+            if ( tempMemberObj.user.bot === true ) {
+              continue;
+            }
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            lvlValue = lvls[ranMemberDB[0].userLevel - 3];
+            newTokens = ranMemberDB[0].userTokens - lvlValue;
+
+            await RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+
+          roulEmbed.setDescription(`...and caused *everyone on this server* to lose 3 levels!`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "serverwinslevel3":
+          // ALL of server wins 3 Levels
+          memberCount = message.guild.memberCount;
+          for ( let i = 0; i < memberCount; i++ ) {
+            tempMemberObj = await memberStore[i];
+
+            if ( tempMemberObj.user.bot === true ) {
+              continue;
+            }
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            lvlValue = lvls[ranMemberDB[0].userLevel + 3];
+            newTokens = lvlValue - ranMemberDB[0].userTokens;
+
+            await RecalculateMember("add", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+
+          roulEmbed.setDescription(`...and caused *everyone on this server* to win 3 levels!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "serverloselevel":
+          // ALL of server loses a Level
+          memberCount = message.guild.memberCount;
+          for ( let i = 0; i < memberCount; i++ ) {
+            tempMemberObj = await memberStore[i];
+
+            if ( tempMemberObj.user.bot === true ) {
+              continue;
+            }
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+            newTokens = ranMemberDB[0].userTokens - lvlValue;
+
+            await RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+
+          roulEmbed.setDescription(`...and caused *everyone on this server* to lose a level!`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+
+        case "serverwinslevel":
+          // ALL of server wins a Level
+          memberCount = message.guild.memberCount;
+          for ( let i = 0; i < memberCount; i++ ) {
+            tempMemberObj = await memberStore[i];
+
+            if ( tempMemberObj.user.bot === true ) {
+              continue;
+            }
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            lvlValue = lvls[ranMemberDB[0].userLevel + 1];
+            newTokens = lvlValue - ranMemberDB[0].userTokens;
+
+            await RecalculateMember("add", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+
+          roulEmbed.setDescription(`...and caused *everyone on this server* to win a level!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+
+        case "50loselevel":
+          // 50% of server loses a level
+          memberCount = Math.ceil(message.guild.memberCount / 2);
+          for ( let i = 0; i < memberCount; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+            lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+            newTokens = ranMemberDB[0].userTokens - lvlValue;
+
+            await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+
+          // Author Levels
+          lvlValue = lvls[authorDB[0].userLevel - 1];
+          newTokens = authorDB[0].userTokens - lvlValue;
+          await RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+
+          roulEmbed.setDescription(`...and caused themselves and ${memberCount} to lose a level!`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "50winslevel":
+          // 50% of server wins a Level
+          memberCount = Math.ceil(message.guild.memberCount / 2);
+          for ( let i = 0; i < memberCount; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+            lvlValue = lvls[ranMemberDB[0].userLevel + 1];
+            newTokens = lvlValue - ranMemberDB[0].userTokens;
+
+            await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+
+          // Author Levels
+          lvlValue = lvls[authorDB[0].userLevel + 1];
+          newTokens = lvlValue - authorDB[0].userTokens;
+          await RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+
+          roulEmbed.setDescription(`...and caused themselves and ${memberCount} others to win a level!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "50losedouble":
+          // 50% of server loses double Author's Bet
+          newTokens = bet * 2
+          memberCount = Math.ceil(message.guild.memberCount / 2);
+          for ( let i = 0; i < memberCount; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+          await RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          
+          roulEmbed.setDescription(`...and loses double their Bet! Additionally, ${memberCount} others also loses ${newTokens.toFixed()} Tokens!`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "50winsdouble":
+          // 50% of server wins double Author's Bet
+          newTokens = bet * 2
+          memberCount = Math.ceil(message.guild.memberCount / 2);
+          for ( let i = 0; i < memberCount; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+          await RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          
+          roulEmbed.setDescription(`...and win double their Bet! Additionally, ${memberCount} others also wins ${newTokens.toFixed()} Tokens!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "50lose":
+          // 50% of the server loses Author's Bet
+          memberCount = Math.ceil(message.guild.memberCount / 2);
+          for ( let i = 0; i < memberCount; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            await RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+          
+          roulEmbed.setDescription(`...and lost their Bet! Additionally, ${memberCount} others also loses ${bet.toFixed()} Tokens!`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "50wins":
+          // 50% of the server wins Author's Bet
+          memberCount = Math.ceil(message.guild.memberCount / 2);
+          for ( let i = 0; i < memberCount; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            await RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+          
+          roulEmbed.setDescription(`...and won their Bet back! Additionally, ${memberCount} others also gets ${bet.toFixed()} Tokens!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "25loselevels":
+          // 25% of server loses a level
+          memberCount = Math.ceil(message.guild.memberCount / 4);
+          for ( let i = 0; i < memberCount; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+            lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+            newTokens = ranMemberDB[0].userTokens - lvlValue;
+
+            await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+
+          // Author Levels
+          lvlValue = lvls[authorDB[0].userLevel - 1];
+          newTokens = authorDB[0].userTokens - lvlValue;
+          await RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+
+          roulEmbed.setDescription(`...and caused themselves and ${memberCount} to lose a level!`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "25winslevel":
+          // 25% of server wins a Level
+          memberCount = Math.ceil(message.guild.memberCount / 4);
+          for ( let i = 0; i < memberCount; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+            lvlValue = lvls[ranMemberDB[0].userLevel + 1];
+            newTokens = lvlValue - ranMemberDB[0].userTokens;
+
+            await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+
+          // Author Levels
+          lvlValue = lvls[authorDB[0].userLevel + 1];
+          newTokens = lvlValue - authorDB[0].userTokens;
+          await RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+
+          roulEmbed.setDescription(`...and caused themselves and ${memberCount} others to win a level!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "25losedouble":
+          // 25% of server loses double Author's Bet
+          newTokens = bet * 2
+          memberCount = Math.ceil(message.guild.memberCount / 4);
+          for ( let i = 0; i < memberCount; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+          await RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          
+          roulEmbed.setDescription(`...and loses double their Bet! Additionally, ${memberCount} others also loses ${newTokens.toFixed()} Tokens!`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "25winsdouble":
+          // 25% of server wins double Author's Bet
+          newTokens = bet * 2
+          memberCount = Math.ceil(message.guild.memberCount / 4);
+          for ( let i = 0; i < memberCount; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+          await RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          
+          roulEmbed.setDescription(`...and win double their Bet! Additionally, ${memberCount} others also wins ${newTokens.toFixed()} Tokens!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "25lose":
+          // 25% of the server loses Author's Bet
+          memberCount = Math.ceil(message.guild.memberCount / 4);
+          for ( let i = 0; i < memberCount; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            await RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+          
+          roulEmbed.setDescription(`...and lost their Bet! Additionally, ${memberCount} others also loses ${bet.toFixed()} Tokens!`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "25win":
+          // 25% of the server wins Author's Bet
+          memberCount = Math.ceil(message.guild.memberCount / 4);
+          for ( let i = 0; i < memberCount; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            await RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+          }
+          
+          roulEmbed.setDescription(`...and won their Bet back! Additionally, ${memberCount} others also gets ${bet.toFixed()} Tokens!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "5winlevel":
+          // Author + 5 random Members wins a level
+          for ( let i = 0; i < 5; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+            lvlValue = lvls[ranMemberDB[0].userLevel + 1];
+            newTokens = lvlValue - ranMemberDB[0].userTokens;
+
+            await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+            memberArray.push(`\<\@` + randomMember.id + `\>`);
+
+          }
+
+          // Author Levels
+          lvlValue = lvls[authorDB[0].userLevel + 1];
+          newTokens = lvlValue - authorDB[0].userTokens;
+          await RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+
+          roulEmbed.setDescription(`...and caused themselves and ${memberArray.join(' ')} to win a level!`);
+          roulEmbed.setColor('#1ec74b');
+          message.channel.send(roulEmbed);
+          break;
+
+
+        case "5loselevel":
+          // Author + 5 random Members loses a level
+          for ( let i = 0; i < 5; i++ ) {
+
+            do {
+              randomNumber = Math.floor( ( Math.random() * memberStore.length ) + 0 );
+              randomMember = await memberStore[randomNumber];
+            } while ( randomMember.user.bot === true );
+
+            ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+            lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+            newTokens = ranMemberDB[0].userTokens - lvlValue;
+
+            await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+
+            memberArray.push(`\<\@` + randomMember.id + `\>`);
+
+          }
+
+          // Author Levels
+          lvlValue = lvls[authorDB[0].userLevel - 1];
+          newTokens = authorDB[0].userTokens - lvlValue;
+          await RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+
+          roulEmbed.setDescription(`...and caused themselves and ${memberArray.join(' ')} to lose a level!`);
+          roulEmbed.setColor('#ab0202');
+          message.channel.send(roulEmbed);
+          break;
+
 
         case "5losedouble":
           // Author + 5 random Members loses double Bet
@@ -295,6 +817,7 @@ module.exports = {
           lvlValue = lvls[authorDB[0].userLevel + 1];
           newTokens = lvlValue - authorDB[0].userTokens;
           await RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+
           // Member's Levels
           ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
           lvlValue = lvls[ranMemberDB[0].userLevel + 1];
@@ -653,7 +1176,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
             let lvlMessage = guildConfig[0].levelDownMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+            announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!**`);
 
           } else if (ulevel > oldLevel) {
 
@@ -661,7 +1184,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
             let lvlMessage = guildConfig[0].levelUpMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+            announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!**`);
 
           }
 
@@ -730,7 +1253,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
             let lvlMessage = guildConfig[0].levelDownMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+            announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!**`);
 
           } else if (ulevel > oldLevel) {
 
@@ -738,7 +1261,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
             let lvlMessage = guildConfig[0].levelUpMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+            announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!**`);
 
           }
         }

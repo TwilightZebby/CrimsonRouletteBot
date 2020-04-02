@@ -28,7 +28,7 @@ client.once("ready", () => {
   ConfigData.sync();
   GuildLevels.sync();
 
-  client.user.setActivity(`${PREFIX}help`); // Sets a Playing Status on the Bot
+  client.user.setPresence({ activity: { name: `${PREFIX}help` }, status: 'online' });
   console.log("I am ready!");
 });
 

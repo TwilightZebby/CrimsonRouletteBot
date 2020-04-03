@@ -1,5 +1,5 @@
 const { PREFIX } = require('../config.js');
-const { ConfigData } = require('../bot_modules/tables.js');
+const { ConfigData, LevelRoles } = require('../bot_modules/tables.js');
 const Discord = require("discord.js");
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
     async execute(message, args) {
       
       // Thy Embed
-      const configEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Config');
+      const configEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Config Module');
 
 
       // Only the Guild Owner can use this command (and myself)
@@ -62,7 +62,8 @@ module.exports = {
           { name: `Roulette Commands`, value: crimRoul, inline: true },
           { name: `Level Up Message`, value: lvlUpMsg },
           { name: `Level Down Message`, value: lvlDwnMsg },
-          { name: `\u200B`, value: `Further explaination on what each Setting does can be found [here at top.gg](https://placeholder.com 'https://placeholder.com')\nTo edit a setting, use \`${PREFIX}config [setting] / [value]\`, making sure to INCLUDE the forward slash (/) between the Setting and Value!` }
+          { name: `Levelling Roles`, value: `Use **\`${PREFIX}config levels\`** to access the Level Roles Module` },
+          { name: `\u200B`, value: `Further explaination on what each Setting does can be found [here at top.gg](https://placeholder.com 'https://placeholder.com')\nTo edit a setting, use **\`${PREFIX}config [setting] / [value]\`**, making sure to INCLUDE the forward slash (/) between the Setting and Value!` }
         );
 
         return message.channel.send(configEmbed);
@@ -104,10 +105,180 @@ module.exports = {
       // Because JavaScript is werid sometimes
       let updateConfig;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      // LEVEL ROLES MODULE
+      // Keeping seperate from the rest of the Config Module
+      if ( settingName === "levels" || settingName === "level" ) {
+        configEmbed.setFooter(`Level Role Module (Config Sub-Module)`)
+
+        // Fetch LevelRoles DB
+        let roledb = await LevelRoles.findAll({ where: { guildID: message.guild.id } })
+        .catch(e => { 
+          console.error(e);
+          configEmbed.setTitle(`Something went wrong...`);
+          configEmbed.setDescription(`There was an error fetching ${message.guild.name}'s Level Roles. Please try again later.`);
+          return message.channel.send(configEmbed);
+        });
+
+
+
+
+
+        // For no further input (display current set Roles)
+        if ( !settingValue ) {
+
+          let roleArray;
+
+          // Display all currently set Roles (if any)
+          if ( !roledb.length ) {
+
+            configEmbed.setTitle(`${message.guild.name} Level Roles`);
+            configEmbed.setDescription(`*None have been set!*`);
+            configEmbed.addFields({ name: `Extra Information`, value: `Use **\`${PREFIX}config levels / levelNumber / @role\`** to assign Roles to Levels!\nFor example: \`${PREFIX}config levels / 5 / @Level 5\` would assign the Role "Level 5" to our Level 5.\n\n*Note: This will only work for @role mentions, and NOT @user or @everyone mentions!\nWe also cannot create the Roles for you. You can do that under Server Settings -> Roles.*` });
+            return message.channel.send(configEmbed);
+
+          } 
+          else {
+
+            for ( let i = 0; i < roledb.length; i++ ) {
+
+              let temp = roledb[i];
+              roleArray.push(`**Level ${temp.level}:** \<\@\&${temp.roleID}\>`);
+
+            }
+
+            configEmbed.setTitle(`${message.guild.name} Level Roles`);
+            configEmbed.setDescription(roleArray.join(`\n`));
+            configEmbed.addFields({ name: `Extra Information`, value: `Use **\`${PREFIX}config levels / levelNumber / @role\`** to assign Roles to Levels!\nFor example: \`${PREFIX}config levels / 5 / @Level 5\` would assign the Role "Level 5" to our Level 5.\n\n*Note: This will only work for @role mentions, and NOT @user or @everyone mentions!\nWe also cannot create the Roles for you. You can do that under Server Settings -> Roles.*` });
+            return message.channel.send(configEmbed);
+
+          }
+
+        }
+        else {
+
+          // When stuff is given
+          let extraValue;
+          try {
+
+            extraValue = argSubStrings.shift();
+
+          } catch(e) {
+
+            configEmbed.setTitle(`Whoops, an error occurred...`);
+            configEmbed.setDescription(`I was unable to find a Role Mention, please try again using the format **\`${PREFIX}config levels / levelNumber / @role\`**`);
+            return message.channel.send(configEmbed);
+
+          }
+
+          // Strip the <@& and > bits off
+          extraValue = extraValue.slice(3, extraValue.length - 1);
+
+          // Test extraValue to make sure it is a Role Mention!
+          if ( !message.guild.roles.resolve(extraValue) ) {
+
+            configEmbed.setTitle(`Whoops, an error occurred...`);
+            configEmbed.setDescription(`I was unable to resolve that Role Mention, please try again.`);
+            return message.channel.send(configEmbed);
+
+          }
+
+          // Now test settingValue to make sure it's an Integer
+          try {
+
+            settingValue = parseInt(settingValue);
+    
+            if ( settingValue === NaN || settingValue === 'NaN' || isNaN(settingValue) ) {
+              throw "Not a Number";
+            } else if ( settingValue === undefined || settingValue === null ) {
+              throw "Non Existant Value";
+            }
+    
+          } catch (e) {
+    
+            configEmbed.setTitle(`Whoops, An error occurred...`);
+            configEmbed.setDescription(`A Level Number wasn't found. Please try again using a Level Number BEFORE the Role Mention, eg:\n**\`${PREFIX}config levels / levelNumber / @role\`**`);
+            return message.channel.send(configEmbed);
+    
+          }
+
+          // Final checks - makes sure we don't have a LevelNumber less than 1 or greater than 200
+          if ( settingValue < 1 || settingValue > 200 ) {
+
+            configEmbed.setTitle(`Whoops, an error occurred...`);
+            configEmbed.setDescription(`Sorry, but I cannot assign a Role to a Level less than 1 **or** greater than 200.`);
+            return message.channel.send(configEmbed);
+
+          }
+
+
+          
+
+
+          // *NOW* we can assign Roles to Levels!
+          let assignRole = await LevelRoles.findOrCreate({ where: { guildID: message.guild.id, roleID: extraValue, level: settingValue } })
+          .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
+          console.log(assignRole);
+
+        }
+
+
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       switch(settingName) {
 
         // Lvl Up Messages
-        case "level up message" || "level up msg" || "lvl up msg":
+        case "level up message":
+        case "level up msg":
+        case "lvl up msg":
           // check that "user" and "levelNum" exists
           if ( !settingValue.includes("user") ) {
             configEmbed.setTitle(`Something went wrong...`);
@@ -128,9 +299,12 @@ module.exports = {
             return message.channel.send(configEmbed);
           }
           break;
+        
 
         // Lvl Up Messages
-        case "level down message" || "level down msg" || "lvl down msg":
+        case "level down message":
+        case "level down msg":
+        case "lvl down msg":
           // check that "user" and "levelNum" exists
           if ( !settingValue.includes("user") ) {
             configEmbed.setTitle(`Something went wrong...`);
@@ -152,8 +326,12 @@ module.exports = {
           }
           break;
 
+
         // Broadcast Levels Channel
-        case "broadcast channel" || "broadcast" || "levels channel" || "lvl channel":
+        case "broadcast channel":
+        case "broadcast":
+        case "levels channel":
+        case "lvl channel":
           
           let channelID;
 
@@ -182,8 +360,10 @@ module.exports = {
           }
           break;
 
+
         // Allow Levelling
-        case "allow levelling" || "levelling":
+        case "allow levelling":
+        case "levelling":
           settingValue = settingValue.toLowerCase();
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
@@ -197,8 +377,10 @@ module.exports = {
           }
           break;
 
+
         // Level Down
-        case "level down" || "lvl down":
+        case "level down":
+        case "lvl down":
           settingValue = settingValue.toLowerCase();
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
@@ -212,8 +394,11 @@ module.exports = {
           }
           break;
 
+
         // Voice Channel Tokens
-        /*case "voice channel tokens" || "voice channel token" || "vc tokens":
+        /*case "voice channel tokens"
+        case: "voice channel token":
+        case "vc tokens":
           settingValue = settingValue.toLowerCase();
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
@@ -227,8 +412,10 @@ module.exports = {
           }
           break;*/
 
+
         // Risky Roulette Results
-        case "risky roulette results" || "risky roulette":
+        case "risky roulette results":
+        case "risky roulette":
           settingValue = settingValue.toLowerCase();
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
@@ -243,7 +430,8 @@ module.exports = {
           break;
 
         // All Roulette Commands
-        case "roulette commands" || "roulette cmds":
+        case "roulette commands":
+        case "roulette cmds":
           settingValue = settingValue.toLowerCase();
           if ( settingValue !== "true" && settingValue !== "false" ) { return message.reply(`Oops, that Setting will only accept either "true" or "false"`); }
 
@@ -256,6 +444,7 @@ module.exports = {
             return message.channel.send(configEmbed);
           }
           break;
+
 
         // Else
         default:

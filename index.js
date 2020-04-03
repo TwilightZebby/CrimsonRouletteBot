@@ -3,7 +3,7 @@ const fs = require('fs'); // Node's native file system
 const Discord = require("discord.js"); // Bringing in Discord.js
 const { client } = require('./bot_modules/constants.js'); // Brings in the Discord Bot's Client
 const { PREFIX, TOKEN } = require('./config.js'); // Slapping the PREFIX and token into their own vars
-const { ConfigData, GuildLevels } = require('./bot_modules/tables.js'); // Brings in the Databases
+const { ConfigData, GuildLevels, LevelRoles } = require('./bot_modules/tables.js'); // Brings in the Databases
 const LEVELS = require('./bot_modules/levels.json'); // Brings in the Levels Table
 client.commands = new Discord.Collection(); // Extends JS's native map class
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js')); // Picks up all the .js files in the commands folder
@@ -27,6 +27,7 @@ client.once("ready", () => {
   // Sync them Databases
   ConfigData.sync();
   GuildLevels.sync();
+  LevelRoles.sync();
 
   client.user.setPresence({ activity: { name: `${PREFIX}help` }, status: 'online' });
   console.log("I am ready!");
@@ -191,14 +192,20 @@ client.on('guildDelete', async (guild) => {
 
   // Grab the Guild's ID and delete all entries in the Database for it
   const configDelete = await ConfigData.destroy({ where: { guildID: guild.id } })
-        .catch(err => console.error(`ERROR: Something happened. - index.js guildDelete - \n${err}`));
+  .catch(err => console.error(`ERROR: Something happened. - index.js guildDelete - \n${err}`));
   if(!configDelete) {
     console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);
   }
 
   const levelDelete = await GuildLevels.destroy({ where: { guildID: guild.id } })
-    .catch(err => console.error(`ERROR: Something happened. - index.js levelDelete - \n${err}`));
+  .catch(err => console.error(`ERROR: Something happened. - index.js levelDelete - \n${err}`));
   if(!levelDelete) {
+    console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);
+  }
+
+  const roleDelete = await LevelRoles.destory({ where: { guildID: guild.id } })
+  .catch(err => console.error(`ERROR: Something happened. - index.js roleDelete - \n${err}`));
+  if (!roleDelete) {
     return console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);
   }
 

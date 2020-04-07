@@ -1,5 +1,5 @@
 const { PREFIX } = require('../config.js');
-const { ConfigData, GuildLevels } = require('../bot_modules/tables.js');
+const { ConfigData, GuildLevels, LevelRoles } = require('../bot_modules/tables.js');
 const LEVELS = require('../bot_modules/levels.json');
 const Discord = require("discord.js");
 const Chance = require("chance");
@@ -13,7 +13,7 @@ module.exports = {
     args: true,
     guildOnly: true,
     //cooldown: 86400, // 24 Hours
-    commandType: 'wip',
+    commandType: 'fun',
     async execute(message, args) {
 
 
@@ -1176,7 +1176,29 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
             let lvlMessage = guildConfig[0].levelDownMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!**`);
+            
+
+            // Level Role Check
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
+            .catch(console.error);
+            
+            if ( roleSearch === null || roleSearch === undefined ) {
+
+              // If no stored Roles are found
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            } else {
+
+              // If there is a stored Role
+              let roleID = roleSearch.roleID;
+              let roleObj = message.guild.roles.resolve(roleID);
+              let roleAdd = await message.member.roles.add(roleObj)
+              .catch(console.error);
+
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            }
+
 
           } else if (ulevel > oldLevel) {
 
@@ -1184,7 +1206,29 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
             let lvlMessage = guildConfig[0].levelUpMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!**`);
+            
+
+            // Level Role Check
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
+            .catch(console.error);
+            
+            if ( roleSearch === null || roleSearch === undefined ) {
+
+              // If no stored Roles are found
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            } else {
+
+              // If there is a stored Role
+              let roleID = roleSearch.roleID;
+              let roleObj = message.guild.roles.resolve(roleID);
+              let roleAdd = await message.member.roles.add(roleObj)
+              .catch(console.error);
+
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            }
+
 
           }
 
@@ -1253,7 +1297,29 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
             let lvlMessage = guildConfig[0].levelDownMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!**`);
+            
+
+            // Level Role Check
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
+            .catch(console.error);
+            
+            if ( roleSearch === null || roleSearch === undefined ) {
+
+              // If no stored Roles are found
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            } else {
+
+              // If there is a stored Role
+              let roleID = roleSearch.roleID;
+              let roleObj = message.guild.roles.resolve(roleID);
+              let roleAdd = await message.member.roles.add(roleObj)
+              .catch(console.error);
+
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            }
+
 
           } else if (ulevel > oldLevel) {
 
@@ -1261,7 +1327,29 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
             let lvlMessage = guildConfig[0].levelUpMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!**`);
+            
+
+            // Level Role Check
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
+            .catch(console.error);
+            
+            if ( roleSearch === null || roleSearch === undefined ) {
+
+              // If no stored Roles are found
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            } else {
+
+              // If there is a stored Role
+              let roleID = roleSearch.roleID;
+              let roleObj = message.guild.roles.resolve(roleID);
+              let roleAdd = await message.member.roles.add(roleObj)
+              .catch(console.error);
+
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            }
+
 
           }
         }
@@ -1378,7 +1466,29 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
             let lvlMessage = guildConfig[0].levelDownMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${memberObj.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+            
+
+            // Level Role Check
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: uLevel } })
+            .catch(console.error);
+            
+            if ( roleSearch === null || roleSearch === undefined ) {
+
+              // If no stored Roles are found
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            } else {
+
+              // If there is a stored Role
+              let roleID = roleSearch.roleID;
+              let roleObj = message.guild.roles.resolve(roleID);
+              let roleAdd = await message.member.roles.add(roleObj)
+              .catch(console.error);
+
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            }
+
 
           } else if (ulevel > oldLevel) {
 
@@ -1386,7 +1496,29 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
             let lvlMessage = guildConfig[0].levelUpMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${memberObj.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+            
+
+            // Level Role Check
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: uLevel } })
+            .catch(console.error);
+            
+            if ( roleSearch === null || roleSearch === undefined ) {
+
+              // If no stored Roles are found
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            } else {
+
+              // If there is a stored Role
+              let roleID = roleSearch.roleID;
+              let roleObj = message.guild.roles.resolve(roleID);
+              let roleAdd = await message.member.roles.add(roleObj)
+              .catch(console.error);
+
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            }
+
 
           }
 
@@ -1455,7 +1587,29 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
             let lvlMessage = guildConfig[0].levelDownMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${memberObj.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+            
+
+            // Level Role Check
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: uLevel } })
+            .catch(console.error);
+            
+            if ( roleSearch === null || roleSearch === undefined ) {
+
+              // If no stored Roles are found
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            } else {
+
+              // If there is a stored Role
+              let roleID = roleSearch.roleID;
+              let roleObj = message.guild.roles.resolve(roleID);
+              let roleAdd = await message.member.roles.add(roleObj)
+              .catch(console.error);
+
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            }
+
 
           } else if (ulevel > oldLevel) {
 
@@ -1463,7 +1617,29 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
             let lvlMessage = guildConfig[0].levelUpMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${memberObj.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+            
+
+            // Level Role Check
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: uLevel } })
+            .catch(console.error);
+            
+            if ( roleSearch === null || roleSearch === undefined ) {
+
+              // If no stored Roles are found
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            } else {
+
+              // If there is a stored Role
+              let roleID = roleSearch.roleID;
+              let roleObj = message.guild.roles.resolve(roleID);
+              let roleAdd = await message.member.roles.add(roleObj)
+              .catch(console.error);
+
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+
+            }
+
 
           }
         }

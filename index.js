@@ -323,6 +323,9 @@ client.on("message", async (message) => {
     .catch(e => { console.error(`Error searching for LevelData - index.js dbLevels -\n${e}`) });
 
 
+
+
+
     // If Levelling is disabled, RETURN
     if ( dbConfig[0].tokenLevels === false ) {
       return;
@@ -398,7 +401,28 @@ client.on("message", async (message) => {
             let lvlMessage = dbConfig[0].levelDownMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", uLevel);
-            return announceChannel.send(lvlMessage);
+
+            // Level Role Check
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: uLevel } })
+            .catch(console.error);
+            
+            if ( roleSearch === null || roleSearch === undefined ) {
+
+              // If no stored Roles are found
+              return announceChannel.send(lvlMessage);
+
+            } else {
+
+              // If there is a stored Role
+              let roleID = roleSearch.roleID;
+              let roleObj = message.guild.roles.resolve(roleID);
+              let roleAdd = await message.member.roles.add(roleObj)
+              .catch(console.error);
+
+              return announceChannel.send(lvlMessage);
+
+            }
+
 
           } 
           else if ( uLevel > oldULevel ) {
@@ -407,7 +431,27 @@ client.on("message", async (message) => {
             let lvlMessage = dbConfig[0].levelUpMsg;
             lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
             lvlMessage = lvlMessage.replace("levelNum", uLevel);
-            return announceChannel.send(lvlMessage);
+
+            // Level Role Check
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: uLevel } })
+            .catch(console.error);
+            
+            if ( roleSearch === null || roleSearch === undefined ) {
+
+              // If no stored Roles are found
+              return announceChannel.send(lvlMessage);
+
+            } else {
+
+              // If there is a stored Role
+              let roleID = roleSearch.roleID;
+              let roleObj = message.guild.roles.resolve(roleID);
+              let roleAdd = await message.member.roles.add(roleObj)
+              .catch(console.error);
+
+              return announceChannel.send(lvlMessage);
+
+            }
             
           }
   

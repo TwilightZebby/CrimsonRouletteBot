@@ -172,7 +172,14 @@ module.exports = {
 
             configEmbed.setTitle(`${message.guild.name} Level Roles`);
             configEmbed.setDescription(roleArray.join(`\n`));
-            configEmbed.addFields({ name: `\u200B`, value: `\u200B` }, { name: `Extra Information`, value: `Use **\`${PREFIX}config levels / levelNumber / @role\`** to assign Roles to Levels!\nFor example: \`${PREFIX}config levels / 5 / @Level 5\` would assign the Role "Level 5" to our Level 5.\n\n*Note: This will only work for @role mentions, and NOT @user or @everyone mentions!\nWe also cannot create the Roles for you. You can do that under Server Settings -> Roles.*` });
+            configEmbed.addFields(
+              { name: `\u200B`, value: `\u200B` }, 
+              { name: `How to assign a Role to a Level:`, value: `Use **\`${PREFIX}config levels / levelNumber / @role\`** to assign Roles to Levels!\nFor example: \`${PREFIX}config levels / 5 / @Level 5\` would assign the Role "Level 5" to our Level 5.\n\n*Note: This will only work for @role mentions, and NOT @user or @everyone mentions!\nWe also cannot create the Roles for you. You can do that under Server Settings -> Roles.*` },
+              { name: `\u200B`, value: `\u200B` },
+              { name: `How to unassign a Role from a Level:`, value: `Use **\`${PREFIX}config levels / levelNumber / clear\`** to unassign a Role from the specified Level.\nThis will mean no one can earn a Role from this Level anymore (unless a Role is reassigned!)` },
+              { name: `\u200B`, value: `\u200B` },
+              { name: `How to clear ALL Roles`, value: `To unassign *all* of the Roles from this Bot, use **\`${PREFIX}config levels / reset\`**.\nPlease note that all currently given Roles will *NOT* be taken off Users. You will have to do this yourself.\n(Either using Server Settings -> Members OR Server Settings -> Roles -> Delete Role)` },
+              );
             return message.channel.send(configEmbed);
 
           }
@@ -194,17 +201,24 @@ module.exports = {
 
           }
 
-          // Strip the <@& and > bits off
-          extraValue = extraValue.slice(3, extraValue.length - 1);
 
-          // Test extraValue to make sure it is a Role Mention!
-          if ( !message.guild.roles.resolve(extraValue) ) {
 
-            configEmbed.setTitle(`Whoops, an error occurred...`);
-            configEmbed.setDescription(`I was unable to resolve that Role Mention, please try again.`);
+
+          // IS SETTING VALUE "RESET"?
+          if ( settingValue === "reset" ) {
+
+            let resetRoles = await LevelRoles.destroy({ where: { guildID: message.guild.id } })
+            .catch(err => { return message.reply(`Sorry, but I was unable to reset the Roles Database for this Server. Please try again.`) });
+
+            configEmbed.setTitle(`Unassigned all Roles from all Levels`);
+            configEmbed.setDescription(`You can reassign Roles to Levels using the \`${PREFIX}config levels\` sub-commands.`);
             return message.channel.send(configEmbed);
 
           }
+
+
+
+
 
           // Now test settingValue to make sure it's an Integer
           try {
@@ -236,6 +250,38 @@ module.exports = {
 
 
           
+
+          // IS EXTRA VALUE "CLEAR"?
+          if ( extraValue === "clear" ) {
+
+            let clearRole = await LevelRoles.destroy({ where: { guildID: message.guild.id, level: settingValue } })
+            .catch(err => { return message.reply(`Sorry, but I was unable to unassign that Level from its Role. Please try again.`) });
+
+            configEmbed.setTitle(`Successfully unassigned Role`);
+            configEmbed.setDescription(`The Role for Level ${settingValue} has been successfully unassigned.`);
+            return message.channel.send(configEmbed);
+
+          }
+
+
+
+
+          // Strip the <@& and > bits off
+          extraValue = extraValue.slice(3, extraValue.length - 1);
+
+          // Test extraValue to make sure it is a Role Mention!
+          if ( !message.guild.roles.resolve(extraValue) ) {
+
+            configEmbed.setTitle(`Whoops, an error occurred...`);
+            configEmbed.setDescription(`I was unable to resolve that Role Mention, please try again.`);
+            return message.channel.send(configEmbed);
+
+          }
+
+
+
+
+
 
 
           // *NOW* we can assign Roles to Levels!

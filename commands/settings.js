@@ -149,7 +149,6 @@ module.exports = {
         // For no further input (display current set Roles)
         if ( !settingValue ) {
 
-          let roleArray;
 
           // Display all currently set Roles (if any)
           if ( !roledb.length ) {
@@ -162,6 +161,8 @@ module.exports = {
           } 
           else {
 
+            let roleArray = [];
+
             for ( let i = 0; i < roledb.length; i++ ) {
 
               let temp = roledb[i];
@@ -171,7 +172,7 @@ module.exports = {
 
             configEmbed.setTitle(`${message.guild.name} Level Roles`);
             configEmbed.setDescription(roleArray.join(`\n`));
-            configEmbed.addFields({ name: `Extra Information`, value: `Use **\`${PREFIX}config levels / levelNumber / @role\`** to assign Roles to Levels!\nFor example: \`${PREFIX}config levels / 5 / @Level 5\` would assign the Role "Level 5" to our Level 5.\n\n*Note: This will only work for @role mentions, and NOT @user or @everyone mentions!\nWe also cannot create the Roles for you. You can do that under Server Settings -> Roles.*` });
+            configEmbed.addFields({ name: `\u200B`, value: `\u200B` }, { name: `Extra Information`, value: `Use **\`${PREFIX}config levels / levelNumber / @role\`** to assign Roles to Levels!\nFor example: \`${PREFIX}config levels / 5 / @Level 5\` would assign the Role "Level 5" to our Level 5.\n\n*Note: This will only work for @role mentions, and NOT @user or @everyone mentions!\nWe also cannot create the Roles for you. You can do that under Server Settings -> Roles.*` });
             return message.channel.send(configEmbed);
 
           }
@@ -238,9 +239,43 @@ module.exports = {
 
 
           // *NOW* we can assign Roles to Levels!
-          let assignRole = await LevelRoles.findOrCreate({ where: { guildID: message.guild.id, roleID: extraValue, level: settingValue } })
-          .catch(err => { return message.reply(`An Error Occured! Please try again.`); });
-          console.log(assignRole);
+
+          // Firstly, see if that Guild & Level combo already exists
+          let assignRole = await LevelRoles.findAll({ where: { guildID: message.guild.id, level: settingValue } })
+          .catch(err => { return message.reply(`An Error Occurred! Please try again.`); });
+          
+          if ( assignRole.length < 1 ) {
+
+            // If it DOESN'T exist already
+            let newRole = await LevelRoles.create({ guildID: message.guild.id, level: settingValue, roleID: extraValue })
+            .catch(err => { return message.reply(`An error occurred! Please try again.`); });
+
+            // Send confirmation Embed
+            configEmbed.setTitle(`New Level Role Created!`);
+            configEmbed.setDescription(`Successfully set the Role \<\@\&${extraValue}\> to be assigned for Level **${settingValue}**`);
+            return message.channel.send(configEmbed);
+
+          } else {
+
+            // If it DOES exist already
+            let updatedRole = await LevelRoles.update({ roleID: extraValue }, { where: { guildID: message.guild.id, level: settingValue } })
+            .catch(err => { return message.reply(`An error occurred! Please try again.`); });
+
+            if ( updatedRole[0] === 1 ) {
+
+              configEmbed.setTitle(`Level Role Changes Saved!`);
+              configEmbed.setDescription(`Successfully set the Role \<\@\&${extraValue}\> to be assigned for Level **${settingValue}**`);
+              return message.channel.send(configEmbed);
+
+            } else {
+
+              configEmbed.setTitle(`Level Role Changes....failed?`);
+              configEmbed.setDescription(`Something went wrong while attempting to save... Maybe try again?`);
+              return message.channel.send(configEmbed);
+
+            }
+
+          }
 
         }
 

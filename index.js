@@ -203,7 +203,7 @@ client.on('guildDelete', async (guild) => {
     console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);
   }
 
-  const roleDelete = await LevelRoles.destory({ where: { guildID: guild.id } })
+  const roleDelete = await LevelRoles.destroy({ where: { guildID: guild.id } })
   .catch(err => console.error(`ERROR: Something happened. - index.js roleDelete - \n${err}`));
   if (!roleDelete) {
     return console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);

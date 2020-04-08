@@ -105,7 +105,7 @@ module.exports = {
       let result;
       result = chance.weighted(
         ['nothing', 'lose', 'win10', 'win50', 'win100', 'win200', 'winlevel', 'win3levels', 'lose10', 'lose50', 'lose100', 'lose200', 'loselevel', 'lose3levels'], 
-        [90, 85, 80, 50, 17, 5, 1, 0.5, 40, 15, 10, 3, 0.8, 0.1]
+        [90, 85, 80, 50, 17, 5, 1000, 0.5, 40, 15, 10, 3, 1000, 0.1]
       );
 
       // For random "default" result messages
@@ -318,6 +318,14 @@ module.exports = {
 
 
 
+
+
+
+
+
+
+
+
 // FUNCTIONS to re-calculate Token and Level Amounts
 async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, roulEmbed) {
 
@@ -402,10 +410,67 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
             // Level Role Check
             let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
             .catch(console.error);
+
+
+            // Fetch all Roles User has
+            let userRoles = Array.from(message.member.roles.cache.values());
+            let matchedRoles = [];
+
+
+            // See if any of the User's Roles match IDs stored in DB
+            for ( let i = 0; i < userRoles.length; i++ ) {
+              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
+              .catch(console.error);
+
+              if ( searchForMatch ) {
+
+                matchedRoles.push(userRoles[i].id);
+
+              }
+
+            }
+
+
             
             if ( roleSearch === null || roleSearch === undefined ) {
 
               // If no stored Roles are found
+
+
+              // If there is an assigned Role for a lower level, assign that!
+              for ( let i = ulevel; i >= 0; i-- ) {
+
+                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
+                .catch(console.error);
+
+                if ( newRoleSearch ) {
+
+                  let newRoleID = newRoleSearch.roleID;
+                  let newRoleObj = message.guild.roles.resolve(newRoleID);
+                  let newRoleGrant = await message.member.roles.add(newRoleObj)
+                  .catch(console.error);
+
+
+                  // Remove previous (higher) role
+                  let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
+                  .catch(console.error);
+
+                  if ( oldRoleSearch ) {
+
+                    let oldRoleID = oldRoleSearch.roleID;
+                    let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                    let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                    .catch(console.error);
+
+                  }
+
+                  i = 0;
+
+                }
+
+              }
+
+
               return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
 
             } else {
@@ -415,6 +480,63 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
               let roleObj = message.guild.roles.resolve(roleID);
               let roleAdd = await message.member.roles.add(roleObj)
               .catch(console.error);
+
+
+
+              // Remove any previous Levelling Roles IF ANY
+              if ( matchedRoles.length > 0 ) {
+
+                for ( let i = 0; i < matchedRoles.length; i++ ) {
+
+                  let tempRole = matchedRoles[i];
+                  let tempRoleObj = message.guild.roles.resolve(tempRole);
+                  let roleRemove = await message.member.roles.remove(tempRoleObj)
+                  .catch(console.error);
+
+                }
+
+
+
+                // If there is an assigned Role for a lower level, assign that!
+                for ( let i = ulevel; i >= 0; i-- ) {
+
+                  let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
+                  .catch(console.error);
+
+                  if ( newRoleSearch ) {
+
+                    let newRoleID = newRoleSearch.roleID;
+                    let newRoleObj = message.guild.roles.resolve(newRoleID);
+                    let newRoleGrant = await message.member.roles.add(newRoleObj)
+                    .catch(console.error);
+
+
+                    // Remove previous (higher) role
+                    let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
+                    .catch(console.error);
+
+                    if ( oldRoleSearch ) {
+
+                      let oldRoleID = oldRoleSearch.roleID;
+                      let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                      let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                      .catch(console.error);
+
+                    }
+
+
+                    i = 0;
+
+                  }
+
+                }
+
+
+
+
+              }
+
+
 
               return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
 
@@ -431,10 +553,54 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
             // Level Role Check
             let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
             .catch(console.error);
+
+
+            // Fetch all Roles User has
+            let userRoles = Array.from(message.member.roles.cache.values());
+            let matchedRoles = [];
+
+
+            // See if any of the User's Roles match IDs stored in DB
+            for ( let i = 0; i < userRoles.length; i++ ) {
+              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
+              .catch(console.error);
+
+              if ( searchForMatch ) {
+
+                matchedRoles.push(userRoles[i].id);
+
+              }
+
+            }
+
+
             
             if ( roleSearch === null || roleSearch === undefined ) {
 
               // If no stored Roles are found
+
+
+              // If there is an assigned Role for a lower level, assign that!
+              for ( let i = ulevel; i >= 0; i-- ) {
+
+                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
+                .catch(console.error);
+
+                if ( newRoleSearch ) {
+
+                  let newRoleID = newRoleSearch.roleID;
+                  let newRoleObj = message.guild.roles.resolve(newRoleID);
+                  let newRoleGrant = await message.member.roles.add(newRoleObj)
+                  .catch(console.error);
+
+                  i = 0;
+
+                }
+
+              }
+
+
+
               return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
 
             } else {
@@ -444,6 +610,23 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
               let roleObj = message.guild.roles.resolve(roleID);
               let roleAdd = await message.member.roles.add(roleObj)
               .catch(console.error);
+
+
+              // Remove any previous Levelling Roles IF ANY
+              if ( matchedRoles.length > 0 ) {
+
+                for ( let i = 0; i < matchedRoles.length; i++ ) {
+
+                  let tempRole = matchedRoles[i];
+                  let tempRoleObj = message.guild.roles.resolve(tempRole);
+                  let roleRemove = await message.member.roles.remove(tempRoleObj)
+                  .catch(console.error);
+
+                }
+
+              }
+
+
 
               return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
 
@@ -521,10 +704,67 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
             // Level Role Check
             let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
             .catch(console.error);
+
+
+            // Fetch all Roles User has
+            let userRoles = Array.from(message.member.roles.cache.values());
+            let matchedRoles = [];
+
+
+            // See if any of the User's Roles match IDs stored in DB
+            for ( let i = 0; i < userRoles.length; i++ ) {
+              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
+              .catch(console.error);
+
+              if ( searchForMatch ) {
+
+                matchedRoles.push(userRoles[i].id);
+
+              }
+
+            }
+
+
             
             if ( roleSearch === null || roleSearch === undefined ) {
 
               // If no stored Roles are found
+
+
+              // If there is an assigned Role for a lower level, assign that!
+              for ( let i = ulevel; i >= 0; i-- ) {
+
+                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
+                .catch(console.error);
+
+                if ( newRoleSearch ) {
+
+                  let newRoleID = newRoleSearch.roleID;
+                  let newRoleObj = message.guild.roles.resolve(newRoleID);
+                  let newRoleGrant = await message.member.roles.add(newRoleObj)
+                  .catch(console.error);
+
+
+                  // Remove previous (higher) role
+                  let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
+                  .catch(console.error);
+
+                  if ( oldRoleSearch ) {
+
+                    let oldRoleID = oldRoleSearch.roleID;
+                    let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                    let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                    .catch(console.error);
+
+                  }
+
+                  i = 0;
+
+                }
+
+              }
+
+
               return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
 
             } else {
@@ -534,6 +774,60 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
               let roleObj = message.guild.roles.resolve(roleID);
               let roleAdd = await message.member.roles.add(roleObj)
               .catch(console.error);
+
+
+              // Remove any previous Levelling Roles IF ANY
+              if ( matchedRoles.length > 0 ) {
+
+                for ( let i = 0; i < matchedRoles.length; i++ ) {
+
+                  let tempRole = matchedRoles[i];
+                  let tempRoleObj = message.guild.roles.resolve(tempRole);
+                  let roleRemove = await message.member.roles.remove(tempRoleObj)
+                  .catch(console.error);
+
+
+                }
+
+
+                // If there is an assigned Role for a lower level, assign that!
+                for ( let i = ulevel; i >= 0; i-- ) {
+
+                  let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
+                  .catch(console.error);
+
+                  if ( newRoleSearch ) {
+
+                    let newRoleID = newRoleSearch.roleID;
+                    let newRoleObj = message.guild.roles.resolve(newRoleID);
+                    let newRoleGrant = await message.member.roles.add(newRoleObj)
+                    .catch(console.error);
+
+
+                    // Remove previous (higher) role
+                    let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
+                    .catch(console.error);
+
+                    if ( oldRoleSearch ) {
+
+                      let oldRoleID = oldRoleSearch.roleID;
+                      let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                      let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                      .catch(console.error);
+
+                    }
+
+
+                    i = 0;
+
+                  }
+
+                }
+
+
+              }
+
+
 
               return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
 
@@ -551,10 +845,53 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
             // Level Role Check
             let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
             .catch(console.error);
+
+
+            // Fetch all Roles User has
+            let userRoles = Array.from(message.member.roles.cache.values());
+            let matchedRoles = [];
+
+
+            // See if any of the User's Roles match IDs stored in DB
+            for ( let i = 0; i < userRoles.length; i++ ) {
+              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
+              .catch(console.error);
+
+              if ( searchForMatch ) {
+
+                matchedRoles.push(userRoles[i].id);
+
+              }
+
+            }
+
+
             
             if ( roleSearch === null || roleSearch === undefined ) {
 
               // If no stored Roles are found
+
+
+              // If there is an assigned Role for a lower level, assign that!
+              for ( let i = ulevel; i >= 0; i-- ) {
+
+                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
+                .catch(console.error);
+
+                if ( newRoleSearch ) {
+
+                  let newRoleID = newRoleSearch.roleID;
+                  let newRoleObj = message.guild.roles.resolve(newRoleID);
+                  let newRoleGrant = await message.member.roles.add(newRoleObj)
+                  .catch(console.error);
+
+                  i = 0;
+
+                }
+
+              }
+
+
               return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
 
             } else {
@@ -564,6 +901,23 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
               let roleObj = message.guild.roles.resolve(roleID);
               let roleAdd = await message.member.roles.add(roleObj)
               .catch(console.error);
+
+
+              // Remove any previous Levelling Roles IF ANY
+              if ( matchedRoles.length > 0 ) {
+
+                for ( let i = 0; i < matchedRoles.length; i++ ) {
+
+                  let tempRole = matchedRoles[i];
+                  let tempRoleObj = message.guild.roles.resolve(tempRole);
+                  let roleRemove = await message.member.roles.remove(tempRoleObj)
+                  .catch(console.error);
+
+                }
+
+              }
+
+
 
               return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
 

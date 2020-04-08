@@ -174,11 +174,7 @@ module.exports = {
             configEmbed.setDescription(roleArray.join(`\n`));
             configEmbed.addFields(
               { name: `\u200B`, value: `\u200B` }, 
-              { name: `How to assign a Role to a Level:`, value: `Use **\`${PREFIX}config levels / levelNumber / @role\`** to assign Roles to Levels!\nFor example: \`${PREFIX}config levels / 5 / @Level 5\` would assign the Role "Level 5" to our Level 5.\n\n*Note: This will only work for @role mentions, and NOT @user or @everyone mentions!\nWe also cannot create the Roles for you. You can do that under Server Settings -> Roles.*` },
-              { name: `\u200B`, value: `\u200B` },
-              { name: `How to unassign a Role from a Level:`, value: `Use **\`${PREFIX}config levels / levelNumber / clear\`** to unassign a Role from the specified Level.\nThis will mean no one can earn a Role from this Level anymore (unless a Role is reassigned!)` },
-              { name: `\u200B`, value: `\u200B` },
-              { name: `How to clear ALL Roles`, value: `To unassign *all* of the Roles from this Bot, use **\`${PREFIX}config levels / reset\`**.\nPlease note that all currently given Roles will *NOT* be taken off Users. You will have to do this yourself.\n(Either using Server Settings -> Members OR Server Settings -> Roles -> Delete Role)` },
+              { name: `Extra Information`, value: `Use the sub-command **\`${PREFIX}config levels / guide\`** to learn more about how to set/clear/reset Levelling Roles` },
               );
             return message.channel.send(configEmbed);
 
@@ -212,6 +208,24 @@ module.exports = {
 
             configEmbed.setTitle(`Unassigned all Roles from all Levels`);
             configEmbed.setDescription(`You can reassign Roles to Levels using the \`${PREFIX}config levels\` sub-commands.`);
+            return message.channel.send(configEmbed);
+
+          }
+
+
+
+          // IS SETTING VALUE "GUIDE"?
+          if ( settingValue === "guide" ) {
+
+            configEmbed.setTitle(`Levelling Role Guide`);
+            configEmbed.addFields(
+              { name: `How to assign a Role to a Level:`, value: `Use **\`${PREFIX}config levels / levelNumber / @role\`** to assign Roles to Levels!\nFor example: \`${PREFIX}config levels / 5 / @Level 5\` would assign the Role "Level 5" to our Level 5.\n\n*Note: This will only work for @role mentions, and NOT @user or @everyone mentions!\nWe also cannot create the Roles for you. You can do that under Server Settings -> Roles.*` },
+              { name: `\u200B`, value: `\u200B` },
+              { name: `How to unassign a Role from a Level:`, value: `Use **\`${PREFIX}config levels / levelNumber / clear\`** to unassign a Role from the specified Level.\nThis will mean no one can earn a Role from this Level anymore (unless a Role is reassigned!)` },
+              { name: `\u200B`, value: `\u200B` },
+              { name: `How to clear ALL Roles`, value: `To unassign *all* of the Roles from this Bot, use **\`${PREFIX}config levels / reset\`**.\nPlease note that all currently given Roles will *NOT* be taken off Users. You will have to do this yourself.\n(Either using Server Settings -> Members OR Server Settings -> Roles -> Delete Role)` },
+            );
+
             return message.channel.send(configEmbed);
 
           }

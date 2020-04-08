@@ -12,7 +12,7 @@ module.exports = {
     aliases: ['roul'],
     args: true,
     guildOnly: true,
-    //cooldown: 3600, // 1 Hour
+    cooldown: 3600, // 1 Hour
     commandType: 'fun',
     async execute(message, args) {
 

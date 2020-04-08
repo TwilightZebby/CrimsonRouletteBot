@@ -7,7 +7,7 @@ module.exports = {
     usage: ' ',
     //aliases: [''],
     //args: true,
-    commandType: 'info',
+    commandType: 'wip',
     execute(message) {
       const guideEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Guide Module');
 

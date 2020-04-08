@@ -12,7 +12,7 @@ module.exports = {
     aliases: ['crim', 'crimsonroulette', 'cr'],
     args: true,
     guildOnly: true,
-    //cooldown: 86400, // 24 Hours
+    cooldown: 86400, // 24 Hours
     commandType: 'fun',
     async execute(message, args) {
 

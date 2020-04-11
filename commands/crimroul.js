@@ -6,10 +6,10 @@ const Chance = require("chance");
 let chance = new Chance();
 
 module.exports = {
-    name: 'crimsonroul',
+    name: 'cr',
     description: `The same as the standard Roulette - but featuring more risky results! *Has the chance of affecting multiple Server Members!*`,
     usage: '<bet>',
-    aliases: ['crim', 'crimsonroulette', 'cr'],
+    //aliases: ['crim', 'crimsonroulette', 'cr'],
     args: true,
     guildOnly: true,
     cooldown: 86400, // 24 Hours

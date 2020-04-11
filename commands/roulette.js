@@ -6,10 +6,10 @@ const Chance = require("chance");
 let chance = new Chance();
 
 module.exports = {
-    name: 'roulette',
+    name: 'tr',
     description: `Try your luck with the Token Roulette! Will you earn a free Level Up? Or will you lose a Level? :o\nNote: Your bet uses Tokens, not Levels`,
     usage: '<bet>',
-    aliases: ['roul'],
+    //aliases: ['roul'],
     args: true,
     guildOnly: true,
     cooldown: 3600, // 1 Hour

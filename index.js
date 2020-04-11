@@ -265,7 +265,7 @@ client.on("message", async (message) => {
   if ( message.author.id === '383017585584766977' ) {
 
     let lunaChance = Math.floor( ( Math.random() * 100 ) + 0 );
-    if ( lunaChance <= 25 ) {
+    if ( lunaChance <= 5 ) {
 
       message.react('693205701056790699')
       .catch(console.error);
@@ -281,7 +281,7 @@ client.on("message", async (message) => {
   if ( botIDArray.includes(message.author.id) && message.content.includes("online") ) {
 
     let stigChance = Math.floor( ( Math.random() * 100 ) + 0 );
-    if ( stigChance <= 75 ) {
+    if ( stigChance <= 50 ) {
 
       message.react('693796947118784594')
       .catch(console.error);
@@ -304,11 +304,13 @@ client.on("message", async (message) => {
 
 
 
-
+  // PREFIX CHECK
+  const escapeRegex = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(PREFIX)})\\s*`);
 
   
   // If there is NO PREFIX, do the Levelling Stuff
-  if ( !message.content.startsWith(PREFIX) ) {
+  if ( !prefixRegex.test(message.content) ) {
 
     let userObj = message.author;
     let memberObj = message.member;
@@ -436,7 +438,7 @@ client.on("message", async (message) => {
 
 
               // If there is an assigned Role for a lower level, assign that!
-              for ( let i = ulevel; i >= 0; i-- ) {
+              for ( let i = uLevel; i >= 0; i-- ) {
 
                 let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
                 .catch(console.error);
@@ -495,7 +497,7 @@ client.on("message", async (message) => {
 
 
                 // If there is an assigned Role for a lower level, assign that!
-                for ( let i = ulevel; i >= 0; i-- ) {
+                for ( let i = uLevel; i >= 0; i-- ) {
 
                   let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
                   .catch(console.error);
@@ -578,7 +580,7 @@ client.on("message", async (message) => {
 
 
               // If there is an assigned Role for a lower level, assign that!
-              for ( let i = ulevel; i >= 0; i-- ) {
+              for ( let i = uLevel; i >= 0; i-- ) {
 
                 let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
                 .catch(console.error);
@@ -646,10 +648,30 @@ client.on("message", async (message) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // COMMANDS
 
   // Slides the PREFIX off the command
-  const args = message.content.slice(PREFIX.length).split(/ +/);
+  const [, matchedPrefix] = message.content.match(prefixRegex);
+  const args = message.content.slice(matchedPrefix.length).trim().split(/ +/);
   // Slaps the cmd into its own var
   const commandName = args.shift().toLowerCase();
   // If there is NOT a command with the given name or aliases, exit early
@@ -673,7 +695,19 @@ client.on("message", async (message) => {
     const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
     if (now < expirationTime) {
-      const timeLeft = (expirationTime - now) / 1000;
+      let timeLeft = (expirationTime - now) / 1000;
+
+      // If greater than 60 Seconds, convert into Minutes
+      if ( timeLeft > 60 && timeLeft < 3600 ) {
+        timeLeft = timeLeft / 60;
+        return message.reply(`Please wait ${timeLeft.toFixed(1)} more minute(s) before reusing the \`${command.name}\` command.`);
+      }
+      // If greater than 3600 Seconds, convert into Hours
+      else if ( timeLeft > 3600 ) {
+        timeLeft = timeLeft / 3600;
+        return message.reply(`Please wait ${timeLeft.toFixed(1)} more hour(s) before reusing the \`${command.name}\` command.`);
+      }
+
       return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
     }
    } else {

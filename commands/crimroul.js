@@ -13,7 +13,7 @@ module.exports = {
     args: true,
     guildOnly: true,
     cooldown: 21600, // 6 Hours
-    commandType: 'fun',
+    commandType: 'roulette',
     async execute(message, args) {
 
 

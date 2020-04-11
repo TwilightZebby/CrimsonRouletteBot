@@ -13,7 +13,7 @@ module.exports = {
     args: true,
     guildOnly: true,
     cooldown: 900, // 15 Minutes
-    commandType: 'fun',
+    commandType: 'roulette',
     async execute(message, args) {
 
       const roulEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Token Roulette');

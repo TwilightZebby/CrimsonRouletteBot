@@ -3,10 +3,10 @@ const { ConfigData, LevelRoles } = require('../bot_modules/tables.js');
 const Discord = require("discord.js");
 
 module.exports = {
-    name: 'settings',
+    name: 'config',
     description: `Manage the settings to change how this Bot functions\nUse without any options to show current settings`,
-    usage: '<configOption> <value>',
-    aliases: ['config'],
+    usage: '[configOption] [value]',
+    //aliases: ['config'],
     //args: true,
     commandType: 'management',
     async execute(message, args) {
@@ -45,7 +45,7 @@ module.exports = {
         let lvlDown = guildConfig[0].dataValues.levelDown;
         let lvlUpMsg = guildConfig[0].dataValues.levelUpMsg;
         let lvlDwnMsg = guildConfig[0].dataValues.levelDownMsg;
-        let vcTokens = guildConfig[0].dataValues.voiceTokens;
+        //let vcTokens = guildConfig[0].dataValues.voiceTokens;
         let riskRoul = guildConfig[0].dataValues.riskyRoul;
         let crimRoul = guildConfig[0].dataValues.crimRoul;
         let announceChannel = guildConfig[0].dataValues.lvlChannel;
@@ -134,7 +134,7 @@ module.exports = {
         configEmbed.setFooter(`Level Role Module (Config Sub-Module)`)
 
         // Fetch LevelRoles DB
-        let roledb = await LevelRoles.findAll({ where: { guildID: message.guild.id } })
+        let roledb = await LevelRoles.findAll({ where: { guildID: message.guild.id }, order: [ ['level', 'ASC'] ] })
         .catch(e => { 
           console.error(e);
           configEmbed.setTitle(`Something went wrong...`);

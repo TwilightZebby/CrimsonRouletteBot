@@ -9,5 +9,7 @@ __**Version 1.0.1 - x April 2020**__
 \* Tweaked the likelyhood of my two joke features to be less common ;P
 \* Changed the Roulette and Crimson Roulette Commands to use **tr** and **cr** command names respectively
 \* Default CMD cooldown is now 3 seconds, TR's is 15 minutes, and CR's is 6 hours
+\* Changed Setting CMD into Config CMD
+\* Levelling Role Module now lists Roles (if any) in ascending Level Number order
 
 \~ BUG FIX - Bot wouldn't give Tokens to Users when they type a message, but *would* when using Roulette Commands

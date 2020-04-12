@@ -13,15 +13,19 @@ module.exports = {
     execute(message) {
       const infoEmbed = new Discord.MessageEmbed().setColor('#07f51b');
 
+      let guildCount = Array.from(client.guilds.cache.values()).length;
+
       infoEmbed.setTitle(`${client.user.username} Information`);
-      infoEmbed.setThumbnail(client.user.displayAvatarURL());
+      infoEmbed.setDescription(`These are my stats! If you want my commands, use \`${PREFIX}help\``);
       infoEmbed.addFields(
+        { name: `Bot Developer`, value: `\<\@156482326887530498\>`, inline: true },
         { name: `Bot Version`, value: version, inline: true },
         { name: `Discord.JS Version`, value: `V12.1.1`, inline: true },
         { name: `Prefix`, value: PREFIX, inline: true },
+        { name: `Guilds`, value: guildCount, inline: true },
         { name: `Top.gg Listing`, value: `[Click here](https://www.example.org/)`, inline: true },
-        { name: `Support Server`, value: `[https://discord.gg/hTstSCv](https://discord.gg/hTstSCv)`, inline: true },
-        { name: `Invite Link`, value: `[Click to invite me to your server!](https://discordapp.com/oauth2/authorize?client_id=657859837023092746&scope=bot&permissions=268749888)` }
+        { name: `Support Server`, value: `[Click here](https://discord.gg/hTstSCv)`, inline: true },
+        { name: `Invite Link`, value: `[Click here](https://discordapp.com/oauth2/authorize?client_id=657859837023092746&scope=bot&permissions=268749888)`, inline: true }
         );
 
       return message.channel.send(infoEmbed);

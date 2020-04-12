@@ -665,98 +665,102 @@ client.on("message", async (message) => {
 
 
 
+  if ( prefixRegex.test(message.content) ) {
 
+    // COMMANDS
 
-  // COMMANDS
-
-  // Slides the PREFIX off the command
-  const [, matchedPrefix] = message.content.match(prefixRegex);
-  const args = message.content.slice(matchedPrefix.length).trim().split(/ +/);
-  // Slaps the cmd into its own var
-  const commandName = args.shift().toLowerCase();
-  // If there is NOT a command with the given name or aliases, exit early
-  const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-  if (!command) return;
-
-
-
-
-  // COOLDOWNS
-  // If a command has 'cooldown: x,' it will enable cooldown IN SECONDS
-  if (!cooldowns.has(command.name)) {
-     cooldowns.set(command.name, new Discord.Collection());
-   }
-
-  const now = Date.now();
-  const timestamps = cooldowns.get(command.name);
-  const cooldownAmount = (command.cooldown || 3) * 1000;
-
-  if (timestamps.has(message.author.id)) {
-    const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-
-    if (now < expirationTime) {
-      let timeLeft = (expirationTime - now) / 1000;
-
-      // If greater than 60 Seconds, convert into Minutes
-      if ( timeLeft > 60 && timeLeft < 3600 ) {
-        timeLeft = timeLeft / 60;
-        return message.reply(`Please wait ${timeLeft.toFixed(1)} more minute(s) before reusing the \`${command.name}\` command.`);
+    // Slides the PREFIX off the command
+    const [, matchedPrefix] = message.content.match(prefixRegex);
+    const args = message.content.slice(matchedPrefix.length).trim().split(/ +/);
+    // Slaps the cmd into its own var
+    const commandName = args.shift().toLowerCase();
+    // If there is NOT a command with the given name or aliases, exit early
+    const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+    if (!command) return;
+    
+    
+    
+    
+    // COOLDOWNS
+    // If a command has 'cooldown: x,' it will enable cooldown IN SECONDS
+    if (!cooldowns.has(command.name)) {
+       cooldowns.set(command.name, new Discord.Collection());
+     }
+   
+    const now = Date.now();
+    const timestamps = cooldowns.get(command.name);
+    const cooldownAmount = (command.cooldown || 3) * 1000;
+   
+    if (timestamps.has(message.author.id)) {
+      const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+    
+      if (now < expirationTime) {
+        let timeLeft = (expirationTime - now) / 1000;
+      
+        // If greater than 60 Seconds, convert into Minutes
+        if ( timeLeft > 60 && timeLeft < 3600 ) {
+          timeLeft = timeLeft / 60;
+          return message.reply(`Please wait ${timeLeft.toFixed(1)} more minute(s) before reusing the \`${command.name}\` command.`);
+        }
+        // If greater than 3600 Seconds, convert into Hours
+        else if ( timeLeft > 3600 ) {
+          timeLeft = timeLeft / 3600;
+          return message.reply(`Please wait ${timeLeft.toFixed(1)} more hour(s) before reusing the \`${command.name}\` command.`);
+        }
+      
+        return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
       }
-      // If greater than 3600 Seconds, convert into Hours
-      else if ( timeLeft > 3600 ) {
-        timeLeft = timeLeft / 3600;
-        return message.reply(`Please wait ${timeLeft.toFixed(1)} more hour(s) before reusing the \`${command.name}\` command.`);
-      }
-
-      return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+     } else {
+       timestamps.set(message.author.id, now);
+       setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+     }
+   
+   
+   
+   
+   
+   
+    // A check for if the user ran a command inside DMs
+    // if a cmd has 'guildOnly: true,', it won't work in DMs
+    if (command.guildOnly && message.channel.type !== 'text') {
+      return message.reply('I can\'t execute that command inside DMs!');
     }
-   } else {
-     timestamps.set(message.author.id, now);
-     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-   }
+  
+    // A check for if the user ran a command inside Guilds
+    // if a cmd has 'dmOnly: true,', it won't work in Guilds
+    if (command.dmOnly && message.channel.type !== 'dm') {
+      return message.reply('I can\'t execute that command inside Guilds!')
+    }
+  
+    // A check for missing parameters
+    // If a cmd has 'args: true,', it will throw the error
+    // Requires the cmd file to have 'usage: '<user> <role>',' or similar
+    if (command.args && !args.length) {
+      let reply = `You didn't provide any arguments, ${message.author}!`;
+        if (command.usage) {
+          reply += `\nThe proper usage would be: \`${PREFIX}${command.name} ${command.usage}\``;
+        }
+        return message.channel.send(reply);
+    }
+  
+  
+  
+  
+  
+    
+  
+    // If there is, grab and run that command's execute() function
+    try {
+      command.execute(message, args);
+    } // Any errors are caught here, and thrown back at the User and Console
+    catch (error) {
+      console.error(error);
+      message.reply('There was an error trying to execute that command!');
+    }
 
-
-
-
-
-
-  // A check for if the user ran a command inside DMs
-  // if a cmd has 'guildOnly: true,', it won't work in DMs
-  if (command.guildOnly && message.channel.type !== 'text') {
-    return message.reply('I can\'t execute that command inside DMs!');
   }
-
-  // A check for if the user ran a command inside Guilds
-  // if a cmd has 'dmOnly: true,', it won't work in Guilds
-  if (command.dmOnly && message.channel.type !== 'dm') {
-    return message.reply('I can\'t execute that command inside Guilds!')
-  }
-
-  // A check for missing parameters
-  // If a cmd has 'args: true,', it will throw the error
-  // Requires the cmd file to have 'usage: '<user> <role>',' or similar
-  if (command.args && !args.length) {
-    let reply = `You didn't provide any arguments, ${message.author}!`;
-      if (command.usage) {
-        reply += `\nThe proper usage would be: \`${PREFIX}${command.name} ${command.usage}\``;
-      }
-      return message.channel.send(reply);
-  }
-
-
-
-
 
   
-
-  // If there is, grab and run that command's execute() function
-  try {
-    command.execute(message, args);
-  } // Any errors are caught here, and thrown back at the User and Console
-  catch (error) {
-    console.error(error);
-    message.reply('There was an error trying to execute that command!');
-  }
 
   /******************************************************/
 

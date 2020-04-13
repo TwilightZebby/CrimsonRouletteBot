@@ -148,7 +148,7 @@ module.exports = {
 
       let defaultRandom = Math.floor( ( Math.random() * defaultMsgs.length ) + 0 );
 
-      roulEmbed.setTitle(`${message.member.displayName} spun the Token Roulette!`);
+      roulEmbed.setTitle(`${message.member.displayName} spun the Crimson Roulette!`);
       let lvlValue;
       let tenPercent;
       let fiftyPercent;

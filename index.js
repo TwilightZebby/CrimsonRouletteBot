@@ -309,7 +309,8 @@ client.on("message", async (message) => {
 
 
 
-
+  let botMember = message.guild.members.resolve('657859837023092746');
+  let manageRole = botMember.hasPermission('MANAGE_ROLES', { checkAdmin: true });
 
 
   // PREFIX CHECK
@@ -749,6 +750,23 @@ client.on("message", async (message) => {
           reply += `\nThe proper usage would be: \`${PREFIX}${command.name} ${command.usage}\``;
         }
         return message.channel.send(reply);
+    }
+    
+  
+  
+  
+  
+    
+  
+    // Check for permissions needed!
+    let embedLinks = botMember.hasPermission('EMBED_LINKS', { checkAdmin: true });
+    let attachFiles = botMember.hasPermission('ATTACH_FILES', { checkAdmin: true });
+
+    if ( embedLinks === false && command.name !== 'ping' ) {
+      return message.reply(`Sorry, but it would seem I don't have the Embed Links permission. I need that for my Embeds!`);
+    }
+    if ( attachFiles === false && command.name === 'rank' ) {
+      return message.reply(`Sorry, but it would seem I don't have the Attach Files permission. I need that for this command!`);
     }
   
   

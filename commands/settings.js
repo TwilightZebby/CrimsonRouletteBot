@@ -63,7 +63,7 @@ module.exports = {
           { name: `Level Up Message`, value: lvlUpMsg },
           { name: `Level Down Message`, value: lvlDwnMsg },
           { name: `Levelling Roles`, value: `Use **\`${PREFIX}config levels\`** to access the Level Roles Module` },
-          { name: `\u200B`, value: `Further explaination on what each Setting does can be found [here at top.gg](https://placeholder.com 'https://placeholder.com')\nTo edit a setting, use **\`${PREFIX}config [setting] / [value]\`**, making sure to INCLUDE the forward slash (/) between the Setting and Value!` }
+          { name: `\u200B`, value: `Further explaination on what each Setting does can be found [here at top.gg](https://top.gg/bot/657859837023092746)\nTo edit a setting, use **\`${PREFIX}config [setting] / [value]\`**, making sure to INCLUDE the forward slash (/) between the Setting and Value!` }
         );
 
         return message.channel.send(configEmbed);

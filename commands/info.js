@@ -23,7 +23,7 @@ module.exports = {
         { name: `Discord.JS Version`, value: `V12.1.1`, inline: true },
         { name: `Prefix`, value: PREFIX, inline: true },
         { name: `Guilds`, value: guildCount, inline: true },
-        { name: `Top.gg Listing`, value: `[Click here](https://www.example.org/)`, inline: true },
+        { name: `Top.gg Listing`, value: `[Click here](https://top.gg/bot/657859837023092746)`, inline: true },
         { name: `Support Server`, value: `[Click here](https://discord.gg/hTstSCv)`, inline: true },
         { name: `Invite Link`, value: `[Click here](https://discordapp.com/oauth2/authorize?client_id=657859837023092746&scope=bot&permissions=268749888)`, inline: true }
         );

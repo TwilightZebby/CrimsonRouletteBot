@@ -212,7 +212,11 @@ module.exports = {
             }
 
             ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
-            lvlValue = lvls[ranMemberDB[0].userLevel - 5];
+            if ( ( ranMemberDB[0].userLevel - 5 ) < 0 ) {
+              lvlValue = lvls[0];
+            } else {
+              lvlValue = lvls[ranMemberDB[0].userLevel - 5];
+            }
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
             await RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
@@ -260,7 +264,11 @@ module.exports = {
             }
 
             ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
-            lvlValue = lvls[ranMemberDB[0].userLevel - 3];
+            if ( ( ranMemberDB[0].userLevel - 3 ) < 0 ) {
+              lvlValue = lvls[0];
+            } else {
+              lvlValue = lvls[ranMemberDB[0].userLevel - 3];
+            }
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
             await RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
@@ -308,7 +316,11 @@ module.exports = {
             }
 
             ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
-            lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+            if ( ( ranMemberDB[0].userLevel - 1 ) < 0 ) {
+              lvlValue = lvls[0];
+            } else {
+              lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+            }
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
             await RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
@@ -358,7 +370,11 @@ module.exports = {
             } while ( randomMember.user.bot === true );
 
             ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
-            lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+            if ( ( ranMemberDB[0].userLevel - 1 ) < 0 ) {
+              lvlValue = lvls[0];
+            } else {
+              lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+            }
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
             await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
@@ -366,7 +382,11 @@ module.exports = {
           }
 
           // Author Levels
-          lvlValue = lvls[authorDB[0].userLevel - 1];
+          if ( ( authorDB[0].userLevel - 1 ) < 0 ) {
+            lvlValue = lvls[0];
+          } else {
+            lvlValue = lvls[authorDB[0].userLevel - 1];
+          }
           newTokens = authorDB[0].userTokens - lvlValue;
           await RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
 
@@ -500,7 +520,11 @@ module.exports = {
             } while ( randomMember.user.bot === true );
 
             ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
-            lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+            if ( ( ranMemberDB[0].userLevel - 1 ) < 0 ) {
+              lvlValue = lvls[0];
+            } else {
+              lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+            }
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
             await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
@@ -508,7 +532,11 @@ module.exports = {
           }
 
           // Author Levels
-          lvlValue = lvls[authorDB[0].userLevel - 1];
+          if ( ( authorDB[0].userLevel - 1 ) < 0 ) {
+            lvlValue = lvls[0];
+          } else {
+            lvlValue = lvls[authorDB[0].userLevel - 1];
+          }
           newTokens = authorDB[0].userTokens - lvlValue;
           await RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
 
@@ -671,7 +699,11 @@ module.exports = {
             } while ( randomMember.user.bot === true );
 
             ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
-            lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+            if ( ( ranMemberDB[0].userLevel - 1 ) < 0 ) {
+              lvlValue = lvls[0];
+            } else {
+              lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+            }
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
             await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
@@ -681,7 +713,11 @@ module.exports = {
           }
 
           // Author Levels
-          lvlValue = lvls[authorDB[0].userLevel - 1];
+          if ( ( authorDB[0].userLevel - 1 ) < 0 ) {
+            lvlValue = lvls[0];
+          } else {
+            lvlValue = lvls[authorDB[0].userLevel - 1];
+          }
           newTokens = authorDB[0].userTokens - lvlValue;
           await RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
 
@@ -791,12 +827,21 @@ module.exports = {
           } while ( randomMember.user.bot === true );
 
           // Author Levels
-          lvlValue = lvls[authorDB[0].userLevel - 1];
+          if ( ( authorDB[0].userLevel - 1 ) < 0 ) {
+            lvlValue = lvls[0];
+          } else {
+            lvlValue = lvls[authorDB[0].userLevel - 1];
+          }
           newTokens = authorDB[0].userTokens - lvlValue;
           await RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+
           // Member's Levels
           ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
-          lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+          if ( ( ranMemberDB[0].userLevel - 1 ) < 0 ) {
+            lvlValue = lvls[0];
+          } else {
+            lvlValue = lvls[ranMemberDB[0].userLevel - 1];
+          }
           newTokens = ranMemberDB[0].userTokens - lvlValue;
           await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
@@ -1025,7 +1070,11 @@ module.exports = {
 
         case "loselevel":
           // Lose a level
-          lvlValue = lvls[authorDB[0].userLevel - 1];
+          if ( ( authorDB[0].userLevel - 1 ) < 0 ) {
+            lvlValue = lvls[0];
+          } else {
+            lvlValue = lvls[authorDB[0].userLevel - 1];
+          }
           lostTokens = authorDB[0].userTokens - lvlValue;
 
           await RecalculateAuthor("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
@@ -1037,7 +1086,11 @@ module.exports = {
 
         case "lose3levels":
           // Lose 3 Levels
-          lvlValue = lvls[authorDB[0].userLevel - 1];
+          if ( ( authorDB[0].userLevel - 3 ) < 0 ) {
+            lvlValue = lvls[0];
+          } else {
+            lvlValue = lvls[authorDB[0].userLevel - 3];
+          }
           lostTokens = authorDB[0].userTokens - lvlValue;
 
           await RecalculateAuthor("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);

@@ -105,7 +105,7 @@ module.exports = {
       let result;
       result = chance.weighted(
         ['nothing', 'lose', 'win10', 'win50', 'win100', 'win200', 'winlevel', 'win3levels', 'lose10', 'lose50', 'lose100', 'lose200', 'loselevel', 'lose3levels'], 
-        [90, 85, 80, 50, 17, 5, 1000, 0.5, 40, 15, 10, 3, 1000, 0.1]
+        [90, 85, 80, 50, 17, 5, 1, 0.5, 40, 15, 10, 3, 1, 0.1]
       );
 
       // For random "default" result messages
@@ -265,7 +265,11 @@ module.exports = {
 
         case "loselevel":
           // Lose a level
-          lvlValue = lvls[authorDB[0].userLevel - 1];
+          if ( ( authorDB[0].userLevel - 1 ) < 0 ) {
+            lvlValue = lvls[0];
+          } else {
+            lvlValue = lvls[authorDB[0].userLevel - 1];
+          }
           lostTokens = authorDB[0].userTokens - lvlValue;
 
           await Recalculate("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
@@ -277,7 +281,11 @@ module.exports = {
 
         case "lose3levels":
           // Lose 3 Levels
-          lvlValue = lvls[authorDB[0].userLevel - 1];
+          if ( ( authorDB[0].userLevel - 3 ) < 0 ) {
+            lvlValue = lvls[0];
+          } else {
+            lvlValue = lvls[authorDB[0].userLevel - 3];
+          }
           lostTokens = authorDB[0].userTokens - lvlValue;
 
           await Recalculate("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);

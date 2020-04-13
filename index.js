@@ -60,6 +60,10 @@ process.on('unhandledRejection', error => console.error('Uncaught Promise Reject
 //     - Creates a new row in the Levels DB to ensure working functionailty with cmds such as TOP
 client.on('guildMemberAdd', async (member) => {
 
+  if ( member.user.bot === true ) {
+    return;
+  }
+
   try {
 
     let levelDb = await GuildLevels.create({
@@ -96,6 +100,10 @@ client.on('guildMemberAdd', async (member) => {
 // WHEN A MEMBER LEAVES A GUILD
 //     - To delete them from the Levels DB to make sure they don't pollute the Leaderboard(s)
 client.on('guildMemberRemove', async (member) => {
+
+  if ( member.user.bot === true ) {
+    return;
+  }
 
   const levelDelete = await GuildLevels.destroy({ where: { guildID: member.guild.id, userID: member.id } })
   .catch(err => console.error(err));

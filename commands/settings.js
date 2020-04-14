@@ -131,7 +131,20 @@ module.exports = {
       // LEVEL ROLES MODULE
       // Keeping seperate from the rest of the Config Module
       if ( settingName === "levels" || settingName === "level" ) {
-        configEmbed.setFooter(`Level Role Module (Config Sub-Module)`)
+        configEmbed.setFooter(`Level Role Module (Config Sub-Module)`);
+
+        // Permissions check!
+        let botMember = message.guild.members.resolve('657859837023092746');
+        let manageRole = botMember.hasPermission('MANAGE_ROLES', { checkAdmin: true });
+
+        if ( manageRole === false ) {
+          configEmbed.setTitle(`Missing Permission!`);
+          configEmbed.setDescription(`Oops! It would seem I am missing the Manage Roles Permission.\nI need this in order to give/revoke Roles.\nPlease also make sure the Role with this permission is above the Levelling Roles - I can only grant/revoke Roles below my highest one with this permission!`);
+          return message.channel.send(configEmbed);
+        }
+
+
+
 
         // Fetch LevelRoles DB
         let roledb = await LevelRoles.findAll({ where: { guildID: message.guild.id }, order: [ ['level', 'ASC'] ] })

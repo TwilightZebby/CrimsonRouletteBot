@@ -310,7 +310,15 @@ client.on("message", async (message) => {
 
 
   let botMember = message.guild.members.resolve('657859837023092746');
-  let manageRole = botMember.hasPermission('MANAGE_ROLES', { checkAdmin: true });
+
+  let readMsg = botMember.hasPermission('VIEW_CHANNEL', { checkAdmin: true });
+  let sendMsg = botMember.hasPermission('SEND_MESSAGES', { checkAdmin: true });
+
+  if ( readMsg === false || sendMsg === false ) {
+    let guildOwner = message.guild.owner;
+    let goDM = await guildOwner.createDM();
+    goDM.send(`Buzz! It would seem I don't have **Read Messages**, **View Channels**, and/or the **Send Messages** permission in *${message.guild.name}*!\nI'd be a pretty useless Bot without those permissions!`);
+  }
 
 
   // PREFIX CHECK

@@ -1297,7 +1297,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             } else {
 
@@ -1362,7 +1362,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
 
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             }
 
@@ -1426,7 +1426,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             } else {
 
@@ -1453,7 +1453,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
 
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             }
 
@@ -1593,7 +1593,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             } else {
 
@@ -1657,7 +1657,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
 
               
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             }
 
@@ -1721,7 +1721,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             } else {
 
@@ -1748,7 +1748,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
 
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             }
 
@@ -1936,7 +1936,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             } else {
 
@@ -2000,7 +2000,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
 
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             }
 
@@ -2064,7 +2064,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             } else {
 
@@ -2091,7 +2091,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
 
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             }
 
@@ -2231,7 +2231,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             } else {
 
@@ -2297,7 +2297,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
 
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             }
 
@@ -2361,7 +2361,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             } else {
 
@@ -2388,7 +2388,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
 
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
 
             }
 

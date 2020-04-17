@@ -479,7 +479,7 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!** (\`c!tr\`)`);
 
             } else {
 
@@ -546,7 +546,7 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
 
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!** (\`c!tr\`)`);
 
             }
 
@@ -609,7 +609,7 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
 
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!** (\`c!tr\`)`);
 
             } else {
 
@@ -636,7 +636,7 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
 
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!** (\`c!tr\`)`);
 
             }
 
@@ -773,7 +773,7 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!** (\`c!tr\`)`);
 
             } else {
 
@@ -837,7 +837,7 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
 
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!** (\`c!tr\`)`);
 
             }
 
@@ -900,7 +900,7 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!** (\`c!tr\`)`);
 
             } else {
 
@@ -927,7 +927,7 @@ async function Recalculate(sumMethod, resultAmount, configDB, levelDB, message, 
 
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!**`);
+              return announceChannel.send(lvlMessage + ` <-- **Caused by Roulette Command!** (\`c!tr\`)`);
 
             }
 

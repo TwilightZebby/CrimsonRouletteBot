@@ -1871,7 +1871,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
             
 
             // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: uLevel } })
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
             .catch(console.error);
 
 
@@ -2014,7 +2014,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
             
 
             // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: uLevel } })
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
             .catch(console.error);
 
 
@@ -2166,7 +2166,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
             
 
             // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: uLevel } })
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
             .catch(console.error);
 
 
@@ -2311,7 +2311,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
             
 
             // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: uLevel } })
+            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
             .catch(console.error);
 
 

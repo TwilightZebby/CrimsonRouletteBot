@@ -32,7 +32,7 @@ module.exports = {
       // Canvas Stuff
       const canvas = Canvas.createCanvas(700, 250);
       const ctx = canvas.getContext('2d');
-      const background = await Canvas.loadImage('./images/background.png'); // load background in
+      const background = await Canvas.loadImage('./images/default.png'); // load background in
       
       ctx.drawImage(background, 0, 0, canvas.width, canvas.height); // Draws BG onto Canvas
 

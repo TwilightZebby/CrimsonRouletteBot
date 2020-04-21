@@ -1,5 +1,5 @@
 const { PREFIX } = require('../config.js');
-const { ConfigData, GuildLevels } = require('../bot_modules/tables.js');
+const { ConfigData, GuildLevels, UserPrefs } = require('../bot_modules/tables.js');
 const Discord = require("discord.js");
 const Canvas = require('canvas');
 
@@ -26,13 +26,27 @@ module.exports = {
         return message.channel.send(rankEmbed);
       });
 
+      let dbBackground = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+      .catch(e => {
+        console.error(e);
+        rankEmbed.setTitle(`Something went wrong...`);
+        rankEmbed.setDescription(`There was an error fetching ${message.author}'s Background Choice. Please try again later.`);
+        return message.channel.send(rankEmbed);
+      });
+
+
+
+
+
       let uLevel = dbLevels[0].userLevel;
       let uTokens = dbLevels[0].userTokens;
+      let userBGChoice = dbBackground[0].background;
+      let backgroundPath = "./images/" + userBGChoice + ".png";
       
       // Canvas Stuff
       const canvas = Canvas.createCanvas(700, 250);
       const ctx = canvas.getContext('2d');
-      const background = await Canvas.loadImage('./images/default.png'); // load background in
+      const background = await Canvas.loadImage(backgroundPath); // load background in
       
       ctx.drawImage(background, 0, 0, canvas.width, canvas.height); // Draws BG onto Canvas
 

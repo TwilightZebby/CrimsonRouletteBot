@@ -3,7 +3,7 @@ const fs = require('fs'); // Node's native file system
 const Discord = require("discord.js"); // Bringing in Discord.js
 const { client } = require('./bot_modules/constants.js'); // Brings in the Discord Bot's Client
 const { PREFIX, TOKEN } = require('./config.js'); // Slapping the PREFIX and token into their own vars
-const { ConfigData, GuildLevels, LevelRoles, UserBG } = require('./bot_modules/tables.js'); // Brings in the Databases
+const { ConfigData, GuildLevels, LevelRoles, UserPrefs } = require('./bot_modules/tables.js'); // Brings in the Databases
 const LEVELS = require('./bot_modules/levels.json'); // Brings in the Levels Table
 client.commands = new Discord.Collection(); // Extends JS's native map class
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js')); // Picks up all the .js files in the commands folder
@@ -28,7 +28,7 @@ client.once("ready", () => {
   ConfigData.sync();
   GuildLevels.sync();
   LevelRoles.sync();
-  UserBG.sync();
+  UserPrefs.sync();
 
   client.user.setPresence({ activity: { name: `${PREFIX}help` }, status: 'online' });
   console.log("I am ready!");
@@ -72,12 +72,12 @@ client.on('guildMemberAdd', async (member) => {
       userID: member.id,
     }).catch(console.error);
 
-    let userBgDb = await UserBG.findOne({
+    let userPrefsDb = await UserPrefs.findOne({
       where: { userID: member.id }
     }).catch(console.error);
 
-    if ( !userBgDb ) {
-      userBgDb = await UserBG.create({
+    if ( !userPrefsDb ) {
+      userPrefsDb = await UserPrefs.create({
         userID: member.id,
       }).catch(console.error);
     }
@@ -178,14 +178,24 @@ client.on('guildCreate', async (guild) => {
 
     }
 
-    // Loop to add all users to UserBG
-    let userBgDB;
+    // Loop to add all users to UserPrefs
+    let userPrefsDB;
     for ( let i = 0; i < memStore.length; i++ ) {
 
-      userBgDB = await UserBG.create({
-        userID: memStore[i].id,
-        // Other values have defaults
+      // Check if User already exists
+      userPrefsDB = await UserPrefs.findOne({
+        where: { userID: memStore[i].id }
       }).catch(console.error);
+
+      if ( !userPrefsDB ) {
+
+        // If doesn't already exist, add to DB
+        userPrefsDB = await UserPrefs.create({
+          userID: memStore[i].id,
+          // Other values have defaults
+        }).catch(console.error);
+
+      }
 
     }
     

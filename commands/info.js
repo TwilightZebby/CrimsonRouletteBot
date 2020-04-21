@@ -20,7 +20,7 @@ module.exports = {
       infoEmbed.addFields(
         { name: `Bot Developer`, value: `\<\@156482326887530498\>`, inline: true },
         { name: `Bot Version`, value: version, inline: true },
-        { name: `Discord.JS Version`, value: `V12.1.1`, inline: true },
+        { name: `Discord.JS Version`, value: `V12.2.0`, inline: true },
         { name: `Prefix`, value: PREFIX, inline: true },
         { name: `Guilds`, value: guildCount, inline: true },
         { name: `Top.gg Listing`, value: `[Click here](https://top.gg/bot/657859837023092746)`, inline: true },

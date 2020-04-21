@@ -103,6 +103,7 @@ module.exports = {
           case "rank background":
           case "background":
 
+            let settingValueBackup = settingValue;
             settingValue = settingValue.toLowerCase();
             // Check if the given value is a valid one
             if ( settingValue === "list" ) {
@@ -157,6 +158,38 @@ module.exports = {
                 }]
               })
               .catch(console.error);
+
+
+            }
+            else {
+
+              // Check background exists
+              if ( !backgroundArray.includes(settingValueBackup) ) {
+                prefEmbed.setTitle(`Something went wrong...`);
+                prefEmbed.setDescription(`I was unable to find a the background **${settingValue}**.\nPlease try again. You can use the command \`${PREFIX}prefs background / list\` to see a list of all available backgrounds!`);
+                return message.channel.send(prefEmbed);
+              }
+
+              // Temp restriction - Check BG is NOT in the limited backgrounds Array I have
+              if ( limitedBackgrounds.includes(settingValueBackup) && message.author.id !== '156482326887530498' ) {
+                prefEmbed.setTitle(`Buzz! Sorry, that Background is locked!`);
+                prefEmbed.setDescription(`This background is currently locked for you.\n*Currently, only the Bot's Developer can use Locked Backgrounds - unlockable backgrounds for all will be coming soon!*`);
+                return message.channel.send(prefEmbed);
+              }
+
+
+              // Update UserPrefs DB
+              let updatePrefs = await UserPrefs.update({ background: settingValueBackup }, { where: { userID: message.author.id } })
+              .catch(err => {
+                console.error(err);
+                prefEmbed.setTitle(`Something went wrong...`);
+                prefEmbed.setDescription(`I was unable to update your background preferences. Please try again later...`);
+                return message.channel.send(prefEmbed);
+              });
+
+              prefEmbed.setTitle(`Successfully updated preferences!`);
+              prefEmbed.setDescription(`${message.author} preferences for rank background were updated to use the **${settingValueBackup}** background!`);
+              return message.channel.send(prefEmbed);
 
 
             }

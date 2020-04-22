@@ -126,9 +126,9 @@ client.on('guildMemberRemove', async (member) => {
   let levelDelete = await GuildLevels.destroy({ where: { guildID: member.guild.id, userID: member.id } })
   .catch(err => console.error(err));
   
-  if(!levelDelete) {
+  /*if(!levelDelete) {
     return console.log(`Nothing was deleted for ${member.displayName} upon leaving`);
-  }
+  }*/
 
   // End of guildMemberRemove Event
 });
@@ -240,21 +240,21 @@ client.on('guildDelete', async (guild) => {
   // Grab the Guild's ID and delete all entries in the Database for it
   const configDelete = await ConfigData.destroy({ where: { guildID: guild.id } })
   .catch(err => console.error(`ERROR: Something happened. - index.js guildDelete - \n${err}`));
-  if(!configDelete) {
+  /*if(!configDelete) {
     console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);
-  }
+  }*/
 
   const levelDelete = await GuildLevels.destroy({ where: { guildID: guild.id } })
   .catch(err => console.error(`ERROR: Something happened. - index.js levelDelete - \n${err}`));
-  if(!levelDelete) {
+  /*if(!levelDelete) {
     console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);
-  }
+  }*/
 
   const roleDelete = await LevelRoles.destroy({ where: { guildID: guild.id } })
   .catch(err => console.error(`ERROR: Something happened. - index.js roleDelete - \n${err}`));
-  if (!roleDelete) {
+  /*if (!roleDelete) {
     return console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);
-  }
+  }*/
 
 });
 
@@ -472,7 +472,7 @@ client.on("message", async (message) => {
 
             // See if any of the User's Roles match IDs stored in DB
             for ( let i = 0; i < userRoles.length; i++ ) {
-              console.log(userRoles[i].id);
+              //console.log(userRoles[i].id);
               let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
               .catch(console.error);
 
@@ -615,7 +615,7 @@ client.on("message", async (message) => {
 
             // See if any of the User's Roles match IDs stored in DB
             for ( let i = 0; i < userRoles.length; i++ ) {
-              console.log(userRoles[i].id);
+              //console.log(userRoles[i].id);
               let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
               .catch(console.error);
 

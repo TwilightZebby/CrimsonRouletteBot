@@ -1243,7 +1243,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
 
             // See if any of the User's Roles match IDs stored in DB
             for ( let i = 0; i < userRoles.length; i++ ) {
-              console.log(userRoles[i].id);
+              //console.log(userRoles[i].id);
               let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
               .catch(console.error);
 
@@ -1387,7 +1387,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
 
             // See if any of the User's Roles match IDs stored in DB
             for ( let i = 0; i < userRoles.length; i++ ) {
-              console.log(userRoles[i].id);
+              //console.log(userRoles[i].id);
               let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
               .catch(console.error);
 
@@ -1539,7 +1539,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
 
             // See if any of the User's Roles match IDs stored in DB
             for ( let i = 0; i < userRoles.length; i++ ) {
-              console.log(userRoles[i].id);
+              //console.log(userRoles[i].id);
               let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
               .catch(console.error);
 
@@ -1682,7 +1682,7 @@ async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, mes
 
             // See if any of the User's Roles match IDs stored in DB
             for ( let i = 0; i < userRoles.length; i++ ) {
-              console.log(userRoles[i].id);
+              //console.log(userRoles[i].id);
               let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
               .catch(console.error);
 
@@ -1882,7 +1882,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
 
             // See if any of the User's Roles match IDs stored in DB
             for ( let i = 0; i < userRoles.length; i++ ) {
-              console.log(userRoles[i].id);
+              //console.log(userRoles[i].id);
               let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
               .catch(console.error);
 
@@ -2025,7 +2025,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
 
             // See if any of the User's Roles match IDs stored in DB
             for ( let i = 0; i < userRoles.length; i++ ) {
-              console.log(userRoles[i].id);
+              //console.log(userRoles[i].id);
               let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
               .catch(console.error);
 
@@ -2177,7 +2177,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
 
             // See if any of the User's Roles match IDs stored in DB
             for ( let i = 0; i < userRoles.length; i++ ) {
-              console.log(userRoles[i].id);
+              //console.log(userRoles[i].id);
               let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
               .catch(console.error);
 
@@ -2322,7 +2322,7 @@ async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, l
 
             // See if any of the User's Roles match IDs stored in DB
             for ( let i = 0; i < userRoles.length; i++ ) {
-              console.log(userRoles[i].id);
+              //console.log(userRoles[i].id);
               let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
               .catch(console.error);
 

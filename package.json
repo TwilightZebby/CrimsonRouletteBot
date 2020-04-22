@@ -12,6 +12,7 @@
     "bufferutil": "^4.0.1",
     "canvas": "^2.6.1",
     "chance": "^1.1.4",
+    "dblapi.js": "^2.4.0",
     "discord.js": "github:discordjs/discord.js",
     "erlpack": "github:discordapp/erlpack",
     "libsodium-wrappers": "^0.7.6",

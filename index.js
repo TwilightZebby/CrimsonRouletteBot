@@ -9,6 +9,9 @@ client.commands = new Discord.Collection(); // Extends JS's native map class
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js')); // Picks up all the .js files in the commands folder
 const cooldowns = new Discord.Collection(); // For Cooldowns to work
 const lvlCooldowns = new Discord.Collection(); // For Cooldowns specific to Levelling
+// top.gg api stuff
+const DBL = require("dblapi.js");
+const dbl = new DBL('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Nzg1OTgzNzAyMzA5Mjc0NiIsImJvdCI6dHJ1ZSwiaWF0IjoxNTg3NTQzOTA2fQ.s1MfuiFBT3aDRPWMewB-MrsynCdDQbK56LxC-t9nJzI', client);
 
 for (const file of commandFiles) { // Slaps all the command files into the Collection
     const command = require(`./commands/${file}`);
@@ -40,6 +43,10 @@ client.once("ready", () => {
 process.on('warning', console.warn);
 // Extra Error Catching
 process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
+// top.gg error handling
+dbl.on('error', e => {
+  console.log(`Oops! ${e}`);
+})
 
 
 

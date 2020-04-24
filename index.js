@@ -33,6 +33,8 @@ client.once("ready", () => {
   LevelRoles.sync();
   UserPrefs.sync();
 
+  client.user.setPresence({ activity: { name: `${PREFIX}help` }, status: 'online' });
+
   client.setInterval(function(){
     client.user.setPresence({ activity: { name: `${PREFIX}help` }, status: 'online' });
   }, 2.16e+7);

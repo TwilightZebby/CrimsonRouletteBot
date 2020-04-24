@@ -4,7 +4,6 @@ const { ConfigData, GuildLevels, LevelRoles, UserPrefs } = require('../bot_modul
 const Discord = require("discord.js");
 const { client } = require('../bot_modules/constants.js');
 // LIMITED BACKGROUNDS - require meeting certain requirements to unlock
-let limitedBackgrounds = [ "beta", "darkShadow" ];
 
 module.exports = {
     name: 'prefs',
@@ -16,6 +15,7 @@ module.exports = {
     commandType: 'management',
     async execute(message, args) {
 
+      let limitedBackgrounds = [ "beta", "darkShadow" ];
       const prefEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('User Preferences');
 
 

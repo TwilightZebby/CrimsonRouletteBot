@@ -2,7 +2,9 @@ const fs = require('fs');
 const { PREFIX } = require('../config.js');
 const { ConfigData, GuildLevels, LevelRoles, UserPrefs } = require('../bot_modules/tables.js');
 const Discord = require("discord.js");
-const limitedBackgrounds = [ "beta", "darkShadow" ]; // An Array of those Backgrounds with limitations
+const { client } = require('../bot_modules/constants.js');
+// LIMITED BACKGROUNDS - require meeting certain requirements to unlock
+let limitedBackgrounds = [ "beta", "darkShadow" ];
 
 module.exports = {
     name: 'prefs',
@@ -28,6 +30,43 @@ module.exports = {
         tempSTRING = tempSTRING.substr(0, tempSTRINGLength - 4);
 
         backgroundArray.push(tempSTRING);
+
+        
+
+
+
+
+        // ***********************************************************************
+        // SORT OUT IF USER HAS UNLOCKED A BACKGROUND OR NOT
+        // Removal of background from the Array unlocks it for use
+
+        // Beta BG
+        if ( client.user.id === "664495280141500446" ) {
+          
+          for ( let i = 0; i < limitedBackgrounds.length - 1; i++ ) {
+
+            let tempStore = limitedBackgrounds[i];
+            if ( tempStore === "beta" ) {
+              limitedBackgrounds.splice(i, 1);
+            }
+
+          }
+
+        }
+        
+        // Bot Dev Override ;P
+        if ( message.author.id === "156482326887530498" ) {
+          limitedBackgrounds = [];
+        }
+
+
+
+
+
+
+
+
+
 
         // Add emojis as icons to those with limitations
         if ( limitedBackgrounds.includes(tempSTRING) ) {
@@ -170,12 +209,66 @@ module.exports = {
                 return message.channel.send(prefEmbed);
               }
 
-              // Temp restriction - Check BG is NOT in the limited backgrounds Array I have
-              if ( limitedBackgrounds.includes(settingValueBackup) && message.author.id !== '156482326887530498' ) {
-                prefEmbed.setTitle(`Buzz! Sorry, that Background is locked!`);
-                prefEmbed.setDescription(`This background is currently locked for you.\n*Currently, only the Bot's Developer can use Locked Backgrounds - unlockable backgrounds for all will be coming soon!*`);
-                return message.channel.send(prefEmbed);
+              
+
+
+
+
+
+
+
+
+
+
+              // LOCKED BACKGROUND MESSAGES
+              if ( limitedBackgrounds.includes(settingValueBackup) ) {
+
+
+                switch (settingValueBackup) {
+
+
+                  case "beta":
+                    prefEmbed.setTitle(`Buzz! Sorry, that Background is locked!`);
+                    prefEmbed.setDescription(`The **${settingValueBackup}** background can only be used with the Beta version of this Bot. Sorry!`);
+                    message.channel.send(prefEmbed);
+                    break;
+
+
+                  case "darkShadow":
+                    prefEmbed.setTitle(`Buzz! Sorry, that Background is locked!`);
+                    prefEmbed.setDescription(`The **${settingValueBackup}** background can only be used by the Bot's Developer, sorry!`);
+                    message.channel.send(prefEmbed);
+                    break;
+
+
+                  default:
+                    prefEmbed.setTitle(`Buzz! Sorry, that Background is locked!`);
+                    prefEmbed.setDescription(`This background is currently locked for you...`);
+                    message.channel.send(prefEmbed);
+                    break;
+
+
+                }
+
+                return;
+
               }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
               // Update UserPrefs DB

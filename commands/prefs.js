@@ -1,9 +1,9 @@
 const fs = require('fs');
-const { PREFIX } = require('../config.js');
+let { PREFIX } = require('../config.js');
 const { ConfigData, GuildLevels, LevelRoles, UserPrefs } = require('../bot_modules/tables.js');
 const Discord = require("discord.js");
 const { client } = require('../bot_modules/constants.js');
-// LIMITED BACKGROUNDS - require meeting certain requirements to unlock
+let functFile = require('../bot_modules/functions.js');
 
 module.exports = {
     name: 'prefs',
@@ -15,6 +15,7 @@ module.exports = {
     commandType: 'management',
     async execute(message, args) {
 
+      PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
       let limitedBackgrounds = [ "beta", "darkShadow" ];
       const prefEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('User Preferences');
 

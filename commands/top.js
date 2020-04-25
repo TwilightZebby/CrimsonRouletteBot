@@ -1,6 +1,7 @@
-const { PREFIX } = require('../config.js');
+let { PREFIX } = require('../config.js');
 const { ConfigData, GuildLevels } = require('../bot_modules/tables.js');
 const Discord = require("discord.js");
+let functFile = require('../bot_modules/functions.js');
 
 module.exports = {
     name: 'top',
@@ -12,6 +13,7 @@ module.exports = {
     commandType: 'info',
     async execute(message) {
       
+      PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
       const topEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Top 10');
 
       let lvldb = await GuildLevels.findAll({ where: { guildID: message.guild.id } })

@@ -6,6 +6,81 @@ const { ConfigData, GuildLevels, LevelRoles, UserPrefs } = require('./tables.js'
 const LEVELS = require('./levels.json');
 
 module.exports = {
+  
+  // Customisable Prefix per-Guild
+  async LoadPrefix(guildID, configDB) {
+
+    // Fetch the Guild's Prefix
+    let prefixDB = await configDB.findOne({ where: { guildID: guildID } })
+    .catch(console.error);
+
+    let guildPREFIX;
+
+    // If entry doesn't exist, make one and use default value (c!)
+    if ( !prefixDB ) {
+      prefixDB = await configDB.upsert({ prefix: "c!" }, { where: { guildID: guildID } })
+      .catch(console.error);
+
+      guildPREFIX = "c!";
+    } else {
+      guildPREFIX = prefixDB.prefix;
+    }
+
+    return guildPREFIX;
+
+  },
+
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Recalculate Levels and Token Amounts
     async RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, message, roulEmbed) {

@@ -1,7 +1,9 @@
-const { PREFIX } = require('../config.js');
+let { PREFIX } = require('../config.js');
 const Discord = require("discord.js");
 const { client } = require('../bot_modules/constants.js');
 const { version } = require('../package.json');
+const { ConfigData, GuildLevels, LevelRoles } = require('../bot_modules/tables.js');
+let functFile = require('../bot_modules/functions.js');
 
 module.exports = {
     name: 'info',
@@ -10,7 +12,8 @@ module.exports = {
     //aliases: [''],
     //args: true,
     commandType: 'general',
-    execute(message) {
+    async execute(message) {
+      PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
       const infoEmbed = new Discord.MessageEmbed().setColor('#07f51b');
 
       let guildCount = Array.from(client.guilds.cache.values()).length;

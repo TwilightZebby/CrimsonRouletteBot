@@ -2,7 +2,7 @@
 const fs = require('fs'); // Node's native file system
 const Discord = require("discord.js"); // Bringing in Discord.js
 const { client } = require('./bot_modules/constants.js'); // Brings in the Discord Bot's Client
-const { PREFIX, TOKEN, DBLTOKEN } = require('./config.js'); // Slapping the PREFIX and token into their own vars
+let { PREFIX, TOKEN, DBLTOKEN } = require('./config.js'); // Slapping the PREFIX and token into their own vars
 const { ConfigData, GuildLevels, LevelRoles, UserPrefs } = require('./bot_modules/tables.js'); // Brings in the Databases
 const LEVELS = require('./bot_modules/levels.json'); // Brings in the Levels Table
 client.commands = new Discord.Collection(); // Extends JS's native map class
@@ -12,6 +12,7 @@ const lvlCooldowns = new Discord.Collection(); // For Cooldowns specific to Leve
 // top.gg api stuff
 //const DBL = require("dblapi.js");
 //const dbl = new DBL(DBLTOKEN, client);
+let functFile = require('./bot_modules/functions.js');
 
 for (const file of commandFiles) { // Slaps all the command files into the Collection
     const command = require(`./commands/${file}`);
@@ -44,10 +45,15 @@ client.once("ready", async () => {
 
   // Quickly apply values to database to fill in new columns
   /*let guildCache = Array.from(client.guilds.cache.values());
+  let gNameUpdate;
   for ( let i = 0; i < guildCache.length; i++ ) {
 
-    await ConfigData.update({ guildName: guildCache[i].name }, { where: { guildID: guildCache[i].id } })
+    gNameUpdate = await ConfigData.update({ guildName: guildCache[i].name }, { where: { guildID: guildCache[i].id } })
     .catch(console.error);
+
+    if ( gNameUpdate ) {
+      console.log(`Updated DB for ${guildCache[i].name}`);
+    }
 
   }*/
 
@@ -381,6 +387,7 @@ client.on("message", async (message) => {
 
 
   // PREFIX CHECK
+  PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
   const escapeRegex = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(PREFIX)})\\s*`);
 

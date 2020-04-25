@@ -1,6 +1,7 @@
-const { PREFIX } = require('../config.js');
+let { PREFIX } = require('../config.js');
 const { ConfigData, GuildLevels } = require('../bot_modules/tables.js');
 const Discord = require("discord.js");
+let functFile = require('../bot_modules/functions.js');
 
 module.exports = {
     name: 'reset',
@@ -11,6 +12,7 @@ module.exports = {
     commandType: 'management',
     async execute(message) {
 
+      PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
       const resetEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Reset');
 
 

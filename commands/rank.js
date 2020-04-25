@@ -1,7 +1,8 @@
-const { PREFIX } = require('../config.js');
+let { PREFIX } = require('../config.js');
 const { ConfigData, GuildLevels, UserPrefs } = require('../bot_modules/tables.js');
 const Discord = require("discord.js");
 const Canvas = require('canvas');
+let functFile = require('../bot_modules/functions.js');
 
 // Made with help from the official Discord.JS Guide
 // https://discordjs.guide/popular-topics/canvas.html
@@ -16,6 +17,7 @@ module.exports = {
     commandType: 'info',
     async execute(message) {
 
+      PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
       const rankEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Rank Info');
 
       let dbLevels = await GuildLevels.findOrCreate({ where: { guildID: message.guild.id, userID: message.author.id } })

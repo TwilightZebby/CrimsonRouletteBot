@@ -1,4 +1,4 @@
-const { PREFIX } = require('../config.js');
+let { PREFIX } = require('../config.js');
 const { ConfigData, GuildLevels, LevelRoles } = require('../bot_modules/tables.js');
 const LEVELS = require('../bot_modules/levels.json');
 const Discord = require("discord.js");
@@ -17,7 +17,7 @@ module.exports = {
     commandType: 'roulette',
     async execute(message, args) {
 
-
+      PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
       const roulEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Crimson Roulette');
 
       // Check that the Guild's settings have this enabled

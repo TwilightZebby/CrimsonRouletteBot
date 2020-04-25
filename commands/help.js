@@ -1,5 +1,7 @@
-const { PREFIX } = require('../config.js');
+let { PREFIX } = require('../config.js');
 const Discord = require("discord.js");
+const { ConfigData, GuildLevels, LevelRoles } = require('../bot_modules/tables.js');
+let functFile = require('../bot_modules/functions.js');
 
 module.exports = {
     name: 'help',
@@ -7,6 +9,7 @@ module.exports = {
     usage: '[command name]',
     commandType: 'general',
     async execute(message, args) {
+      PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
       const { commands } = message.client;
       const helpEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Help Module');
 

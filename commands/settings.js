@@ -1,6 +1,7 @@
-const { PREFIX } = require('../config.js');
+let { PREFIX } = require('../config.js');
 const { ConfigData, LevelRoles } = require('../bot_modules/tables.js');
 const Discord = require("discord.js");
+let functFile = require('../bot_modules/functions.js');
 
 module.exports = {
     name: 'config',
@@ -11,6 +12,7 @@ module.exports = {
     commandType: 'management',
     async execute(message, args) {
       
+      PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
       // Thy Embed
       const configEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('Config Module');
 

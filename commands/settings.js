@@ -64,7 +64,7 @@ module.exports = {
           { name: `Level Down Message`, value: lvlDwnMsg },
           { name: `Levelling Roles`, value: `Use **\`${PREFIX}config levels\`** to access the Level Roles Module` },
           { name: `\u200B`, value: `\u200B` },
-          { name: `\u200B`, value: `Further explaination on what each Setting does can be found [here at top.gg](https://top.gg/bot/657859837023092746)\nTo edit a setting, use **\`${PREFIX}config [setting] / [value]\`**, making sure to INCLUDE the forward slash (/) between the Setting and Value!` }
+          { name: `\u200B`, value: `Further explaination on what each Setting does can be found [here at top.gg](https://top.gg/bot/657859837023092746) or by using the \`${PREFIX}config guide\` command.\nTo edit a setting, use **\`${PREFIX}config [setting] / [value]\`**, making sure to INCLUDE the forward slash (/) between the Setting and Value!` }
         );
 
         return message.channel.send(configEmbed);
@@ -383,6 +383,24 @@ module.exports = {
 
 
       switch(settingName) {
+
+        // Quick Guide
+        case "?":
+        case "guide":
+        case "help":
+          configEmbed.setTitle(`Config Guide`);
+          configEmbed.setDescription(`Here is a quick guide on what each option does!\n*Reminder: The Level Role Module has it\'s own guide. You can use \`${PREFIX}config levels / guide\` to see it*`);
+          configEmbed.addFields(
+            { name: `Allow Levelling`, value: `Enables or Disables the whole Levelling part of this Bot. Useful for if you need to make quick tweaks while preventing Users from getting Tokens/Levels` },
+            { name: `Level Downs`, value: `Toggle if Users can Level Down or not. Disable if you only want the Level Ups like the other standard Levelling Bots there are ;P` },
+            { name: `Broadcase Channel`, value: `Set the channel that Level Up/Down Messages get sent to. Use \`null\` to disable this.` },
+            { name: `Risky Roulette`, value: `Toggle the \`${PREFIX}cr\` command. Useful for preventing multiple members from suddenly gaining or losing Levels from a single command` },
+            { name: `Roulette Commands`, value: `Toggles *both* Roulette Commands. Overrides the **Risky Roulette** config option if this one is disabled.` },
+            { name: `lvl up messages / lvl down messages`, value: `Customise either of the Level Up or Down messages. Both requires \`user\` and \`levelNum\` to be used as placeholders so we know where to place the User and their new Level in the message.` }
+          );
+          message.channel.send(configEmbed);
+          break;
+
 
         // Lvl Up Messages
         case "level up message":

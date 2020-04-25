@@ -1,7 +1,9 @@
 # For security
 config.js
 database.sqlite
-/bot_modules
+/bot_modules/constants.js
+/bot_modules/tables.js
+/bot_modules/levels.json
 /dataStores
 
 # For tidyness

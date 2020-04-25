@@ -4,6 +4,7 @@ const LEVELS = require('../bot_modules/levels.json');
 const Discord = require("discord.js");
 const Chance = require("chance");
 let chance = new Chance();
+let functFile = require('../bot_modules/functions.js');
 
 module.exports = {
     name: 'cr',
@@ -66,22 +67,6 @@ module.exports = {
         roulEmbed.setDescription(`There was an error fetching ${message.author}'s current Level/Tokens. Please try again later.`);
         return message.channel.send(roulEmbed);
       });
-
-
-      // Function to grab the random member's Level DB
-      async function fetchMemberLevels(guildsID, membersID, GuildLevels) {
-
-        let memberDB = await GuildLevels.findOrCreate({ where: { guildID: guildsID, userID: membersID } })
-        .catch(e => { 
-          console.error(e);
-          roulEmbed.setTitle(`Something went wrong...`);
-          roulEmbed.setDescription(`There was an error fetching \<\@${membersID}\>'s current Level/Tokens. Please try again later.`);
-          return message.channel.send(roulEmbed);
-        });
-
-        return memberDB;
-
-      }
 
 
 
@@ -187,11 +172,11 @@ module.exports = {
               continue;
             }
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
             lvlValue = lvls[Math.floor(ranMemberDB[0].userLevel / 2)];
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
-            await RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
 
           }
 
@@ -211,7 +196,7 @@ module.exports = {
               continue;
             }
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
             if ( ( ranMemberDB[0].userLevel - 5 ) < 0 ) {
               lvlValue = lvls[0];
             } else {
@@ -219,7 +204,7 @@ module.exports = {
             }
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
-            await RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
 
           }
 
@@ -239,11 +224,11 @@ module.exports = {
               continue;
             }
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
             lvlValue = lvls[ranMemberDB[0].userLevel + 5];
             newTokens = lvlValue - ranMemberDB[0].userTokens;
 
-            await RecalculateMember("add", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("add", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
 
           }
 
@@ -263,7 +248,7 @@ module.exports = {
               continue;
             }
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
             if ( ( ranMemberDB[0].userLevel - 3 ) < 0 ) {
               lvlValue = lvls[0];
             } else {
@@ -271,7 +256,7 @@ module.exports = {
             }
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
-            await RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
 
           }
 
@@ -291,11 +276,11 @@ module.exports = {
               continue;
             }
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
             lvlValue = lvls[ranMemberDB[0].userLevel + 3];
             newTokens = lvlValue - ranMemberDB[0].userTokens;
 
-            await RecalculateMember("add", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("add", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
 
           }
 
@@ -315,7 +300,7 @@ module.exports = {
               continue;
             }
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
             if ( ( ranMemberDB[0].userLevel - 1 ) < 0 ) {
               lvlValue = lvls[0];
             } else {
@@ -323,7 +308,7 @@ module.exports = {
             }
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
-            await RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
 
           }
 
@@ -344,11 +329,11 @@ module.exports = {
               continue;
             }
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, tempMemberObj.id, GuildLevels);
             lvlValue = lvls[ranMemberDB[0].userLevel + 1];
             newTokens = lvlValue - ranMemberDB[0].userTokens;
 
-            await RecalculateMember("add", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("add", newTokens.toFixed(), tempMemberObj, ConfigData, GuildLevels, message, roulEmbed);
 
           }
 
@@ -369,7 +354,7 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
             if ( ( ranMemberDB[0].userLevel - 1 ) < 0 ) {
               lvlValue = lvls[0];
             } else {
@@ -377,7 +362,7 @@ module.exports = {
             }
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
-            await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           }
 
@@ -388,7 +373,7 @@ module.exports = {
             lvlValue = lvls[authorDB[0].userLevel - 1];
           }
           newTokens = authorDB[0].userTokens - lvlValue;
-          await RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
 
           roulEmbed.setDescription(`...and caused themselves and ${memberCount} to lose a level!`);
           roulEmbed.setColor('#ab0202');
@@ -406,18 +391,18 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
             lvlValue = lvls[ranMemberDB[0].userLevel + 1];
             newTokens = lvlValue - ranMemberDB[0].userTokens;
 
-            await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           }
 
           // Author Levels
           lvlValue = lvls[authorDB[0].userLevel + 1];
           newTokens = lvlValue - authorDB[0].userTokens;
-          await RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
 
           roulEmbed.setDescription(`...and caused themselves and ${memberCount} others to win a level!`);
           roulEmbed.setColor('#1ec74b');
@@ -436,10 +421,10 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           }
-          await RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           
           roulEmbed.setDescription(`...and loses double their Bet! Additionally, ${memberCount} others also loses ${newTokens.toFixed()} Tokens!`);
           roulEmbed.setColor('#ab0202');
@@ -458,10 +443,10 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           }
-          await RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           
           roulEmbed.setDescription(`...and win double their Bet! Additionally, ${memberCount} others also wins ${newTokens.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
@@ -479,7 +464,7 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            await RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           }
           
@@ -499,7 +484,7 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            await RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           }
           
@@ -519,7 +504,7 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
             if ( ( ranMemberDB[0].userLevel - 1 ) < 0 ) {
               lvlValue = lvls[0];
             } else {
@@ -527,7 +512,7 @@ module.exports = {
             }
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
-            await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           }
 
@@ -538,7 +523,7 @@ module.exports = {
             lvlValue = lvls[authorDB[0].userLevel - 1];
           }
           newTokens = authorDB[0].userTokens - lvlValue;
-          await RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
 
           roulEmbed.setDescription(`...and caused themselves and ${memberCount} to lose a level!`);
           roulEmbed.setColor('#ab0202');
@@ -556,11 +541,11 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
             lvlValue = lvls[ranMemberDB[0].userLevel + 1];
             newTokens = lvlValue - ranMemberDB[0].userTokens;
 
-            await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           }
 
@@ -586,10 +571,10 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           }
-          await RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           
           roulEmbed.setDescription(`...and loses double their Bet! Additionally, ${memberCount} others also loses ${newTokens.toFixed()} Tokens!`);
           roulEmbed.setColor('#ab0202');
@@ -608,10 +593,10 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           }
-          await RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           
           roulEmbed.setDescription(`...and win double their Bet! Additionally, ${memberCount} others also wins ${newTokens.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
@@ -629,7 +614,7 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            await RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           }
           
@@ -649,7 +634,7 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            await RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           }
           
@@ -668,11 +653,11 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
             lvlValue = lvls[ranMemberDB[0].userLevel + 1];
             newTokens = lvlValue - ranMemberDB[0].userTokens;
 
-            await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
             memberArray.push(`\<\@` + randomMember.id + `\>`);
 
@@ -681,7 +666,7 @@ module.exports = {
           // Author Levels
           lvlValue = lvls[authorDB[0].userLevel + 1];
           newTokens = lvlValue - authorDB[0].userTokens;
-          await RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
 
           roulEmbed.setDescription(`...and caused themselves and ${memberArray.join(' ')} to win a level!`);
           roulEmbed.setColor('#1ec74b');
@@ -698,7 +683,7 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+            ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
             if ( ( ranMemberDB[0].userLevel - 1 ) < 0 ) {
               lvlValue = lvls[0];
             } else {
@@ -706,7 +691,7 @@ module.exports = {
             }
             newTokens = ranMemberDB[0].userTokens - lvlValue;
 
-            await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
             memberArray.push(`\<\@` + randomMember.id + `\>`);
 
@@ -719,7 +704,7 @@ module.exports = {
             lvlValue = lvls[authorDB[0].userLevel - 1];
           }
           newTokens = authorDB[0].userTokens - lvlValue;
-          await RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
 
           roulEmbed.setDescription(`...and caused themselves and ${memberArray.join(' ')} to lose a level!`);
           roulEmbed.setColor('#ab0202');
@@ -738,12 +723,12 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
             memberArray.push(`\<\@` + randomMember.id + `\>`);
 
           }
-          await RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           
           roulEmbed.setDescription(`...and loses double their Bet! Additionally, ${memberArray.join(' ')} also loses ${newTokens.toFixed()} Tokens!`);
           roulEmbed.setColor('#ab0202');
@@ -762,12 +747,12 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
             memberArray.push(`\<\@` + randomMember.id + `\>`);
 
           }
-          await RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           
           roulEmbed.setDescription(`...and win double their Bet! Additionally, ${memberArray.join(' ')} also wins ${newTokens.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
@@ -785,7 +770,7 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            await RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
             memberArray.push(`\<\@` + randomMember.id + `\>`);
 
@@ -807,7 +792,7 @@ module.exports = {
               randomMember = await memberStore[randomNumber];
             } while ( randomMember.user.bot === true );
 
-            await RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+            await functFile.RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
             memberArray.push(`\<\@` + randomMember.id + `\>`);
 
@@ -833,17 +818,17 @@ module.exports = {
             lvlValue = lvls[authorDB[0].userLevel - 1];
           }
           newTokens = authorDB[0].userTokens - lvlValue;
-          await RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
 
           // Member's Levels
-          ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+          ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
           if ( ( ranMemberDB[0].userLevel - 1 ) < 0 ) {
             lvlValue = lvls[0];
           } else {
             lvlValue = lvls[ranMemberDB[0].userLevel - 1];
           }
           newTokens = ranMemberDB[0].userTokens - lvlValue;
-          await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           roulEmbed.setDescription(`...and caused themselves and \<\@${randomMember.id}\> to lose a level!`);
           roulEmbed.setColor('#ab0202');
@@ -861,13 +846,13 @@ module.exports = {
           // Author Levels
           lvlValue = lvls[authorDB[0].userLevel + 1];
           newTokens = lvlValue - authorDB[0].userTokens;
-          await RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
 
           // Member's Levels
-          ranMemberDB = await fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
+          ranMemberDB = await functFile.fetchMemberLevels(message.guild.id, randomMember.id, GuildLevels);
           lvlValue = lvls[ranMemberDB[0].userLevel + 1];
           newTokens = lvlValue - ranMemberDB[0].userTokens;
-          await RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateMember("add", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
 
           roulEmbed.setDescription(`...and won a free level up for themselves and \<\@${randomMember.id}\>!`);
           roulEmbed.setColor('#1ec74b');
@@ -884,8 +869,8 @@ module.exports = {
             randomMember = await memberStore[randomNumber];
           } while ( randomMember.user.bot === true );
 
-          await RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
-          await RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateMember("minus", newTokens.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and lost double their Bet for themselves and \<\@${randomMember.id}\>! They both lose ${newTokens.toFixed()} Tokens!`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -900,8 +885,8 @@ module.exports = {
             randomMember = await memberStore[randomNumber];
           } while ( randomMember.user.bot === true );
 
-          await RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
-          await RecalculateMember("add", display.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateMember("add", display.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won double their Bet for themselves and \<\@${randomMember.id}\>! They both get ${display.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -915,8 +900,8 @@ module.exports = {
             randomMember = await memberStore[randomNumber];
           } while ( randomMember.user.bot === true );
 
-          await RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
-          await RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateMember("minus", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and lost their Bet of ${bet.toFixed()} Tokens! This bad luck also spread causing \<\@${randomMember.id}\> to lose ${bet.toFixed()} Tokens as well!`);
           roulEmbed.setColor('#ab0202'); // Red
           message.channel.send(roulEmbed);
@@ -931,7 +916,7 @@ module.exports = {
           } while ( randomMember.user.bot === true );
 
           // Since we're not actually doing anything to Author's Tokens, just give the randomMember the Bet's amount
-          RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
+          functFile.RecalculateMember("add", bet.toFixed(), randomMember, ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won their Bet back! Additionally, \<\@${randomMember.id}\> also gets ${bet.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -947,7 +932,7 @@ module.exports = {
 
         case "lose":
           // Lose entire Bet
-          await RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", bet.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and lost their Bet of ${bet.toFixed()} Tokens!`);
           roulEmbed.setColor('#ab0202'); // Red
           message.channel.send(roulEmbed);
@@ -959,7 +944,7 @@ module.exports = {
           tenPercent = bet * 0.1;
           display = bet + tenPercent;
 
-          await RecalculateAuthor("add", tenPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", tenPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won back 110% of their Bet to receive ${display.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b'); // Green
           message.channel.send(roulEmbed);
@@ -971,7 +956,7 @@ module.exports = {
           fiftyPercent = bet * 0.5;
           display = bet + fiftyPercent;
 
-          await RecalculateAuthor("add", fiftyPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", fiftyPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won back 150% of their Bet to receive ${display.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -982,7 +967,7 @@ module.exports = {
           // Win 100% of bet ontop of bet
           hundredPercent = bet * 2;
 
-          await RecalculateAuthor("add", hundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", hundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won back 200% of their Bet to receive ${hundredPercent.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -993,7 +978,7 @@ module.exports = {
           // Win 200% of bet ontop of bet
           twoHundredPercent = bet * 3;
 
-          await RecalculateAuthor("add", twoHundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", twoHundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won back 300% of their Bet to receive ${twoHundredPercent.toFixed()} Tokens!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -1005,7 +990,7 @@ module.exports = {
           lvlValue = lvls[authorDB[0].userLevel + 1];
           newTokens = lvlValue - authorDB[0].userTokens;
 
-          await RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won a level up to Level ${authorDB[0].userLevel + 1}!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -1017,7 +1002,7 @@ module.exports = {
           lvlValue = lvls[authorDB[0].userLevel + 3];
           newTokens = lvlValue - authorDB[0].userTokens;
 
-          await RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("add", newTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and won 3 level ups to from Level ${authorDB[0].userLevel} to Level ${authorDB[0].userLevel + 3}!!!`);
           roulEmbed.setColor('#1ec74b');
           message.channel.send(roulEmbed);
@@ -1028,7 +1013,7 @@ module.exports = {
           // Lose 10% of Bet
           tenPercent = bet * 0.1;
 
-          await RecalculateAuthor("minus", tenPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", tenPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses 10% of their Bet!\nFrom their original Bet of ${bet.toFixed()} they recieve ${bet - tenPercent.toFixed()} Tokens back`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -1039,7 +1024,7 @@ module.exports = {
           // Lose 50% of Bet
           fiftyPercent = bet * 0.5;
 
-          await RecalculateAuthor("minus", fiftyPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", fiftyPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses 50% of their Bet!\nFrom their original Bet of ${bet.toFixed()} they receive ${bet - fiftyPercent.toFixed()} Tokens back`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -1050,7 +1035,7 @@ module.exports = {
           // Lose 100% of Bet ontop of losing the Bet itself
           hundredPercent = bet * 2
 
-          await RecalculateAuthor("minus", hundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", hundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses their Bet, twice!\nThey will lose ${hundredPercent.toFixed()} Tokens`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -1061,7 +1046,7 @@ module.exports = {
           // Lose 200% of Bet ontop of losing the Bet itself
           twoHundredPercent = bet * 3;
 
-          await RecalculateAuthor("minus", twoHundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", twoHundredPercent.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses their Bet, three times!\nThey will lose ${twoHundredPercent.toFixed()} Tokens`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -1077,7 +1062,7 @@ module.exports = {
           }
           lostTokens = authorDB[0].userTokens - lvlValue;
 
-          await RecalculateAuthor("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses an entire Level!\nThey will drop to Level ${authorDB[0].userLevel - 1}`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -1093,7 +1078,7 @@ module.exports = {
           }
           lostTokens = authorDB[0].userTokens - lvlValue;
 
-          await RecalculateAuthor("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
+          await functFile.RecalculateAuthor("minus", lostTokens.toFixed(), ConfigData, GuildLevels, message, roulEmbed);
           roulEmbed.setDescription(`...and loses 3 whole Levels to drop from Level ${authorDB[0].userLevel} to Level ${authorDB[0].userLevel - 3}!`);
           roulEmbed.setColor('#ab0202');
           message.channel.send(roulEmbed);
@@ -1116,1291 +1101,3 @@ module.exports = {
       //END OF COMMAND
     },
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// FUNCTIONS to re-calculate Token and Level Amounts
-async function RecalculateAuthor(sumMethod, resultAmount, configDB, levelDB, message, roulEmbed) {
-
-  // Fetch the Guild's Config Data AND User's Level Data
-  let guildConfig = await configDB.findOrCreate({ where: { guildID: message.guild.id } })
-  .catch(e => { 
-    console.error(e);
-    roulEmbed.setTitle(`Something went wrong...`);
-    roulEmbed.setDescription(`There was an error fetching ${message.guild.name} Config Data. Please try again later.`);
-    return message.channel.send(roulEmbed);
-  });
-
-  let userData = await levelDB.findOrCreate({ where: { guildID: message.guild.id, userID: message.author.id } })
-  .catch(e => { 
-    console.error(e);
-    roulEmbed.setTitle(`Something went wrong...`);
-    roulEmbed.setDescription(`There was an error fetching ${message.author}'s current Level/Tokens. Please try again later.`);
-    return message.channel.send(roulEmbed);
-  });
-
-
-
-
-  resultAmount = parseInt(resultAmount);
-  let updateDB;
-
-  if ( sumMethod === "add" ) {
-
-
-    // Perform operation on Tokens
-    let newTokenAmount = userData[0].userTokens + resultAmount;
-
-    updateDB = await levelDB.update( { userTokens: newTokenAmount }, { where: { guildID: message.guild.id, userID: message.author.id } })
-    .catch(err => { console.error(err); });
-
-
-    // Recalculate Levels
-    let oldLevel = userData[0].userLevel;
-    let ulevel;
-
-    let lvls = Object.values(LEVELS);
-    for (let i = 0; i < lvls.length; i++) {
-
-      if (newTokenAmount < lvls[i]) {
-
-        ulevel = i - 1;
-
-        // Level 0 Catch
-        if (ulevel < 0) {
-          ulevel = 0;
-        }
-
-        // Update Database
-        updateDB = await levelDB.update({
-            userLevel: ulevel
-          }, {
-            where: {
-              guildID: message.guild.id,
-              userID: message.author.id
-            }
-          })
-          .catch(err => {
-            console.error(err);
-          });
-
-
-        //Check thy Levels
-        if (updateDB) {
-
-          i += 99999999; // Breaks out of loop
-
-          if (guildConfig[0].lvlChannel === null || guildConfig[0].lvlChannel === undefined) {
-            return;
-          } else if (ulevel < oldLevel) {
-
-            let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
-            let lvlMessage = guildConfig[0].levelDownMsg;
-            lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
-            lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            
-
-            // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
-            .catch(console.error);
-
-
-            // Fetch all Roles User has
-            let userRoles = message.member.roles.cache;
-            let matchedRoles = [];
-
-
-            // See if any of the User's Roles match IDs stored in DB
-            for ( let i = 0; i < userRoles.length; i++ ) {
-              //console.log(userRoles[i].id);
-              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
-              .catch(console.error);
-
-              if ( searchForMatch !== undefined || searchForMatch !== null ) {
-
-                matchedRoles.push(userRoles[i].id);
-
-              }
-
-            }
-
-
-            
-            if ( roleSearch === null || roleSearch === undefined ) {
-
-              // If no stored Roles are found
-
-
-              // If there is an assigned Role for a lower level, assign that!
-              for ( let i = ulevel; i >= 0; i-- ) {
-
-                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                .catch(console.error);
-
-                if ( newRoleSearch ) {
-
-                  let newRoleID = newRoleSearch.roleID;
-                  let newRoleObj = message.guild.roles.resolve(newRoleID);
-                  let newRoleGrant = await message.member.roles.add(newRoleObj)
-                  .catch(console.error);
-
-
-                  // Remove previous (higher) role
-                  let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                  .catch(console.error);
-
-                  if ( oldRoleSearch ) {
-
-                    let oldRoleID = oldRoleSearch.roleID;
-                    let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                    let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                    .catch(console.error);
-
-                  }
-
-
-                  i = 0;
-
-                }
-
-              }
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            } else {
-
-              // If there is a stored Role
-              let roleID = roleSearch.roleID;
-              let roleObj = message.guild.roles.resolve(roleID);
-              let roleAdd = await message.member.roles.add(roleObj)
-              .catch(console.error);
-
-
-              // Remove any previous Levelling Roles IF ANY
-              if ( matchedRoles.length > 0 ) {
-
-                for ( let i = 0; i < matchedRoles.length; i++ ) {
-
-                  let tempRole = matchedRoles[i];
-                  let tempRoleObj = message.guild.roles.resolve(tempRole);
-                  let roleRemove = await message.member.roles.remove(tempRoleObj)
-                  .catch(console.error);
-
-                }
-
-
-                // If there is an assigned Role for a lower level, assign that!
-                for ( let i = ulevel; i >= 0; i-- ) {
-
-                  let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                  .catch(console.error);
-
-                  if ( newRoleSearch ) {
-
-                    let newRoleID = newRoleSearch.roleID;
-                    let newRoleObj = message.guild.roles.resolve(newRoleID);
-                    let newRoleGrant = await message.member.roles.add(newRoleObj)
-                    .catch(console.error);
-
-
-                    // Remove previous (higher) role
-                    let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                    .catch(console.error);
-
-                    if ( oldRoleSearch ) {
-
-                      let oldRoleID = oldRoleSearch.roleID;
-                      let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                      let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                      .catch(console.error);
-
-                    }
-
-
-                    i = 0;
-
-                  }
-
-                }
-
-
-
-
-              }
-
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            }
-
-
-          } else if (ulevel > oldLevel) {
-
-            let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
-            let lvlMessage = guildConfig[0].levelUpMsg;
-            lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
-            lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            
-
-            // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
-            .catch(console.error);
-
-
-            // Fetch all Roles User has
-            let userRoles = message.member.roles.cache;
-            let matchedRoles = [];
-
-
-            // See if any of the User's Roles match IDs stored in DB
-            for ( let i = 0; i < userRoles.length; i++ ) {
-              //console.log(userRoles[i].id);
-              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
-              .catch(console.error);
-
-              if ( searchForMatch !== undefined || searchForMatch !== null ) {
-
-                matchedRoles.push(userRoles[i].id);
-
-              }
-
-            }
-
-
-            
-            if ( roleSearch === null || roleSearch === undefined ) {
-
-              // If no stored Roles are found
-
-
-              // If there is an assigned Role for a lower level, assign that!
-              for ( let i = ulevel; i >= 0; i-- ) {
-
-                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                .catch(console.error);
-
-                if ( newRoleSearch ) {
-
-                  let newRoleID = newRoleSearch.roleID;
-                  let newRoleObj = message.guild.roles.resolve(newRoleID);
-                  let newRoleGrant = await message.member.roles.add(newRoleObj)
-                  .catch(console.error);
-
-                  i = 0;
-
-                }
-
-              }
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            } else {
-
-              // If there is a stored Role
-              let roleID = roleSearch.roleID;
-              let roleObj = message.guild.roles.resolve(roleID);
-              let roleAdd = await message.member.roles.add(roleObj)
-              .catch(console.error);
-
-
-              // Remove any previous Levelling Roles IF ANY
-              if ( matchedRoles.length > 0 ) {
-
-                for ( let i = 0; i < matchedRoles.length; i++ ) {
-
-                  let tempRole = matchedRoles[i];
-                  let tempRoleObj = message.guild.roles.resolve(tempRole);
-                  let roleRemove = await message.member.roles.remove(tempRoleObj)
-                  .catch(console.error);
-
-                }
-
-              }
-
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            }
-
-
-          }
-
-        }
-      }
-
-    }
-
-
-  } 
-  else if ( sumMethod === "minus" ) {
-
-
-    // Perform operation on Tokens
-    let newTokenAmount = userData[0].userTokens - resultAmount;
-
-    // Check that Token amount doesn't fall below zero (just in case)
-    if ( newTokenAmount < 0 ) {
-      newTokenAmount = 0;
-    }
-
-    updateDB = await levelDB.update( { userTokens: newTokenAmount }, { where: { guildID: message.guild.id, userID: message.author.id } })
-    .catch(err => { console.error(err); });
-
-
-    // Recalculate Levels
-    let oldLevel = userData[0].userLevel;
-    let ulevel;
-
-    let lvls = Object.values(LEVELS);
-    for (let i = 0; i < lvls.length; i++) {
-
-      if (newTokenAmount < lvls[i]) {
-
-        ulevel = i - 1;
-
-        // Level 0 Catch
-        if (ulevel < 0) {
-          ulevel = 0;
-        }
-
-        // Update Database
-        updateDB = await levelDB.update({
-            userLevel: ulevel
-          }, {
-            where: {
-              guildID: message.guild.id,
-              userID: message.author.id
-            }
-          })
-          .catch(err => {
-            console.error(err);
-          });
-
-
-        //Check thy Levels
-        if (updateDB) {
-
-          i += 99999999; // Breaks out of loop
-
-          if (guildConfig[0].lvlChannel === null || guildConfig[0].lvlChannel === undefined) {
-            return;
-          } else if (ulevel < oldLevel) {
-
-            let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
-            let lvlMessage = guildConfig[0].levelDownMsg;
-            lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
-            lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            
-
-            // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
-            .catch(console.error);
-
-
-            // Fetch all Roles User has
-            let userRoles = message.member.roles.cache;
-            let matchedRoles = [];
-
-
-            // See if any of the User's Roles match IDs stored in DB
-            for ( let i = 0; i < userRoles.length; i++ ) {
-              //console.log(userRoles[i].id);
-              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
-              .catch(console.error);
-
-              if ( searchForMatch !== undefined || searchForMatch !== null ) {
-
-                matchedRoles.push(userRoles[i].id);
-
-              }
-
-            }
-
-
-            
-            if ( roleSearch === null || roleSearch === undefined ) {
-
-              // If no stored Roles are found
-
-
-              // If there is an assigned Role for a lower level, assign that!
-              for ( let i = ulevel; i >= 0; i-- ) {
-
-                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                .catch(console.error);
-
-                if ( newRoleSearch ) {
-
-                  let newRoleID = newRoleSearch.roleID;
-                  let newRoleObj = message.guild.roles.resolve(newRoleID);
-                  let newRoleGrant = await message.member.roles.add(newRoleObj)
-                  .catch(console.error);
-
-
-                  // Remove previous (higher) role
-                  let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                  .catch(console.error);
-
-                  if ( oldRoleSearch ) {
-
-                    let oldRoleID = oldRoleSearch.roleID;
-                    let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                    let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                    .catch(console.error);
-
-                  }
-
-
-                  i = 0;
-
-                }
-
-              }
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            } else {
-
-              // If there is a stored Role
-              let roleID = roleSearch.roleID;
-              let roleObj = message.guild.roles.resolve(roleID);
-              let roleAdd = await message.member.roles.add(roleObj)
-              .catch(console.error);
-
-
-              // Remove any previous Levelling Roles IF ANY
-              if ( matchedRoles.length > 0 ) {
-
-                for ( let i = 0; i < matchedRoles.length; i++ ) {
-
-                  let tempRole = matchedRoles[i];
-                  let tempRoleObj = message.guild.roles.resolve(tempRole);
-                  let roleRemove = await message.member.roles.remove(tempRoleObj)
-                  .catch(console.error);
-
-                }
-
-
-                // If there is an assigned Role for a lower level, assign that!
-                for ( let i = ulevel; i >= 0; i-- ) {
-
-                  let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                  .catch(console.error);
-
-                  if ( newRoleSearch ) {
-
-                    let newRoleID = newRoleSearch.roleID;
-                    let newRoleObj = message.guild.roles.resolve(newRoleID);
-                    let newRoleGrant = await message.member.roles.add(newRoleObj)
-                    .catch(console.error);
-
-
-                    // Remove previous (higher) role
-                    let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                    .catch(console.error);
-
-                    if ( oldRoleSearch ) {
-
-                      let oldRoleID = oldRoleSearch.roleID;
-                      let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                      let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                      .catch(console.error);
-
-                    }
-
-
-                    i = 0;
-
-                  }
-
-                }
-
-
-
-              }
-
-              
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            }
-
-
-          } else if (ulevel > oldLevel) {
-
-            let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
-            let lvlMessage = guildConfig[0].levelUpMsg;
-            lvlMessage = lvlMessage.replace("user", `\<\@${message.author.id}\>`);
-            lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            
-
-            // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
-            .catch(console.error);
-
-
-            // Fetch all Roles User has
-            let userRoles = message.member.roles.cache;
-            let matchedRoles = [];
-
-
-            // See if any of the User's Roles match IDs stored in DB
-            for ( let i = 0; i < userRoles.length; i++ ) {
-              //console.log(userRoles[i].id);
-              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
-              .catch(console.error);
-
-              if ( searchForMatch !== undefined || searchForMatch !== null ) {
-
-                matchedRoles.push(userRoles[i].id);
-
-              }
-
-            }
-
-
-            
-            if ( roleSearch === null || roleSearch === undefined ) {
-
-              // If no stored Roles are found
-
-
-              // If there is an assigned Role for a lower level, assign that!
-              for ( let i = ulevel; i >= 0; i-- ) {
-
-                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                .catch(console.error);
-
-                if ( newRoleSearch ) {
-
-                  let newRoleID = newRoleSearch.roleID;
-                  let newRoleObj = message.guild.roles.resolve(newRoleID);
-                  let newRoleGrant = await message.member.roles.add(newRoleObj)
-                  .catch(console.error);
-
-                  i = 0;
-
-                }
-
-              }
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            } else {
-
-              // If there is a stored Role
-              let roleID = roleSearch.roleID;
-              let roleObj = message.guild.roles.resolve(roleID);
-              let roleAdd = await message.member.roles.add(roleObj)
-              .catch(console.error);
-
-
-              // Remove any previous Levelling Roles IF ANY
-              if ( matchedRoles.length > 0 ) {
-
-                for ( let i = 0; i < matchedRoles.length; i++ ) {
-
-                  let tempRole = matchedRoles[i];
-                  let tempRoleObj = message.guild.roles.resolve(tempRole);
-                  let roleRemove = await message.member.roles.remove(tempRoleObj)
-                  .catch(console.error);
-
-                }
-
-              }
-
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            }
-
-
-          }
-        }
-      }
-    }
-
-
-  }
-
-
-  // End of Function
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-async function RecalculateMember(sumMethod, resultAmount, memberObj, configDB, levelDB, message, roulEmbed) {
-
-  // Fetch the Guild's Config Data AND User's Level Data
-  let guildConfig = await configDB.findOrCreate({ where: { guildID: message.guild.id } })
-  .catch(e => { 
-    console.error(e);
-    roulEmbed.setTitle(`Something went wrong...`);
-    roulEmbed.setDescription(`There was an error fetching ${message.guild.name} Config Data. Please try again later.`);
-    return message.channel.send(roulEmbed);
-  });
-
-  let userData = await levelDB.findOrCreate({ where: { guildID: message.guild.id, userID: memberObj.id } })
-  .catch(e => { 
-    console.error(e);
-    roulEmbed.setTitle(`Something went wrong...`);
-    roulEmbed.setDescription(`There was an error fetching ${memberObj}'s current Level/Tokens. Please try again later.`);
-    return message.channel.send(roulEmbed);
-  });
-
-
-
-
-  resultAmount = parseInt(resultAmount);
-  let updateDB;
-
-  if ( sumMethod === "add" ) {
-
-
-    // Perform operation on Tokens
-    let newTokenAmount = userData[0].userTokens + resultAmount;
-
-    updateDB = await levelDB.update( { userTokens: newTokenAmount }, { where: { guildID: message.guild.id, userID: memberObj.id } })
-    .catch(err => { console.error(err); });
-
-
-    // Recalculate Levels
-    let oldLevel = userData[0].userLevel;
-    let ulevel;
-
-    let lvls = Object.values(LEVELS);
-    for (let i = 0; i < lvls.length; i++) {
-
-      if (newTokenAmount < lvls[i]) {
-
-        ulevel = i - 1;
-
-        // Level 0 Catch
-        if (ulevel < 0) {
-          ulevel = 0;
-        }
-
-        // Update Database
-        updateDB = await levelDB.update({
-            userLevel: ulevel
-          }, {
-            where: {
-              guildID: message.guild.id,
-              userID: memberObj.id
-            }
-          })
-          .catch(err => {
-            console.error(err);
-          });
-
-
-        //Check thy Levels
-        if (updateDB) {
-
-          i += 99999999; // Breaks out of loop
-
-          if (guildConfig[0].lvlChannel === null || guildConfig[0].lvlChannel === undefined) {
-            return;
-          } else if (ulevel < oldLevel) {
-
-            let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
-            let lvlMessage = guildConfig[0].levelDownMsg;
-            lvlMessage = lvlMessage.replace("user", `\<\@${memberObj.id}\>`);
-            lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            
-
-            // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
-            .catch(console.error);
-
-
-            // Fetch all Roles User has
-            let userRoles = message.member.roles.cache;
-            let matchedRoles = [];
-
-
-            // See if any of the User's Roles match IDs stored in DB
-            for ( let i = 0; i < userRoles.length; i++ ) {
-              //console.log(userRoles[i].id);
-              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
-              .catch(console.error);
-
-              if ( searchForMatch !== undefined || searchForMatch !== null ) {
-
-                matchedRoles.push(userRoles[i].id);
-
-              }
-
-            }
-
-
-            
-            if ( roleSearch === null || roleSearch === undefined ) {
-
-              // If no stored Roles are found
-
-
-              // If there is an assigned Role for a lower level, assign that!
-              for ( let i = ulevel; i >= 0; i-- ) {
-
-                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                .catch(console.error);
-
-                if ( newRoleSearch ) {
-
-                  let newRoleID = newRoleSearch.roleID;
-                  let newRoleObj = message.guild.roles.resolve(newRoleID);
-                  let newRoleGrant = await message.member.roles.add(newRoleObj)
-                  .catch(console.error);
-
-
-                  // Remove previous (higher) role
-                  let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                  .catch(console.error);
-
-                  if ( oldRoleSearch ) {
-
-                    let oldRoleID = oldRoleSearch.roleID;
-                    let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                    let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                    .catch(console.error);
-
-                  }
-
-
-                  i = 0;
-
-                }
-
-              }
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            } else {
-
-              // If there is a stored Role
-              let roleID = roleSearch.roleID;
-              let roleObj = message.guild.roles.resolve(roleID);
-              let roleAdd = await message.member.roles.add(roleObj)
-              .catch(console.error);
-
-
-              // Remove any previous Levelling Roles IF ANY
-              if ( matchedRoles.length > 0 ) {
-
-                for ( let i = 0; i < matchedRoles.length; i++ ) {
-
-                  let tempRole = matchedRoles[i];
-                  let tempRoleObj = message.guild.roles.resolve(tempRole);
-                  let roleRemove = await message.member.roles.remove(tempRoleObj)
-                  .catch(console.error);
-
-                }
-
-
-                // If there is an assigned Role for a lower level, assign that!
-                for ( let i = ulevel; i >= 0; i-- ) {
-
-                  let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                  .catch(console.error);
-
-                  if ( newRoleSearch ) {
-
-                    let newRoleID = newRoleSearch.roleID;
-                    let newRoleObj = message.guild.roles.resolve(newRoleID);
-                    let newRoleGrant = await message.member.roles.add(newRoleObj)
-                    .catch(console.error);
-
-
-                    // Remove previous (higher) role
-                    let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                    .catch(console.error);
-
-                    if ( oldRoleSearch ) {
-
-                      let oldRoleID = oldRoleSearch.roleID;
-                      let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                      let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                      .catch(console.error);
-
-                    }
-
-
-                    i = 0;
-
-                  }
-
-                }
-
-
-
-              }
-
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            }
-
-
-          } else if (ulevel > oldLevel) {
-
-            let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
-            let lvlMessage = guildConfig[0].levelUpMsg;
-            lvlMessage = lvlMessage.replace("user", `\<\@${memberObj.id}\>`);
-            lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            
-
-            // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
-            .catch(console.error);
-
-
-            // Fetch all Roles User has
-            let userRoles = message.member.roles.cache;
-            let matchedRoles = [];
-
-
-            // See if any of the User's Roles match IDs stored in DB
-            for ( let i = 0; i < userRoles.length; i++ ) {
-              //console.log(userRoles[i].id);
-              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
-              .catch(console.error);
-
-              if ( searchForMatch !== undefined || searchForMatch !== null ) {
-
-                matchedRoles.push(userRoles[i].id);
-
-              }
-
-            }
-
-
-            
-            if ( roleSearch === null || roleSearch === undefined ) {
-
-              // If no stored Roles are found
-
-
-              // If there is an assigned Role for a lower level, assign that!
-              for ( let i = ulevel; i >= 0; i-- ) {
-
-                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                .catch(console.error);
-
-                if ( newRoleSearch ) {
-
-                  let newRoleID = newRoleSearch.roleID;
-                  let newRoleObj = message.guild.roles.resolve(newRoleID);
-                  let newRoleGrant = await message.member.roles.add(newRoleObj)
-                  .catch(console.error);
-
-                  i = 0;
-
-                }
-
-              }
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            } else {
-
-              // If there is a stored Role
-              let roleID = roleSearch.roleID;
-              let roleObj = message.guild.roles.resolve(roleID);
-              let roleAdd = await message.member.roles.add(roleObj)
-              .catch(console.error);
-
-
-              // Remove any previous Levelling Roles IF ANY
-              if ( matchedRoles.length > 0 ) {
-
-                for ( let i = 0; i < matchedRoles.length; i++ ) {
-
-                  let tempRole = matchedRoles[i];
-                  let tempRoleObj = message.guild.roles.resolve(tempRole);
-                  let roleRemove = await message.member.roles.remove(tempRoleObj)
-                  .catch(console.error);
-
-                }
-
-              }
-
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            }
-
-
-          }
-
-        }
-      }
-
-    }
-
-
-  } 
-  else if ( sumMethod === "minus" ) {
-
-
-    // Perform operation on Tokens
-    let newTokenAmount = userData[0].userTokens - resultAmount;
-
-    // Check that Token amount doesn't fall below zero (just in case)
-    if ( newTokenAmount < 0 ) {
-      newTokenAmount = 0;
-    }
-
-    updateDB = await levelDB.update( { userTokens: newTokenAmount }, { where: { guildID: message.guild.id, userID: memberObj.id } })
-    .catch(err => { console.error(err); });
-
-
-    // Recalculate Levels
-    let oldLevel = userData[0].userLevel;
-    let ulevel;
-
-    let lvls = Object.values(LEVELS);
-    for (let i = 0; i < lvls.length; i++) {
-
-      if (newTokenAmount < lvls[i]) {
-
-        ulevel = i - 1;
-
-        // Level 0 Catch
-        if (ulevel < 0) {
-          ulevel = 0;
-        }
-
-        // Update Database
-        updateDB = await levelDB.update({
-            userLevel: ulevel
-          }, {
-            where: {
-              guildID: message.guild.id,
-              userID: memberObj.id
-            }
-          })
-          .catch(err => {
-            console.error(err);
-          });
-
-
-        //Check thy Levels
-        if (updateDB) {
-
-          i += 99999999; // Breaks out of loop
-
-          if (guildConfig[0].lvlChannel === null || guildConfig[0].lvlChannel === undefined) {
-            return;
-          } else if (ulevel < oldLevel) {
-
-            let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
-            let lvlMessage = guildConfig[0].levelDownMsg;
-            lvlMessage = lvlMessage.replace("user", `\<\@${memberObj.id}\>`);
-            lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            
-
-            // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
-            .catch(console.error);
-
-
-            // Fetch all Roles User has
-            let userRoles = message.member.roles.cache;
-            let matchedRoles = [];
-
-
-            // See if any of the User's Roles match IDs stored in DB
-            for ( let i = 0; i < userRoles.length; i++ ) {
-              //console.log(userRoles[i].id);
-              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
-              .catch(console.error);
-
-              if ( searchForMatch !== undefined || searchForMatch !== null ) {
-
-                matchedRoles.push(userRoles[i].id);
-
-              }
-
-            }
-
-
-            
-            if ( roleSearch === null || roleSearch === undefined ) {
-
-              // If no stored Roles are found
-
-
-              // If there is an assigned Role for a lower level, assign that!
-              for ( let i = ulevel; i >= 0; i-- ) {
-
-                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                .catch(console.error);
-
-                if ( newRoleSearch ) {
-
-                  let newRoleID = newRoleSearch.roleID;
-                  let newRoleObj = message.guild.roles.resolve(newRoleID);
-                  let newRoleGrant = await message.member.roles.add(newRoleObj)
-                  .catch(console.error);
-
-
-                  // Remove previous (higher) role
-                  let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                  .catch(console.error);
-
-                  if ( oldRoleSearch ) {
-
-                    let oldRoleID = oldRoleSearch.roleID;
-                    let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                    let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                    .catch(console.error);
-
-                  }
-
-
-                  i = 0;
-
-                }
-
-              }
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            } else {
-
-              // If there is a stored Role
-              let roleID = roleSearch.roleID;
-              let roleObj = message.guild.roles.resolve(roleID);
-              let roleAdd = await message.member.roles.add(roleObj)
-              .catch(console.error);
-
-
-
-              // Remove any previous Levelling Roles IF ANY
-              if ( matchedRoles.length > 0 ) {
-
-                for ( let i = 0; i < matchedRoles.length; i++ ) {
-
-                  let tempRole = matchedRoles[i];
-                  let tempRoleObj = message.guild.roles.resolve(tempRole);
-                  let roleRemove = await message.member.roles.remove(tempRoleObj)
-                  .catch(console.error);
-
-                }
-
-
-                // If there is an assigned Role for a lower level, assign that!
-                for ( let i = ulevel; i >= 0; i-- ) {
-
-                  let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                  .catch(console.error);
-
-                  if ( newRoleSearch ) {
-
-                    let newRoleID = newRoleSearch.roleID;
-                    let newRoleObj = message.guild.roles.resolve(newRoleID);
-                    let newRoleGrant = await message.member.roles.add(newRoleObj)
-                    .catch(console.error);
-
-
-                    // Remove previous (higher) role
-                    let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                    .catch(console.error);
-
-                    if ( oldRoleSearch ) {
-
-                      let oldRoleID = oldRoleSearch.roleID;
-                      let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                      let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                      .catch(console.error);
-
-                    }
-
-
-                    i = 0;
-
-                  }
-
-                }
-
-
-
-
-              }
-
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            }
-
-
-          } else if (ulevel > oldLevel) {
-
-            let announceChannel = message.guild.channels.resolve(guildConfig[0].lvlChannel);
-            let lvlMessage = guildConfig[0].levelUpMsg;
-            lvlMessage = lvlMessage.replace("user", `\<\@${memberObj.id}\>`);
-            lvlMessage = lvlMessage.replace("levelNum", ulevel);
-            
-
-            // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: ulevel } })
-            .catch(console.error);
-
-
-            // Fetch all Roles User has
-            let userRoles = message.member.roles.cache;
-            let matchedRoles = [];
-
-
-            // See if any of the User's Roles match IDs stored in DB
-            for ( let i = 0; i < userRoles.length; i++ ) {
-              //console.log(userRoles[i].id);
-              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
-              .catch(console.error);
-
-              if ( searchForMatch !== undefined || searchForMatch !== null ) {
-
-                matchedRoles.push(userRoles[i].id);
-
-              }
-
-            }
-
-            
-            
-            if ( roleSearch === null || roleSearch === undefined ) {
-
-              // If no stored Roles are found
-
-
-              // If there is an assigned Role for a lower level, assign that!
-              for ( let i = ulevel; i >= 0; i-- ) {
-
-                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                .catch(console.error);
-
-                if ( newRoleSearch ) {
-
-                  let newRoleID = newRoleSearch.roleID;
-                  let newRoleObj = message.guild.roles.resolve(newRoleID);
-                  let newRoleGrant = await message.member.roles.add(newRoleObj)
-                  .catch(console.error);
-
-                  i = 0;
-
-                }
-
-              }
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            } else {
-
-              // If there is a stored Role
-              let roleID = roleSearch.roleID;
-              let roleObj = message.guild.roles.resolve(roleID);
-              let roleAdd = await message.member.roles.add(roleObj)
-              .catch(console.error);
-
-
-              // Remove any previous Levelling Roles IF ANY
-              if ( matchedRoles.length > 0 ) {
-
-                for ( let i = 0; i < matchedRoles.length; i++ ) {
-
-                  let tempRole = matchedRoles[i];
-                  let tempRoleObj = message.guild.roles.resolve(tempRole);
-                  let roleRemove = await message.member.roles.remove(tempRoleObj)
-                  .catch(console.error);
-
-                }
-
-              }
-
-
-
-              return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
-
-            }
-
-
-          }
-        }
-      }
-    }
-
-
-  }
-
-
-  // End of Function
-}

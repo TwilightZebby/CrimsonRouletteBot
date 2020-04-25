@@ -1,4 +1,4 @@
-// Creating the veraibles needed
+// Creating the variables needed
 const fs = require('fs'); // Node's native file system
 const Discord = require("discord.js"); // Bringing in Discord.js
 const { client } = require('./bot_modules/constants.js'); // Brings in the Discord Bot's Client
@@ -26,7 +26,7 @@ for (const file of commandFiles) { // Slaps all the command files into the Colle
 
 
 // To make sure the bot is up and running
-client.once("ready", () => {
+client.once("ready", async () => {
   // Sync them Databases
   ConfigData.sync();
   GuildLevels.sync();
@@ -37,7 +37,21 @@ client.once("ready", () => {
 
   client.setInterval(function(){
     client.user.setPresence({ activity: { name: `${PREFIX}help` }, status: 'online' });
-  }, 2.16e+7);
+  }, 1.08e+7);
+
+
+
+
+  // Quickly apply values to database to fill in new columns
+  /*let guildCache = Array.from(client.guilds.cache.values());
+  for ( let i = 0; i < guildCache.length; i++ ) {
+
+    await ConfigData.update({ guildName: guildCache[i].name }, { where: { guildID: guildCache[i].id } })
+    .catch(console.error);
+
+  }*/
+
+
 
   console.log("I am ready!");
 });
@@ -164,6 +178,7 @@ client.on('guildCreate', async (guild) => {
 
     const guildConfig = await ConfigData.create({
       guildID: guild.id,
+      guildName: guild.name,
       // Other values default to the default ones set in /bot_modules/tables.js
     });
 

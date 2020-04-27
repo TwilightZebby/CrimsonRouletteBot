@@ -44,18 +44,18 @@ client.once("ready", async () => {
 
 
   // Quickly apply values to database to fill in new columns
-  /*let guildCache = Array.from(client.guilds.cache.values());
+  let guildCache = Array.from(client.guilds.cache.values());
   let gNameUpdate;
   for ( let i = 0; i < guildCache.length; i++ ) {
 
-    gNameUpdate = await ConfigData.update({ guildName: guildCache[i].name }, { where: { guildID: guildCache[i].id } })
+    gNameUpdate = await ConfigData.upsert({ guildName: guildCache[i].name }, { where: { guildID: guildCache[i].id } })
     .catch(console.error);
 
     if ( gNameUpdate ) {
       console.log(`Updated DB for ${guildCache[i].name}`);
     }
 
-  }*/
+  }
 
 
 

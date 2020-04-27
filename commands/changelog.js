@@ -19,7 +19,7 @@ module.exports = {
       const updateEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('v1.2.0 Changelog');
 
       // Date calculation
-      let updateDate = Date.parse("11:00 April 27, 2020");
+      let updateDate = Date.parse("11:30 April 27, 2020");
       updateEmbed.setTimestamp(updateDate);
 
       
@@ -33,11 +33,13 @@ module.exports = {
         `+ Added ability to customise the Bot\'s Prefix on a per-Guild level. Use the \`${PREFIX}prefix\` command to do so.`,
         `+ You can now use \`${PREFIX}config guide\` to quickly see what each config option does without having to go to the top.gg page`,
         `+ Added a confirmation to the \`${PREFIX}config roles / reset\` command. Didn't realise I forgot to do so before, oops!`,
-        `+ Added Changelog Command. Yea, this one here!`
+        `+ Added Changelog Command. Yea, this one here!`,
       ];
       
       let changeArray = [
-        `• Renamed \`${PREFIX}config levels\` to \`${PREFIX}config roles\`.`
+        `• Renamed \`${PREFIX}config levels\` to \`${PREFIX}config roles\`.`,
+        `• Tweaked \`reset\` command - you can now use \`all\` option to reset the whole Server\'s Levels, or an \`@mention\` to reset a single User\'s.`,
+        `• Timeout cooldown for \`reset\` cmd's confirmations have been extended from 5 seconds to 10 seconds.`
       ];
       
       let removeArray = [];

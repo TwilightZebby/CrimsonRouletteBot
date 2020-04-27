@@ -315,55 +315,6 @@ client.on("message", async (message) => {
   if ( message.author.bot ) {
 		return;
   }
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*
-  
-  // Sneaky joke things that I'll remove at a later date ;P
-  // JOKE THING ONE: Whenever user ChiefLunaMoon posts a message in a Guild that has this Bot, there's a 25% chance of
-  //                 this Bot reacting to her message with a cheeky "Luna Shut Up" emoji my best friend made (Tehehehehe)
-  if ( message.author.id === '383017585584766977' ) {
-
-    let lunaChance = Math.floor( ( Math.random() * 100 ) + 0 );
-    if ( lunaChance <= 5 ) {
-
-      message.react('693205701056790699')
-      .catch(console.error);
-
-    }
-
-  }
-
-
-  // JOKE THING TWO: Whenever one of Dr1fterX's Bots posts a message containing the word "online", and they are in the same Guild as this Bot,
-  //                 there's a 75% chance of this Bot reacting to their message with a "Shut Up" emoji (of the 12 Doctor from Doctor Who!) (Hehe)
-  let botIDArray = [ '421726280078327808', '531455603017515009', '471723159347920910', '567808751306801162', '595642260947861523', '568031271243218963', '546800707140059137', '610961014351069204' ];
-  if ( botIDArray.includes(message.author.id) && message.content.includes("online") ) {
-
-    let stigChance = Math.floor( ( Math.random() * 100 ) + 0 );
-    if ( stigChance <= 50 ) {
-
-      message.react('693796947118784594')
-      .catch(console.error);
-
-    }
-
-  }
-
-  */
 
 
 

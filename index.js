@@ -41,24 +41,6 @@ client.once("ready", async () => {
   }, 1.08e+7);
 
 
-
-
-  // Quickly apply values to database to fill in new columns
-  let guildCache = Array.from(client.guilds.cache.values());
-  let gNameUpdate;
-  for ( let i = 0; i < guildCache.length; i++ ) {
-
-    gNameUpdate = await ConfigData.upsert({ guildName: guildCache[i].name }, { where: { guildID: guildCache[i].id } })
-    .catch(console.error);
-
-    if ( gNameUpdate ) {
-      console.log(`Updated DB for ${guildCache[i].name}`);
-    }
-
-  }
-
-
-
   console.log("I am ready!");
 });
 

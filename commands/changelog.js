@@ -34,7 +34,8 @@ module.exports = {
       ];
       
       let changeArray = [
-        `• `
+        `• Fixed incorrect Level Up/Down Messages when caused by a Roulette Command`,
+        `• All Command's Cooldowns have had backend tweaks to them. Shouldn't affect you as the User much.`
       ];
       
       let removeArray = [

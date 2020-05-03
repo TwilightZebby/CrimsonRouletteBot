@@ -488,7 +488,7 @@ client.on("message", async (message) => {
               }
 
 
-              return announceChannel.send(lvlMessage);
+              return await announceChannel.send(lvlMessage);
 
             } else {
 
@@ -551,7 +551,7 @@ client.on("message", async (message) => {
               }
 
 
-              return announceChannel.send(lvlMessage);
+              return await announceChannel.send(lvlMessage);
 
             }
 
@@ -615,7 +615,7 @@ client.on("message", async (message) => {
               }
 
 
-              return announceChannel.send(lvlMessage);
+              return await announceChannel.send(lvlMessage);
 
             } else {
 
@@ -640,7 +640,7 @@ client.on("message", async (message) => {
 
               }
 
-              return announceChannel.send(lvlMessage);
+              return await announceChannel.send(lvlMessage);
 
             }
             
@@ -705,7 +705,29 @@ client.on("message", async (message) => {
    
     const now = Date.now();
     const timestamps = cooldowns.get(command.name);
-    const cooldownAmount = (command.cooldown || 3) * 1000;
+    let cooldownAmount = (command.cooldown || 3) * 1000;
+
+
+    // OVERRIDE COOLDOWN IF THIS IS TRIGGERED
+    // A check for missing parameters
+    // If a cmd has 'args: true,', it will throw the error
+    // Requires the cmd file to have 'usage: '<user> <role>',' or similar
+    if (command.args && !args.length) {
+      let reply = `You didn't provide any arguments, ${message.author}!`;
+        if (command.usage) {
+          reply += `\nThe proper usage would be: \`${PREFIX}${command.name} ${command.usage}\``;
+        }
+
+        // Override larger cooldowns
+        if ( timestamps.has(message.author.id) === false ) {
+          cooldownAmount = 1000;
+        }
+        
+
+        await message.channel.send(reply);
+    }
+
+
    
     if (timestamps.has(message.author.id)) {
       const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
@@ -716,15 +738,15 @@ client.on("message", async (message) => {
         // If greater than 60 Seconds, convert into Minutes
         if ( timeLeft > 60 && timeLeft < 3600 ) {
           timeLeft = timeLeft / 60;
-          return message.reply(`Please wait ${timeLeft.toFixed(1)} more minute(s) before reusing the \`${command.name}\` command.`);
+          return await message.reply(`Please wait ${timeLeft.toFixed(1)} more minute(s) before reusing the \`${command.name}\` command.`);
         }
         // If greater than 3600 Seconds, convert into Hours
         else if ( timeLeft > 3600 ) {
           timeLeft = timeLeft / 3600;
-          return message.reply(`Please wait ${timeLeft.toFixed(1)} more hour(s) before reusing the \`${command.name}\` command.`);
+          return await message.reply(`Please wait ${timeLeft.toFixed(1)} more hour(s) before reusing the \`${command.name}\` command.`);
         }
       
-        return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+        return await message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
       }
      } else {
        timestamps.set(message.author.id, now);
@@ -739,24 +761,19 @@ client.on("message", async (message) => {
     // A check for if the user ran a command inside DMs
     // if a cmd has 'guildOnly: true,', it won't work in DMs
     if (command.guildOnly && message.channel.type !== 'text') {
-      return message.reply('I can\'t execute that command inside DMs!');
+      return await message.reply('I can\'t execute that command inside DMs!');
     }
   
     // A check for if the user ran a command inside Guilds
     // if a cmd has 'dmOnly: true,', it won't work in Guilds
     if (command.dmOnly && message.channel.type !== 'dm') {
-      return message.reply('I can\'t execute that command inside Guilds!')
+      return await message.reply('I can\'t execute that command inside Guilds!')
     }
   
     // A check for missing parameters
-    // If a cmd has 'args: true,', it will throw the error
-    // Requires the cmd file to have 'usage: '<user> <role>',' or similar
+    // TO catch from above
     if (command.args && !args.length) {
-      let reply = `You didn't provide any arguments, ${message.author}!`;
-        if (command.usage) {
-          reply += `\nThe proper usage would be: \`${PREFIX}${command.name} ${command.usage}\``;
-        }
-        return message.channel.send(reply);
+      return;
     }
     
   
@@ -770,10 +787,10 @@ client.on("message", async (message) => {
     let attachFiles = botMember.hasPermission('ATTACH_FILES', { checkAdmin: true });
 
     if ( embedLinks === false && command.name !== 'ping' ) {
-      return message.reply(`Sorry, but it would seem I don't have the Embed Links permission. I need that for my Embeds!`);
+      return await message.reply(`Sorry, but it would seem I don't have the Embed Links permission. I need that for my Embeds!`);
     }
     if ( attachFiles === false && command.name === 'rank' ) {
-      return message.reply(`Sorry, but it would seem I don't have the Attach Files permission. I need that for this command!`);
+      return await message.reply(`Sorry, but it would seem I don't have the Attach Files permission. I need that for this command!`);
     }
   
   
@@ -788,7 +805,7 @@ client.on("message", async (message) => {
     } // Any errors are caught here, and thrown back at the User and Console
     catch (error) {
       console.error(error);
-      message.reply('There was an error trying to execute that command!');
+      await message.reply('There was an error trying to execute that command!');
     }
 
   }

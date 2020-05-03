@@ -229,7 +229,7 @@ module.exports = {
                     }
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   } else {
       
@@ -294,7 +294,7 @@ module.exports = {
       
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   }
       
@@ -358,7 +358,7 @@ module.exports = {
                     }
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   } else {
       
@@ -385,7 +385,7 @@ module.exports = {
       
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   }
       
@@ -525,7 +525,7 @@ module.exports = {
                     }
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   } else {
       
@@ -589,7 +589,7 @@ module.exports = {
       
                     
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   }
       
@@ -653,7 +653,7 @@ module.exports = {
                     }
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   } else {
       
@@ -680,7 +680,7 @@ module.exports = {
       
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   }
       
@@ -897,7 +897,7 @@ module.exports = {
                     }
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   } else {
       
@@ -961,7 +961,7 @@ module.exports = {
       
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   }
       
@@ -1025,7 +1025,7 @@ module.exports = {
                     }
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   } else {
       
@@ -1052,7 +1052,7 @@ module.exports = {
       
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   }
       
@@ -1192,7 +1192,7 @@ module.exports = {
                     }
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   } else {
       
@@ -1258,7 +1258,7 @@ module.exports = {
       
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   }
       
@@ -1322,7 +1322,7 @@ module.exports = {
                     }
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   } else {
       
@@ -1349,7 +1349,7 @@ module.exports = {
       
       
       
-                    return announceChannel.send(lvlMessage + ` <-- **Caused by Crimson Roulette Command!** (\`c!cr\`)`);
+                    return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
       
                   }
       

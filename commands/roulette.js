@@ -107,7 +107,7 @@ module.exports = {
       let result;
       result = chance.weighted(
         ['nothing', 'lose', 'win10', 'win50', 'win100', 'win200', 'winlevel', 'win3levels', 'lose10', 'lose50', 'lose100', 'lose200', 'loselevel', 'lose3levels'], 
-        [90, 85, 80, 50, 17, 5, 1, 0.5, 40, 15, 10, 3, 1, 0.1]
+        [90, 75, 80, 50, 17, 5, 1, 0.5, 30, 10, 5, 1, 0.1, 0.01]
       );
 
       // For random "default" result messages

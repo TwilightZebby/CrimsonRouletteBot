@@ -115,11 +115,11 @@ module.exports = {
          '25win', '25lose', '25winsdouble', '25losedouble', '25winslevel', '25loselevels', '50wins', '50lose', '50winsdouble', '50losedouble',
          '50winslevel', '50loselevel', 'serverwinslevel', 'serverloselevel', 'serverwinslevel3', 'serverloselevel3',
          'serverwinslevel5', 'serverloselevel5', 'serverlosehalflevels'], 
-        [90, 85, 84, 50, 17, 5, 1, 0.5, 50, 25, 20, 5, 1, 0.1,
-         15, 14, 8, 7, 3, 2, 5, 4, 2, 1, 2, 1,
-         3, 2, 2, 1, 1.6, 1.4, 1.4, 1.2, 1, 0.8,
-         0.6, 0.5, 0.4, 0.3, 0.2, 0.1,
-         0.1, 0.01, 0.000000001]
+        [90, 80, 84, 50, 17, 5, 1, 0.5, 40, 20, 15, 2, 0.6, 0.05,
+         15, 10, 8, 5, 3, 1, 5, 3, 2, 0.6, 1, 1,
+         3, 1, 2, 0.5, 1.6, 1, 1.4, 0.8, 1, 0.4,
+         0.6, 0.2, 0.4, 0.07, 0.2, 0.01,
+         0.1, 0.001, 0.000000001]
       );
 
       // For random "default" result messages

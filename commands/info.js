@@ -28,7 +28,7 @@ module.exports = {
         { name: `Guilds`, value: guildCount, inline: true },
         { name: `Top.gg Listing`, value: `[Click here](https://top.gg/bot/657859837023092746)`, inline: true },
         { name: `Support Server`, value: `[Click here](https://discord.gg/hTstSCv)`, inline: true },
-        { name: `Invite Link`, value: `[Click here](https://discordapp.com/oauth2/authorize?client_id=657859837023092746&scope=bot&permissions=268487680)`, inline: true }
+        { name: `Invite Link`, value: `[Click here](https://discord.com/oauth2/authorize?client_id=657859837023092746&scope=bot&permissions=268487680)`, inline: true }
         );
 
       return message.channel.send(infoEmbed);

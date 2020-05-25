@@ -15,11 +15,11 @@ const lvlCooldowns = new Discord.Collection(); // For Cooldowns specific to Leve
 let functFile = require('./bot_modules/functions.js');
 
 for (const file of commandFiles) { // Slaps all the command files into the Collection
-    const command = require(`./commands/${file}`);
+  const command = require(`./commands/${file}`);
 
-    // set a new item in the Collection
-    // with the key as the command name and the value as the exported module
-    client.commands.set(command.name, command);
+  // set a new item in the Collection
+  // with the key as the command name and the value as the exported module
+  client.commands.set(command.name, command);
 }
 
 
@@ -34,10 +34,20 @@ client.once("ready", async () => {
   LevelRoles.sync();
   UserPrefs.sync();
 
-  client.user.setPresence({ activity: { name: `${PREFIX}help` }, status: 'online' });
+  client.user.setPresence({
+    activity: {
+      name: `${PREFIX}help`
+    },
+    status: 'online'
+  });
 
-  client.setInterval(function(){
-    client.user.setPresence({ activity: { name: `${PREFIX}help` }, status: 'online' });
+  client.setInterval(function () {
+    client.user.setPresence({
+      activity: {
+        name: `${PREFIX}help`
+      },
+      status: 'online'
+    });
   }, 1.08e+7);
 
 
@@ -75,7 +85,7 @@ process.on('unhandledRejection', error => console.error('Uncaught Promise Reject
 //     - Creates a new row in the Levels DB to ensure working functionailty with cmds such as TOP
 client.on('guildMemberAdd', async (member) => {
 
-  if ( member.user.bot === true ) {
+  if (member.user.bot === true) {
     return;
   }
 
@@ -87,10 +97,12 @@ client.on('guildMemberAdd', async (member) => {
     }).catch(console.error);
 
     let userPrefsDb = await UserPrefs.findOne({
-      where: { userID: member.id }
+      where: {
+        userID: member.id
+      }
     }).catch(console.error);
 
-    if ( !userPrefsDb ) {
+    if (!userPrefsDb) {
       userPrefsDb = await UserPrefs.create({
         userID: member.id,
       }).catch(console.error);
@@ -126,16 +138,18 @@ client.on('guildMemberAdd', async (member) => {
 //     - To delete them from the Levels DB to make sure they don't pollute the Leaderboard(s)
 client.on('guildMemberRemove', async (member) => {
 
-  if ( member.user.bot === true ) {
+  if (member.user.bot === true) {
     return;
   }
 
-  let levelDelete = await GuildLevels.destroy({ where: { guildID: member.guild.id, userID: member.id } })
-  .catch(err => console.error(err));
-  
-  /*if(!levelDelete) {
-    return console.log(`Nothing was deleted for ${member.displayName} upon leaving`);
-  }*/
+  let levelDelete = await GuildLevels.destroy({
+      where: {
+        guildID: member.guild.id,
+        userID: member.id
+      }
+    })
+    .catch(err => console.error(err));
+
 
   // End of guildMemberRemove Event
 });
@@ -173,8 +187,8 @@ client.on('guildCreate', async (guild) => {
     // Add each Member to Levelling DB to get this Bot working on VPS
     let memStore = Array.from(guild.members.cache.values());
     // Filter out Bots
-    for ( let i = 0; i < memStore.length; i++ ) {
-      if ( memStore[i].user.bot === true ) {
+    for (let i = 0; i < memStore.length; i++) {
+      if (memStore[i].user.bot === true) {
 
         memStore.splice(i, 1);
 
@@ -183,7 +197,7 @@ client.on('guildCreate', async (guild) => {
 
     // Now loop to add actual Members to the Levelling DB
     let memLvlDB;
-    for ( let i = 0; i < memStore.length; i++ ) {
+    for (let i = 0; i < memStore.length; i++) {
 
       memLvlDB = await GuildLevels.create({
         guildID: guild.id,
@@ -195,14 +209,16 @@ client.on('guildCreate', async (guild) => {
 
     // Loop to add all users to UserPrefs
     let userPrefsDB;
-    for ( let i = 0; i < memStore.length; i++ ) {
+    for (let i = 0; i < memStore.length; i++) {
 
       // Check if User already exists
       userPrefsDB = await UserPrefs.findOne({
-        where: { userID: memStore[i].id }
+        where: {
+          userID: memStore[i].id
+        }
       }).catch(console.error);
 
-      if ( !userPrefsDB ) {
+      if (!userPrefsDB) {
 
         // If doesn't already exist, add to DB
         userPrefsDB = await UserPrefs.create({
@@ -213,7 +229,7 @@ client.on('guildCreate', async (guild) => {
       }
 
     }
-    
+
   } catch (e) {
 
     // Catch errors
@@ -246,23 +262,29 @@ client.on('guildCreate', async (guild) => {
 client.on('guildDelete', async (guild) => {
 
   // Grab the Guild's ID and delete all entries in the Database for it
-  const configDelete = await ConfigData.destroy({ where: { guildID: guild.id } })
-  .catch(err => console.error(`ERROR: Something happened. - index.js guildDelete - \n${err}`));
-  /*if(!configDelete) {
-    console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);
-  }*/
+  const configDelete = await ConfigData.destroy({
+      where: {
+        guildID: guild.id
+      }
+    })
+    .catch(err => console.error(`ERROR: Something happened. - index.js guildDelete - \n${err}`));
 
-  const levelDelete = await GuildLevels.destroy({ where: { guildID: guild.id } })
-  .catch(err => console.error(`ERROR: Something happened. - index.js levelDelete - \n${err}`));
-  /*if(!levelDelete) {
-    console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);
-  }*/
 
-  const roleDelete = await LevelRoles.destroy({ where: { guildID: guild.id } })
-  .catch(err => console.error(`ERROR: Something happened. - index.js roleDelete - \n${err}`));
-  /*if (!roleDelete) {
-    return console.log(`Nothing was deleted for ${guild.name} on Guild Leave`);
-  }*/
+  const levelDelete = await GuildLevels.destroy({
+      where: {
+        guildID: guild.id
+      }
+    })
+    .catch(err => console.error(`ERROR: Something happened. - index.js levelDelete - \n${err}`));
+
+
+  const roleDelete = await LevelRoles.destroy({
+      where: {
+        guildID: guild.id
+      }
+    })
+    .catch(err => console.error(`ERROR: Something happened. - index.js roleDelete - \n${err}`));
+
 
 });
 
@@ -289,13 +311,13 @@ client.on('guildDelete', async (guild) => {
 client.on("message", async (message) => {
 
   // Prevent DM Usage ;P
-  if ( message.channel.type === 'dm' ) {
+  if (message.channel.type === 'dm') {
     return;
   }
 
   // If the msg it was sent by the bot itself - STOP
-  if ( message.author.bot ) {
-		return;
+  if (message.author.bot) {
+    return;
   }
 
 
@@ -309,10 +331,14 @@ client.on("message", async (message) => {
 
   let botMember = message.guild.members.resolve('657859837023092746');
 
-  let readMsg = botMember.hasPermission('VIEW_CHANNEL', { checkAdmin: true });
-  let sendMsg = botMember.hasPermission('SEND_MESSAGES', { checkAdmin: true });
+  let readMsg = botMember.hasPermission('VIEW_CHANNEL', {
+    checkAdmin: true
+  });
+  let sendMsg = botMember.hasPermission('SEND_MESSAGES', {
+    checkAdmin: true
+  });
 
-  if ( readMsg === false || sendMsg === false ) {
+  if (readMsg === false || sendMsg === false) {
     let guildOwner = message.guild.owner;
     let goDM = await guildOwner.createDM();
     goDM.send(`Buzz! It would seem I don't have **Read Messages**, **View Channels**, and/or the **Send Messages** permission in *${message.guild.name}*!\nI'd be a pretty useless Bot without those permissions!`);
@@ -324,9 +350,9 @@ client.on("message", async (message) => {
   const escapeRegex = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const prefixRegex = new RegExp(`^(<@!?${client.user.id}>|${escapeRegex(PREFIX)})\\s*`);
 
-  
+
   // If there is NO PREFIX, do the Levelling Stuff
-  if ( !prefixRegex.test(message.content) ) {
+  if (!prefixRegex.test(message.content)) {
 
     let userObj = message.author;
     let memberObj = message.member;
@@ -334,18 +360,31 @@ client.on("message", async (message) => {
 
 
     // First, grab the Databases
-    let dbConfig = await ConfigData.findOrCreate({ where: { guildID: message.guild.id } })
-    .catch(e => { console.error(`Error searching for ConfigData - index.js dbConfig -\n${e}`) });
+    let dbConfig = await ConfigData.findOrCreate({
+        where: {
+          guildID: message.guild.id
+        }
+      })
+      .catch(e => {
+        console.error(`Error searching for ConfigData - index.js dbConfig -\n${e}`)
+      });
 
-    let dbLevels = await GuildLevels.findOrCreate({ where: { guildID: message.guild.id, userID: userObj.id } })
-    .catch(e => { console.error(`Error searching for LevelData - index.js dbLevels -\n${e}`) });
+    let dbLevels = await GuildLevels.findOrCreate({
+        where: {
+          guildID: message.guild.id,
+          userID: userObj.id
+        }
+      })
+      .catch(e => {
+        console.error(`Error searching for LevelData - index.js dbLevels -\n${e}`)
+      });
 
 
 
 
 
     // If Levelling is disabled, RETURN
-    if ( dbConfig[0].tokenLevels === false ) {
+    if (dbConfig[0].tokenLevels === false) {
       return;
     }
 
@@ -375,13 +414,22 @@ client.on("message", async (message) => {
 
 
     // Calcuate the Tokens that should be given
-    let tokenReward = Math.floor( ( Math.random() * 10 ) + 2 );
-    
+    let tokenReward = Math.floor((Math.random() * 10) + 2);
+
     // Add these new Tokens to the Message Author
     let newTokenAmount = dbLevels[0].userTokens + tokenReward;
     // Save to Database
-    updateConfig = await GuildLevels.update( { userTokens: newTokenAmount }, { where: { guildID: message.guild.id, userID: message.author.id } })
-    .catch(err => { console.error(err); });
+    updateConfig = await GuildLevels.update({
+        userTokens: newTokenAmount
+      }, {
+        where: {
+          guildID: message.guild.id,
+          userID: message.author.id
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      });
 
 
     let oldULevel = dbLevels[0].userLevel; // Used for comparsion
@@ -390,30 +438,38 @@ client.on("message", async (message) => {
 
     // Now re-calcuate the Level
     let lvls = Object.values(LEVELS);
-    for ( let i = 0; i < lvls.length; i++ ) {
+    for (let i = 0; i < lvls.length; i++) {
 
       // Go through the LEVELS Obj, and do a comparsion between the values
-      if ( newTokenAmount < lvls[i] ) {
+      if (newTokenAmount < lvls[i]) {
 
         // To catch for Level 0
         uLevel = i - 1;
-        if ( uLevel < 0 ) {
+        if (uLevel < 0) {
           uLevel = 0;
         }
 
-        
+
         // Save to Database
-        updateConfig = await GuildLevels.update( { userLevel: uLevel }, { where: { guildID: message.guild.id, userID: message.author.id } })
-        .catch(err => { console.error(err); });
+        updateConfig = await GuildLevels.update({
+            userLevel: uLevel
+          }, {
+            where: {
+              guildID: message.guild.id,
+              userID: message.author.id
+            }
+          })
+          .catch(err => {
+            console.error(err);
+          });
 
         // Check Lvls
-        if ( updateConfig ) {
+        if (updateConfig) {
           i += 99999999; // To make sure Loop is broken out of early
 
-          if ( dbConfig[0].lvlChannel === null || dbConfig[0].lvlChannel === undefined ) {
+          if (dbConfig[0].lvlChannel === null || dbConfig[0].lvlChannel === undefined) {
             return;
-          }
-          else if ( uLevel < oldULevel ) {
+          } else if (uLevel < oldULevel) {
 
             let announceChannel = message.guild.channels.resolve(dbConfig[0].lvlChannel);
             let lvlMessage = dbConfig[0].levelDownMsg;
@@ -421,8 +477,13 @@ client.on("message", async (message) => {
             lvlMessage = lvlMessage.replace("levelNum", uLevel);
 
             // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: uLevel } })
-            .catch(console.error);
+            let roleSearch = await LevelRoles.findOne({
+                where: {
+                  guildID: message.guild.id,
+                  level: uLevel
+                }
+              })
+              .catch(console.error);
 
 
             // Fetch all Roles User has
@@ -431,12 +492,17 @@ client.on("message", async (message) => {
 
 
             // See if any of the User's Roles match IDs stored in DB
-            for ( let i = 0; i < userRoles.length; i++ ) {
+            for (let i = 0; i < userRoles.length; i++) {
               //console.log(userRoles[i].id);
-              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
-              .catch(console.error);
+              let searchForMatch = await LevelRoles.findOne({
+                  where: {
+                    guildID: message.guild.id,
+                    roleID: userRoles[i].id
+                  }
+                })
+                .catch(console.error);
 
-              if ( searchForMatch !== undefined || searchForMatch !== null ) {
+              if (searchForMatch !== undefined || searchForMatch !== null) {
 
                 matchedRoles.push(userRoles[i].id);
 
@@ -447,36 +513,46 @@ client.on("message", async (message) => {
 
 
 
-            
-            if ( roleSearch === null || roleSearch === undefined ) {
+
+            if (roleSearch === null || roleSearch === undefined) {
 
               // If no stored Roles are found
 
 
               // If there is an assigned Role for a lower level, assign that!
-              for ( let i = uLevel; i >= 0; i-- ) {
+              for (let i = uLevel; i >= 0; i--) {
 
-                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                .catch(console.error);
+                let newRoleSearch = await LevelRoles.findOne({
+                    where: {
+                      guildID: message.guild.id,
+                      level: i
+                    }
+                  })
+                  .catch(console.error);
 
-                if ( newRoleSearch ) {
+                if (newRoleSearch) {
 
                   let newRoleID = newRoleSearch.roleID;
                   let newRoleObj = message.guild.roles.resolve(newRoleID);
                   let newRoleGrant = await message.member.roles.add(newRoleObj)
-                  .catch(console.error);
+                    .catch(console.error);
 
 
                   // Remove previous (higher) role
-                  let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                  .catch(console.error);
+                  let oldRoleSearch = await LevelRoles.findOne({
+                      where: {
+                        guildID: message.guild.id,
+                        level: oldLevel
+                      }
+                    })
+                    .catch(console.error);
 
-                  if ( oldRoleSearch ) {
+                  if (oldRoleSearch) {
 
                     let oldRoleID = oldRoleSearch.roleID;
                     let oldRoleObj = message.guild.roles.resolve(oldRoleID);
                     let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                    .catch(console.error);
+                      .catch(console.error);
 
                   }
 
@@ -496,46 +572,56 @@ client.on("message", async (message) => {
               let roleID = roleSearch.roleID;
               let roleObj = message.guild.roles.resolve(roleID);
               let roleAdd = await message.member.roles.add(roleObj)
-              .catch(console.error);
+                .catch(console.error);
 
 
               // Remove any previous Levelling Roles IF ANY
-              if ( matchedRoles.length > 0 ) {
+              if (matchedRoles.length > 0) {
 
-                for ( let i = 0; i < matchedRoles.length; i++ ) {
+                for (let i = 0; i < matchedRoles.length; i++) {
 
                   let tempRole = matchedRoles[i];
                   let tempRoleObj = message.guild.roles.resolve(tempRole);
                   let roleRemove = await message.member.roles.remove(tempRoleObj)
-                  .catch(console.error);
+                    .catch(console.error);
 
                 }
 
 
                 // If there is an assigned Role for a lower level, assign that!
-                for ( let i = uLevel; i >= 0; i-- ) {
+                for (let i = uLevel; i >= 0; i--) {
 
-                  let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                  .catch(console.error);
+                  let newRoleSearch = await LevelRoles.findOne({
+                      where: {
+                        guildID: message.guild.id,
+                        level: i
+                      }
+                    })
+                    .catch(console.error);
 
-                  if ( newRoleSearch ) {
+                  if (newRoleSearch) {
 
                     let newRoleID = newRoleSearch.roleID;
                     let newRoleObj = message.guild.roles.resolve(newRoleID);
                     let newRoleGrant = await message.member.roles.add(newRoleObj)
-                    .catch(console.error);
+                      .catch(console.error);
 
 
                     // Remove previous (higher) role
-                    let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                    .catch(console.error);
+                    let oldRoleSearch = await LevelRoles.findOne({
+                        where: {
+                          guildID: message.guild.id,
+                          level: oldLevel
+                        }
+                      })
+                      .catch(console.error);
 
-                    if ( oldRoleSearch ) {
+                    if (oldRoleSearch) {
 
                       let oldRoleID = oldRoleSearch.roleID;
                       let oldRoleObj = message.guild.roles.resolve(oldRoleID);
                       let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                      .catch(console.error);
+                        .catch(console.error);
 
                     }
 
@@ -556,8 +642,7 @@ client.on("message", async (message) => {
             }
 
 
-          } 
-          else if ( uLevel > oldULevel ) {
+          } else if (uLevel > oldULevel) {
 
             let announceChannel = message.guild.channels.resolve(dbConfig[0].lvlChannel);
             let lvlMessage = dbConfig[0].levelUpMsg;
@@ -565,21 +650,31 @@ client.on("message", async (message) => {
             lvlMessage = lvlMessage.replace("levelNum", uLevel);
 
             // Level Role Check
-            let roleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: uLevel } })
-            .catch(console.error);
-            
+            let roleSearch = await LevelRoles.findOne({
+                where: {
+                  guildID: message.guild.id,
+                  level: uLevel
+                }
+              })
+              .catch(console.error);
+
             // Fetch all Roles User has
             let userRoles = message.member.roles.cache;
             let matchedRoles = [];
 
 
             // See if any of the User's Roles match IDs stored in DB
-            for ( let i = 0; i < userRoles.length; i++ ) {
+            for (let i = 0; i < userRoles.length; i++) {
               //console.log(userRoles[i].id);
-              let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
-              .catch(console.error);
+              let searchForMatch = await LevelRoles.findOne({
+                  where: {
+                    guildID: message.guild.id,
+                    roleID: userRoles[i].id
+                  }
+                })
+                .catch(console.error);
 
-              if ( searchForMatch !== undefined || searchForMatch !== null ) {
+              if (searchForMatch !== undefined || searchForMatch !== null) {
 
                 matchedRoles.push(userRoles[i].id);
 
@@ -589,24 +684,29 @@ client.on("message", async (message) => {
 
 
 
-            
-            if ( roleSearch === null || roleSearch === undefined ) {
+
+            if (roleSearch === null || roleSearch === undefined) {
 
               // If no stored Roles are found
 
 
               // If there is an assigned Role for a lower level, assign that!
-              for ( let i = uLevel; i >= 0; i-- ) {
+              for (let i = uLevel; i >= 0; i--) {
 
-                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                .catch(console.error);
+                let newRoleSearch = await LevelRoles.findOne({
+                    where: {
+                      guildID: message.guild.id,
+                      level: i
+                    }
+                  })
+                  .catch(console.error);
 
-                if ( newRoleSearch ) {
+                if (newRoleSearch) {
 
                   let newRoleID = newRoleSearch.roleID;
                   let newRoleObj = message.guild.roles.resolve(newRoleID);
                   let newRoleGrant = await message.member.roles.add(newRoleObj)
-                  .catch(console.error);
+                    .catch(console.error);
 
                   i = 0;
 
@@ -623,18 +723,18 @@ client.on("message", async (message) => {
               let roleID = roleSearch.roleID;
               let roleObj = message.guild.roles.resolve(roleID);
               let roleAdd = await message.member.roles.add(roleObj)
-              .catch(console.error);
+                .catch(console.error);
 
 
               // Remove any previous Levelling Roles IF ANY
-              if ( matchedRoles.length > 0 ) {
+              if (matchedRoles.length > 0) {
 
-                for ( let i = 0; i < matchedRoles.length; i++ ) {
+                for (let i = 0; i < matchedRoles.length; i++) {
 
                   let tempRole = matchedRoles[i];
                   let tempRoleObj = message.guild.roles.resolve(tempRole);
                   let roleRemove = await message.member.roles.remove(tempRoleObj)
-                  .catch(console.error);
+                    .catch(console.error);
 
                 }
 
@@ -643,12 +743,12 @@ client.on("message", async (message) => {
               return await announceChannel.send(lvlMessage);
 
             }
-            
+
           }
-  
+
         }
 
-        
+
       }
 
     }
@@ -681,7 +781,7 @@ client.on("message", async (message) => {
 
 
 
-  if ( prefixRegex.test(message.content) ) {
+  if (prefixRegex.test(message.content)) {
 
     // COMMANDS
 
@@ -693,16 +793,16 @@ client.on("message", async (message) => {
     // If there is NOT a command with the given name or aliases, exit early
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     if (!command) return;
-    
-    
-    
-    
+
+
+
+
     // COOLDOWNS
     // If a command has 'cooldown: x,' it will enable cooldown IN SECONDS
     if (!cooldowns.has(command.name)) {
-       cooldowns.set(command.name, new Discord.Collection());
-     }
-   
+      cooldowns.set(command.name, new Discord.Collection());
+    }
+
     const now = Date.now();
     const timestamps = cooldowns.get(command.name);
     let cooldownAmount = (command.cooldown || 3) * 1000;
@@ -714,91 +814,95 @@ client.on("message", async (message) => {
     // Requires the cmd file to have 'usage: '<user> <role>',' or similar
     if (command.args && !args.length) {
       let reply = `You didn't provide any arguments, ${message.author}!`;
-        if (command.usage) {
-          reply += `\nThe proper usage would be: \`${PREFIX}${command.name} ${command.usage}\``;
-        }
+      if (command.usage) {
+        reply += `\nThe proper usage would be: \`${PREFIX}${command.name} ${command.usage}\``;
+      }
 
-        // Override larger cooldowns
-        if ( timestamps.has(message.author.id) === false ) {
-          cooldownAmount = 1000;
-        }
-        
+      // Override larger cooldowns
+      if (timestamps.has(message.author.id) === false) {
+        cooldownAmount = 1000;
+      }
 
-        await message.channel.send(reply);
+
+      await message.channel.send(reply);
     }
 
 
-   
+
     if (timestamps.has(message.author.id)) {
       const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-    
+
       if (now < expirationTime) {
         let timeLeft = (expirationTime - now) / 1000;
-      
+
         // If greater than 60 Seconds, convert into Minutes
-        if ( timeLeft > 60 && timeLeft < 3600 ) {
+        if (timeLeft > 60 && timeLeft < 3600) {
           timeLeft = timeLeft / 60;
           return await message.reply(`Please wait ${timeLeft.toFixed(1)} more minute(s) before reusing the \`${command.name}\` command.`);
         }
         // If greater than 3600 Seconds, convert into Hours
-        else if ( timeLeft > 3600 ) {
+        else if (timeLeft > 3600) {
           timeLeft = timeLeft / 3600;
           return await message.reply(`Please wait ${timeLeft.toFixed(1)} more hour(s) before reusing the \`${command.name}\` command.`);
         }
-      
+
         return await message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
       }
-     } else {
-       timestamps.set(message.author.id, now);
-       setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-     }
-   
-   
-   
-   
-   
-   
+    } else {
+      timestamps.set(message.author.id, now);
+      setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+    }
+
+
+
+
+
+
     // A check for if the user ran a command inside DMs
     // if a cmd has 'guildOnly: true,', it won't work in DMs
     if (command.guildOnly && message.channel.type !== 'text') {
       return await message.reply('I can\'t execute that command inside DMs!');
     }
-  
+
     // A check for if the user ran a command inside Guilds
     // if a cmd has 'dmOnly: true,', it won't work in Guilds
     if (command.dmOnly && message.channel.type !== 'dm') {
       return await message.reply('I can\'t execute that command inside Guilds!')
     }
-  
+
     // A check for missing parameters
     // TO catch from above
     if (command.args && !args.length) {
       return;
     }
-    
-  
-  
-  
-  
-    
-  
-    // Check for permissions needed!
-    let embedLinks = botMember.hasPermission('EMBED_LINKS', { checkAdmin: true });
-    let attachFiles = botMember.hasPermission('ATTACH_FILES', { checkAdmin: true });
 
-    if ( embedLinks === false && command.name !== 'ping' ) {
+
+
+
+
+
+
+    // Check for permissions needed!
+    let embedLinks = botMember.hasPermission('EMBED_LINKS', {
+      checkAdmin: true
+    });
+    let attachFiles = botMember.hasPermission('ATTACH_FILES', {
+      checkAdmin: true
+    });
+
+    if (embedLinks === false && command.name !== 'ping') {
       return await message.reply(`Sorry, but it would seem I don't have the Embed Links permission. I need that for my Embeds!`);
     }
-    if ( attachFiles === false && command.name === 'rank' ) {
+    if (attachFiles === false && command.name === 'rank') {
       return await message.reply(`Sorry, but it would seem I don't have the Attach Files permission. I need that for this command!`);
     }
-  
-  
-  
-  
-  
-    
-  
+
+
+
+
+
+
+
     // If there is, grab and run that command's execute() function
     try {
       command.execute(message, args);
@@ -810,7 +914,7 @@ client.on("message", async (message) => {
 
   }
 
-  
+
 
   /******************************************************/
 

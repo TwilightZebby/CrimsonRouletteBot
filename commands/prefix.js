@@ -29,6 +29,14 @@ module.exports = {
 
         let prefixArg = args.shift();
 
+
+        // Security
+        // Make sure prefix is NO LONGER than 3 characters
+        if ( prefixArg.length > 3 ) {
+          return await message.reply(`Sorry, but that prefix was too large! (I can only accept Prefixes less than 4 characters long)`);
+        }
+
+
         let updatePrefix = await ConfigData.update({ prefix: prefixArg }, { where: { guildID: message.guild.id } })
         .catch(err => {
           // console.error(err);

@@ -19,22 +19,22 @@ module.exports = {
       const updateEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('v1.3.0 Changelog');
 
       // Date calculation
-      let updateDate = Date.parse("9:54 May 25, 2020");
+      let updateDate = Date.parse("10:05 June 2, 2020");
       updateEmbed.setTimestamp(updateDate);
 
       
 
       // Changelog itself
-      updateEmbed.setTitle(`v1.3.0 - 25th May 2020`);
+      updateEmbed.setTitle(`v1.3.1 - 2nd June 2020`);
 
 
       // Variables so that this is easier for me to read in this code form ;P
-      let additionArray = [
-        `+ Added \`roles\` command (see below)`
-      ];
+      //let additionArray = [
+      //  `+ `
+      //];
       
       let changeArray = [
-        `• Moved the Leveling Roles Module out of the \`config\` command and into its own command (see above)`
+        `• Tweaked how Prefix changes are handled. You can't set a prefix which is longer than 3 characters now.`
       ];
       
       //let removeArray = [
@@ -43,7 +43,7 @@ module.exports = {
 
 
       updateEmbed.addFields(
-        { name: `Additions`, value: additionArray.join(`\n`) },
+        //{ name: `Additions`, value: additionArray.join(`\n`) },
         { name: `Changes`, value: changeArray.join(`\n`) }
         //{ name: `Removals`, value: removeArray.join(`\n`) }
       )

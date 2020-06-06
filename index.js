@@ -173,6 +173,7 @@ client.on('guildMemberRemove', async (member) => {
 /***********************************************/
 // WHEN BOT JOINS A GUILD
 //     - Create Guild's entries into ConfigData Database
+//     - Log Guild Name/Icon to me
 client.on('guildCreate', async (guild) => {
 
   // Add Guild to Config Database
@@ -233,9 +234,42 @@ client.on('guildCreate', async (guild) => {
   } catch (e) {
 
     // Catch errors
-    return console.error(e);
+    console.error(e);
 
   }
+
+
+
+
+
+  // LOG
+  let logChannel = client.guilds.resolve('681805468749922308').channels.resolve('718720727829708811');
+  const logEmbed = new Discord.MessageEmbed().setColor('#33db00');
+
+  // Grab Guild Info
+  let guildName = guild.name;
+  let guildOwner = guild.owner; // Returns Member Object
+  let guildIcon = guild.iconURL();
+  let guildMemberCount = Array.from(guild.members.cache.values()).filter(member => {
+    return !member.user.bot;
+  }).length;
+  let guildBotCount = Array.from(guild.members.cache.values()).filter(member => {
+    return member.user.bot;
+  }).length;
+
+  // Construct Embed
+  logEmbed.setTitle(`Joined a new Guild!`)
+  .addFields(
+    { name: `Guild Name`, value: guildName },
+    { name: `Guild Owner`, value: `${guildOwner}\n(${guildOwner.user.username}\#${guildOwner.user.discriminator})` },
+    { name: `Member Count`, value: guildMemberCount },
+    { name: `Bot Count`, value: guildBotCount, inline: true }
+  )
+  .setThumbnail(guildIcon);
+
+  return await logChannel.send(logEmbed);
+
+
 
   // End of guildCreate Event
 });
@@ -259,6 +293,7 @@ client.on('guildCreate', async (guild) => {
 /***********************************************/
 // WHEN BOT LEAVES A GUILD
 //    - Delete all Database entries for that Guild
+//    - Log Guild Name/Icon to me
 client.on('guildDelete', async (guild) => {
 
   // Grab the Guild's ID and delete all entries in the Database for it
@@ -284,6 +319,38 @@ client.on('guildDelete', async (guild) => {
       }
     })
     .catch(err => console.error(`ERROR: Something happened. - index.js roleDelete - \n${err}`));
+
+
+
+
+
+
+  // LOG
+  let logChannel = client.guilds.resolve('681805468749922308').channels.resolve('718720727829708811');
+  const logEmbed = new Discord.MessageEmbed().setColor('#800000');
+
+  // Grab Guild Info
+  let guildName = guild.name;
+  let guildOwner = guild.owner; // Returns Member Object
+  let guildIcon = guild.iconURL();
+  let guildMemberCount = Array.from(guild.members.cache.values()).filter(member => {
+    return !member.user.bot;
+  }).length;
+  let guildBotCount = Array.from(guild.members.cache.values()).filter(member => {
+    return member.user.bot;
+  }).length;
+
+  // Construct Embed
+  logEmbed.setTitle(`Left a Guild`)
+  .addFields(
+    { name: `Guild Name`, value: guildName },
+    { name: `Guild Owner`, value: `${guildOwner}\n(${guildOwner.user.username}\#${guildOwner.user.discriminator})` },
+    { name: `Member Count`, value: guildMemberCount },
+    { name: `Bot Count`, value: guildBotCount, inline: true }
+  )
+  .setThumbnail(guildIcon);
+
+  return await logChannel.send(logEmbed);
 
 
 });

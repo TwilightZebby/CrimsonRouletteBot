@@ -256,6 +256,8 @@ client.on('guildCreate', async (guild) => {
   let guildBotCount = Array.from(guild.members.cache.values()).filter(member => {
     return member.user.bot;
   }).length;
+  // Amount of Servers this Bot is in
+  let botGuildAmount = Array.from(client.guilds.cache.values()).length;
 
   // Construct Embed
   logEmbed.setTitle(`Joined a new Guild!`)
@@ -265,7 +267,8 @@ client.on('guildCreate', async (guild) => {
     { name: `Member Count`, value: guildMemberCount },
     { name: `Bot Count`, value: guildBotCount, inline: true }
   )
-  .setThumbnail(guildIcon);
+  .setThumbnail(guildIcon)
+  .setFooter(`${client.user.username} is in ${botGuildAmount} Guilds`);
 
   return await logChannel.send(logEmbed);
 

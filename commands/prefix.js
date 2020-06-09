@@ -27,6 +27,12 @@ module.exports = {
       // Otherwise, set prefix to first argument
       else {
 
+        // Guild Owner check
+        if ( message.author.id !== message.guild.ownerID ) {
+          return await message.reply(`Sorry, you cannot change the Prefix as you are not the owner of this Server!`);
+        }
+
+
         let prefixArg = args.shift();
 
 

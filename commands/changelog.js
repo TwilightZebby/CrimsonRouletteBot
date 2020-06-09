@@ -37,7 +37,9 @@ module.exports = {
       //];
       
       let changeArray = [
-        `• Merged both \`tr\` and \`cr\` commands into one, more user-friendly, \`roulette\` command. *If you want the more risky results from the old \`cr\` command, use the \`--risk\` flag in the new command.*`
+        `• Merged both \`tr\` and \`cr\` commands into one, more user-friendly, \`roulette\` command. *If you want the more risky results from the old \`cr\` command, use the \`--risk\` flag in the new command.*`,
+        `• Tweaked \`info\` command to use plain-text instead of an \`@mention\` for my Username`,
+        `• Help Command now only shows Server-Owner Only commands when a Server Owner uses the command *without any arguments*`
       ];
       
       //let removeArray = [

@@ -11,6 +11,7 @@ module.exports = {
   aliases: ['role'],
   //args: true,
   commandType: 'management',
+  guildOwnerOnly: true,
   async execute(message, args) {
 
     PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);

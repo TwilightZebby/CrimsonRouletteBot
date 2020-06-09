@@ -17,11 +17,12 @@ module.exports = {
       const infoEmbed = new Discord.MessageEmbed().setColor('#07f51b');
 
       let guildCount = Array.from(client.guilds.cache.values()).length;
+      let zebbyUser = await client.users.fetch('156482326887530498');
 
       infoEmbed.setTitle(`${client.user.username} Information`);
       infoEmbed.setDescription(`These are my stats! If you want my commands, use \`${PREFIX}help\``);
       infoEmbed.addFields(
-        { name: `Bot Developer`, value: `\<\@156482326887530498\>`, inline: true },
+        { name: `Bot Developer`, value: `${zebbyUser.username}\#${zebbyUser.discriminator}`, inline: true },
         { name: `Bot Version`, value: version, inline: true },
         { name: `Discord.JS Version`, value: `V12.2.0`, inline: true },
         { name: `Prefix`, value: PREFIX, inline: true },

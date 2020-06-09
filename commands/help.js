@@ -28,7 +28,6 @@ module.exports = {
         helpEmbed.addFields({ name: "General Commands", value: commands.filter(command => command.commandType === 'general').map(command => command.name).join(', ') });
         helpEmbed.addFields({ name: "Management Commands", value: commands.filter(command => command.commandType === 'management').map(command => command.name).join(', ') });
         helpEmbed.addFields({ name: "Informational Commands", value: commands.filter(command => command.commandType === 'info').map(command => command.name).join(', ') });
-        helpEmbed.addFields({ name: "Roulette Commands", value: commands.filter(command => command.commandType === 'roulette').map(command => command.name).join(', ') });
 
         helpEmbed.addFields({ name: "\u200B", value: `You can use \`${PREFIX}help [command]\` to get more info on a specific command!` });
 

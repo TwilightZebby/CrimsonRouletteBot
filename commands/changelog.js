@@ -16,16 +16,19 @@ module.exports = {
       PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
 
 
-      const updateEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('v1.3.0 Changelog');
+      const updateEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('v1.4.0 Changelog');
 
       // Date calculation
-      let updateDate = Date.parse("10:05 June 2, 2020");
+      // YYYY-MM-DD T HH:MM:SS
+      // End with "Z" for UTC time
+      // For a specific timezone, replace "Z" with "+HH:MM" or "-HH:MM"
+      let updateDate = Date.parse("2020-06-09T10:36:00+01:00");
       updateEmbed.setTimestamp(updateDate);
 
       
 
       // Changelog itself
-      updateEmbed.setTitle(`v1.3.1 - 2nd June 2020`);
+      updateEmbed.setTitle(`v1.4.0 - 2nd June 2020`);
 
 
       // Variables so that this is easier for me to read in this code form ;P
@@ -34,7 +37,7 @@ module.exports = {
       //];
       
       let changeArray = [
-        `• Tweaked how Prefix changes are handled. You can't set a prefix which is longer than 3 characters now.`
+        `• Merged both \`tr\` and \`cr\` commands into one, more user-friendly, \`roulette\` command. *If you want the more risky results from the old \`cr\` command, use the \`--risk\` flag in the new command.*`
       ];
       
       //let removeArray = [

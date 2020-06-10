@@ -940,6 +940,18 @@ client.on("message", async (message) => {
       return await message.reply('I can\'t execute that command inside Guilds!')
     }
 
+    // Check if the Command is GuildOwner only or not
+    // 'guildOwner: true,'
+    if ( command.guildOwner && (message.author.id !== message.guild.ownerID || message.author.id !== '156482326887530498') ) {
+      return await message.reply(`Sorry, but only the Server Owner can run this command.`);
+    }
+
+    // Check if the Command is botDev only or not
+    // 'botDev: true,'
+    if ( command.botDev && message.author.id !== '156482326887530498' ) {
+      return await message.reply(`Sorry, only the developer of this Bot can run this command.`);
+    }
+
     // A check for missing parameters
     // TO catch from above
     if (command.args && !args.length) {

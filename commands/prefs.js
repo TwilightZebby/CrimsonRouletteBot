@@ -142,6 +142,7 @@ module.exports = {
           // Rank Command Background
           case "rank background":
           case "background":
+          case "bg":
 
             let settingValueBackup = settingValue;
             settingValue = settingValue.toLowerCase();

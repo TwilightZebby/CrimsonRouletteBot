@@ -4,6 +4,18 @@ const Discord = require("discord.js");
 const Canvas = require('canvas');
 let functFile = require('../bot_modules/functions.js');
 
+// Arrays so Bot knows if the Text Colour needs changing or not
+// ANY backgrounds not listed in these will use the full default white font colour
+let darkenAllFont = [
+  'pastelOne', 'prideAgender', 'prideAromantic', 'prideDemiromantic', 'pridePansexual', 'prideTransgender', 'prideRainbow'
+];
+let darkenJustUsername = [
+  'prideGenderfluid', 'prideNonBinary', 'straightAlly'
+];
+let darkenJustLevels = [
+  'prideAsexual'
+];
+
 // Made with help from the official Discord.JS Guide
 // https://discordjs.guide/popular-topics/canvas.html
 
@@ -74,28 +86,87 @@ module.exports = {
       };
 
 
+      if ( darkenAllFont.includes(userBGChoice) ) {
 
+        // DISPLAY NAME
+        // Select the font size and type from one of the natively available fonts
+	      ctx.font = applyText(canvas, message.member.displayName);
+	      // Select the style that will be used to fill the text in
+	      ctx.fillStyle = '#000000';
+	      // Actually fill the text with a solid color
+        ctx.fillText(message.member.displayName, canvas.width / 2.5, canvas.height / 2.6);
 
-      // DISPLAY NAME
-      // Select the font size and type from one of the natively available fonts
-	    ctx.font = applyText(canvas, message.member.displayName);
-	    // Select the style that will be used to fill the text in
-	    ctx.fillStyle = '#ffffff';
-	    // Actually fill the text with a solid color
-      ctx.fillText(message.member.displayName, canvas.width / 2.5, canvas.height / 2.6);
+        // TOKENS
+        ctx.font = '28px sans-serif';
+	      ctx.fillStyle = '#000000';
+        ctx.fillText(`Tokens: ${uTokens}`, canvas.width / 2.5, canvas.height / 1.3);
 
+        // LEVELS
+        ctx.font = '28px sans-serif';
+	      ctx.fillStyle = '#000000';
+        ctx.fillText(`Level: ${uLevel}`, canvas.width / 2.5, canvas.height / 1.6);
 
+      } else if ( darkenJustUsername.includes(userBGChoice) ) {
 
-      // TOKENS
-      ctx.font = '28px sans-serif';
-	    ctx.fillStyle = '#ffffff';
-      ctx.fillText(`Tokens: ${uTokens}`, canvas.width / 2.5, canvas.height / 1.3);
+        // DISPLAY NAME
+        // Select the font size and type from one of the natively available fonts
+	      ctx.font = applyText(canvas, message.member.displayName);
+	      // Select the style that will be used to fill the text in
+	      ctx.fillStyle = '#000000';
+	      // Actually fill the text with a solid color
+        ctx.fillText(message.member.displayName, canvas.width / 2.5, canvas.height / 2.6);
 
+        // TOKENS
+        ctx.font = '28px sans-serif';
+	      ctx.fillStyle = '#ffffff';
+        ctx.fillText(`Tokens: ${uTokens}`, canvas.width / 2.5, canvas.height / 1.3);
 
-      // LEVELS
-      ctx.font = '28px sans-serif';
-	    ctx.fillStyle = '#ffffff';
-      ctx.fillText(`Level: ${uLevel}`, canvas.width / 2.5, canvas.height / 1.6);
+        // LEVELS
+        ctx.font = '28px sans-serif';
+	      ctx.fillStyle = '#ffffff';
+        ctx.fillText(`Level: ${uLevel}`, canvas.width / 2.5, canvas.height / 1.6);
+
+      } else if ( darkenJustLevels.includes(userBGChoice) ) {
+
+        // DISPLAY NAME
+        // Select the font size and type from one of the natively available fonts
+	      ctx.font = applyText(canvas, message.member.displayName);
+	      // Select the style that will be used to fill the text in
+	      ctx.fillStyle = '#ffffff';
+	      // Actually fill the text with a solid color
+        ctx.fillText(message.member.displayName, canvas.width / 2.5, canvas.height / 2.6);
+
+        // TOKENS
+        ctx.font = '28px sans-serif';
+	      ctx.fillStyle = '#000000';
+        ctx.fillText(`Tokens: ${uTokens}`, canvas.width / 2.5, canvas.height / 1.3);
+
+        // LEVELS
+        ctx.font = '28px sans-serif';
+	      ctx.fillStyle = '#000000';
+        ctx.fillText(`Level: ${uLevel}`, canvas.width / 2.5, canvas.height / 1.6);
+
+      } else {
+
+        // DISPLAY NAME
+        // Select the font size and type from one of the natively available fonts
+	      ctx.font = applyText(canvas, message.member.displayName);
+	      // Select the style that will be used to fill the text in
+	      ctx.fillStyle = '#ffffff';
+	      // Actually fill the text with a solid color
+        ctx.fillText(message.member.displayName, canvas.width / 2.5, canvas.height / 2.6);
+        
+        // TOKENS
+        ctx.font = '28px sans-serif';
+	      ctx.fillStyle = '#ffffff';
+        ctx.fillText(`Tokens: ${uTokens}`, canvas.width / 2.5, canvas.height / 1.3);
+        
+        // LEVELS
+        ctx.font = '28px sans-serif';
+	      ctx.fillStyle = '#ffffff';
+        ctx.fillText(`Level: ${uLevel}`, canvas.width / 2.5, canvas.height / 1.6);
+
+      }
 
 
 

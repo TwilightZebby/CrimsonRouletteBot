@@ -116,11 +116,11 @@ module.exports = {
             '50winslevel', '50loselevel', 'serverwinslevel', 'serverloselevel', 'serverwinslevel3', 'serverloselevel3',
             'serverwinslevel5', 'serverloselevel5', 'serverlosehalflevels'
           ],
-          [90, 80, 84, 50, 17, 5, 1, 0.5, 40, 20, 15, 2, 0.6, 0.05,
-            15, 10, 8, 5, 3, 1, 5, 3, 2, 0.6, 1, 1,
-            3, 1, 2, 0.5, 1.6, 1, 1.4, 0.8, 1, 0.4,
-            0.6, 0.2, 0.4, 0.07, 0.2, 0.01,
-            0.1, 0.001, 0.000000001
+          [10, 8, 8, 8, 8, 8, 5, 5, 5, 5, 5, 5, 0.3, 0.3,
+            3, 2, 2, 2, 1, 0.1, 0.07, 0.07, 0.02, 0.02, 0.01, 0.01,
+            0.05, 0.04, 0.05, 0.04, 0.05, 0.04, 0.05, 0.04, 0.05, 0.04,
+            0.02, 0.01, 0.01, 0.004, 0.002, 0.001,
+            0.001, 0.0001, 0.0000000001
           ]
         );
 
@@ -1101,7 +1101,7 @@ module.exports = {
         let result;
         result = chance.weighted(
           ['nothing', 'lose', 'win10', 'win50', 'win100', 'win200', 'winlevel', 'win3levels', 'lose10', 'lose50', 'lose100', 'lose200', 'loselevel', 'lose3levels'],
-          [90, 75, 80, 50, 17, 5, 1, 0.5, 30, 10, 5, 1, 0.1, 0.01]
+          [10, 8, 8, 7, 6, 5, 4, 3, 8, 7, 6, 5, 1, 0.3]
         );
 
         // For random "default" result messages

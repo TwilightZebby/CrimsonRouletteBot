@@ -419,7 +419,7 @@ client.on("message", async (message) => {
 
 
   // IS THERE A DISCORD OUTAGE AFFECTING THIS GUILD OR NOT
-  if ( !guild.available ) {
+  if ( !message.guild.available ) {
     return;
   }
 
@@ -932,9 +932,17 @@ client.on("message", async (message) => {
 
         return await message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
       }
+
+    } else if ( message.author.id === '156482326887530498' && message.content.includes("--overridecooldown") ) {
+
+      // Blank, I legit don't want a cooldown, but I don't want anything to happen here.
+      // and Continue/Break don't work in IF statements, sooooooo
+
     } else {
+
       timestamps.set(message.author.id, now);
       setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
     }
 
 

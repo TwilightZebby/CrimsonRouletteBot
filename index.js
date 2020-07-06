@@ -256,6 +256,7 @@ client.on('guildCreate', async (guild) => {
   let guildBotCount = Array.from(guild.members.cache.values()).filter(member => {
     return member.user.bot;
   }).length;
+  let guildID = guild.id;
   // Amount of Servers this Bot is in
   let botGuildAmount = Array.from(client.guilds.cache.values()).length;
 
@@ -265,7 +266,8 @@ client.on('guildCreate', async (guild) => {
     { name: `Guild Name`, value: guildName },
     { name: `Guild Owner`, value: `${guildOwner.user.username}\#${guildOwner.user.discriminator}` },
     { name: `Member Count`, value: guildMemberCount },
-    { name: `Bot Count`, value: guildBotCount, inline: true }
+    { name: `Bot Count`, value: guildBotCount, inline: true },
+    { name: `Guild's ID`, value: guildID }
   )
   .setThumbnail(guildIcon)
   .setFooter(`${client.user.username} is in ${botGuildAmount} Guilds`);
@@ -413,6 +415,18 @@ client.on("message", async (message) => {
     let goDM = await guildOwner.createDM();
     goDM.send(`Buzz! It would seem I don't have **Read Messages**, **View Channels**, and/or the **Send Messages** permission in *${message.guild.name}*!\nI'd be a pretty useless Bot without those permissions!`);
   }
+
+
+
+  // IS THERE A DISCORD OUTAGE AFFECTING THIS GUILD OR NOT
+  if ( !guild.available ) {
+    return;
+  }
+
+
+
+
+
 
 
   // PREFIX CHECK

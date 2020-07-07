@@ -34,7 +34,8 @@ module.exports = {
       // Variables so that this is easier for me to read in this code form ;P
       let additionArray = [
         `+ Added a command only me, the Bot\'s Developer, can use for testing purposes`,
-        `+ Added a catch for if a Guild/Server is offline due to a Discord Outage (prevents Bot crashes?)`
+        `+ Added a catch for if a Guild/Server is offline due to a Discord Outage (prevents Bot crashes?)`,
+        `+ Added some more error handling stuff.`
       ];
       
       let changeArray = [

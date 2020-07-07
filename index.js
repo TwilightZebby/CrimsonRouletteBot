@@ -57,13 +57,115 @@ client.once("ready", async () => {
 
 
 // Debugging
-process.on('warning', console.warn);
+process.on('warning', async (warning) => {
+
+  // Log to console
+  console.warn(warning);
+
+  // Log to error log channel
+  let errorChannel = client.guilds.resolve('681805468749922308').channels.resolve('726336306497454081');
+
+  return await errorChannel.send(`\`\`\`Warning:\n
+  ${warning}
+  \`\`\``);
+
+})
+
 // Extra Error Catching
-process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
+process.on('unhandledRejection', async (error) => {
+
+  // Log to console
+  console.error(`Uncaught Promise Rejection:\n`, error);
+
+  // Log to error log channel
+  let errorChannel = client.guilds.resolve('681805468749922308').channels.resolve('726336306497454081');
+
+  return await errorChannel.send(`\`\`\`Uncaught Promise Rejection:\n
+  ${error.stack}
+  \`\`\``);
+
+});
+
+
+// Discord Error Handling
+client.on('error', async (error) => {
+
+  // Log to console
+  console.error(error);
+
+  // Log to error log channel
+  let errorChannel = client.guilds.resolve('681805468749922308').channels.resolve('726336306497454081');
+
+  return await errorChannel.send(`\`\`\`Discord Error:\n
+  ${error.stack}
+  \`\`\``);
+
+});
+
+
+client.on('rateLimit', async (rateLimitInfo) => {
+
+  // Log to Console
+  console.warn(rateLimitInfo);
+
+  // Log to error log channel
+  let errorChannel = client.guilds.resolve('681805468749922308').channels.resolve('726336306497454081');
+
+  return await errorChannel.send(`\`\`\`Discord Ratelimit Error:\n
+  Timeout (ms): ${rateLimitInfo.timeout}
+  Limit: ${rateLimitInfo.limit}
+  Method: ${rateLimitInfo.method}
+  Path: ${rateLimitInfo.path}
+  Route: ${rateLimitInfo.route}
+  \`\`\``);
+
+});
+
+
+client.on('warn', async (warning) => {
+
+  // Log to console
+  console.warn(warning);
+
+  // Log to error log channel
+  let errorChannel = client.guilds.resolve('681805468749922308').channels.resolve('726336306497454081');
+
+  return await errorChannel.send(`\`\`\`Discord Warning:\n
+  ${warning}
+  \`\`\``);
+
+});
+
+
+
 // top.gg error handling
-/*dbl.on('error', e => {
-  console.log(`Oops! ${e}`);
+/*dbl.on('error', async (e) => {
+
+  // Log to console
+  console.error(`DiscordBotList Error:\n ${e}`);
+
+  // Log to error log channel
+  let errorChannel = client.guilds.resolve('681805468749922308').channels.resolve('726336306497454081');
+
+  return await errorChannel.send(`\`\`\`DiscordBotList Error:\n
+  ${e}
+  \`\`\``);
+
 })*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

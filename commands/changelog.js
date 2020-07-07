@@ -22,13 +22,13 @@ module.exports = {
       // YYYY-MM-DD T HH:MM:SS
       // End with "Z" for UTC time
       // For a specific timezone, replace "Z" with "+HH:MM" or "-HH:MM"
-      let updateDate = Date.parse("2020-06-12T11:10:00+01:00");
+      let updateDate = Date.parse("2020-07-07T10:43:00+01:00");
       updateEmbed.setTimestamp(updateDate);
 
       
 
       // Changelog itself
-      updateEmbed.setTitle(`v1.4.1 - 12th June 2020`);
+      updateEmbed.setTitle(`v1.4.1 - 7th July 2020`);
 
 
       // Variables so that this is easier for me to read in this code form ;P

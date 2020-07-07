@@ -13,6 +13,7 @@ const lvlCooldowns = new Discord.Collection(); // For Cooldowns specific to Leve
 //const DBL = require("dblapi.js");
 //const dbl = new DBL(DBLTOKEN, client);
 let functFile = require('./bot_modules/functions.js');
+const { time } = require('console');
 
 for (const file of commandFiles) { // Slaps all the command files into the Collection
   const command = require(`./commands/${file}`);
@@ -1016,24 +1017,33 @@ client.on("message", async (message) => {
 
 
     if (timestamps.has(message.author.id)) {
-      const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
-      if (now < expirationTime) {
-        let timeLeft = (expirationTime - now) / 1000;
-
-        // If greater than 60 Seconds, convert into Minutes
-        if (timeLeft > 60 && timeLeft < 3600) {
-          timeLeft = timeLeft / 60;
-          return await message.reply(`Please wait ${timeLeft.toFixed(1)} more minute(s) before reusing the \`${command.name}\` command.`);
-        }
-        // If greater than 3600 Seconds, convert into Hours
-        else if (timeLeft > 3600) {
-          timeLeft = timeLeft / 3600;
-          return await message.reply(`Please wait ${timeLeft.toFixed(1)} more hour(s) before reusing the \`${command.name}\` command.`);
-        }
-
-        return await message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+      // Developer Override
+      if ( message.author.id === '156482326887530498' && message.content.includes("--overridecooldown") ) {
+        timestamps.delete(message.author.id);
       }
+      else {
+
+        const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+
+        if (now < expirationTime) {
+          let timeLeft = (expirationTime - now) / 1000;
+
+          // If greater than 60 Seconds, convert into Minutes
+          if (timeLeft > 60 && timeLeft < 3600) {
+            timeLeft = timeLeft / 60;
+            return await message.reply(`Please wait ${timeLeft.toFixed(1)} more minute(s) before reusing the \`${command.name}\` command.`);
+          }
+          // If greater than 3600 Seconds, convert into Hours
+          else if (timeLeft > 3600) {
+            timeLeft = timeLeft / 3600;
+            return await message.reply(`Please wait ${timeLeft.toFixed(1)} more hour(s) before reusing the \`${command.name}\` command.`);
+          }
+
+          return await message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+        }
+
+      }      
 
     } else if ( message.author.id === '156482326887530498' && message.content.includes("--overridecooldown") ) {
 

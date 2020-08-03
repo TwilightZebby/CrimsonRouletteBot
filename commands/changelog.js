@@ -16,19 +16,19 @@ module.exports = {
       PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
 
 
-      const updateEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('v1.5.0 Changelog');
+      const updateEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('v1.4.1 Changelog');
 
       // Date calculation
       // YYYY-MM-DD T HH:MM:SS
       // End with "Z" for UTC time
       // For a specific timezone, replace "Z" with "+HH:MM" or "-HH:MM"
-      let updateDate = Date.parse("2020-08-03T10:43:00+01:00");
+      let updateDate = Date.parse("2020-08-03T10:40:00+01:00");
       updateEmbed.setTimestamp(updateDate);
 
       
 
       // Changelog itself
-      updateEmbed.setTitle(`v1.5.0 - 3rd August 2020`);
+      updateEmbed.setTitle(`v1.4.2 - 3rd August 2020`);
 
 
       // Variables so that this is easier for me to read in this code form ;P

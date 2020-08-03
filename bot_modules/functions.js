@@ -227,6 +227,25 @@ module.exports = {
                       }
       
                     }
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
+                    }
       
       
                     return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
@@ -290,6 +309,26 @@ module.exports = {
       
       
       
+                    }
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
                     }
       
       
@@ -356,6 +395,27 @@ module.exports = {
                       }
       
                     }
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
+                    }
       
       
                     return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
@@ -381,6 +441,27 @@ module.exports = {
       
                       }
       
+                    }
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
                     }
       
       
@@ -523,6 +604,27 @@ module.exports = {
                       }
       
                     }
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
+                    }
       
       
                     return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
@@ -585,6 +687,27 @@ module.exports = {
       
       
       
+                    }
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
                     }
       
                     
@@ -651,6 +774,28 @@ module.exports = {
                       }
       
                     }
+
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
+                    }
       
       
                     return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
@@ -676,6 +821,28 @@ module.exports = {
       
                       }
       
+                    }
+
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
                     }
       
       
@@ -895,6 +1062,27 @@ module.exports = {
                       }
       
                     }
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
+                    }
       
       
                     return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
@@ -957,6 +1145,27 @@ module.exports = {
       
       
       
+                    }
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
                     }
       
       
@@ -1023,6 +1232,28 @@ module.exports = {
                       }
       
                     }
+
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
+                    }
       
       
                     return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
@@ -1048,6 +1279,27 @@ module.exports = {
       
                       }
       
+                    }
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
                     }
       
       
@@ -1190,6 +1442,27 @@ module.exports = {
                       }
       
                     }
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
+                    }
       
       
                     return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
@@ -1254,6 +1527,27 @@ module.exports = {
       
       
       
+                    }
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
                     }
       
       
@@ -1320,6 +1614,28 @@ module.exports = {
                       }
       
                     }
+
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
+                    }
       
       
                     return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
@@ -1345,6 +1661,27 @@ module.exports = {
       
                       }
       
+                    }
+
+
+
+
+                    // CHECK FOR ALLOWMENTIONS USER PREFS
+                    let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+                    .catch(e => {
+                      console.error(e);
+                    });
+                  
+                    let userAllowMentions = userPrefsDB[0].allowMentions;
+                  
+                    if ( userAllowMentions === `false` ) {
+                    
+                      return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                        allowedMentions: {
+                          parse: []
+                        }
+                      });
+                    
                     }
       
       

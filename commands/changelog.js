@@ -16,31 +16,29 @@ module.exports = {
       PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
 
 
-      const updateEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('v1.4.1 Changelog');
+      const updateEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('v1.5.0 Changelog');
 
       // Date calculation
       // YYYY-MM-DD T HH:MM:SS
       // End with "Z" for UTC time
       // For a specific timezone, replace "Z" with "+HH:MM" or "-HH:MM"
-      let updateDate = Date.parse("2020-07-07T10:43:00+01:00");
+      let updateDate = Date.parse("2020-08-03T10:43:00+01:00");
       updateEmbed.setTimestamp(updateDate);
 
       
 
       // Changelog itself
-      updateEmbed.setTitle(`v1.4.1 - 7th July 2020`);
+      updateEmbed.setTitle(`v1.5.0 - 3rd August 2020`);
 
 
       // Variables so that this is easier for me to read in this code form ;P
       let additionArray = [
-        `+ Added a command only me, the Bot\'s Developer, can use for testing purposes`,
-        `+ Added a catch for if a Guild/Server is offline due to a Discord Outage (prevents Bot crashes?)`,
-        `+ Added some more error handling stuff.`
+        `+ Added a new \`allowMentions\` option in the \`c!prefs\` command - this controls if the Bot should \`@mention\` you in Level Up/Down messages or not.`
       ];
       
-      let changeArray = [
-        `• Tweaked how common/rare the results of the Roulette command are.`
-      ];
+      /*let changeArray = [
+        `• `
+      ];*/
       
       /*let removeArray = [
         `- `
@@ -49,9 +47,8 @@ module.exports = {
 
       updateEmbed.addFields(
         { name: `Additions`, value: additionArray.join(`\n`) },
-        { name: `Changes`, value: changeArray.join(`\n`) },
-        //{ name: `Removals`, value: removeArray.join(`\n`) },
-        { name: `UPDATES NOTICE`, value: `*Updates to this Bot may be slowed quite a bit while I work on a rewrite of this Bot (aka v2.0) that will also come with a Web Dashboard. Sorry about that* :)` }
+        //{ name: `Changes`, value: changeArray.join(`\n`) },
+        //{ name: `Removals`, value: removeArray.join(`\n`) }
       )
 
       return message.channel.send(updateEmbed);

@@ -97,15 +97,18 @@ module.exports = {
 
         // Split apart values
         let userBackground = userPrefsDB[0].background;
+        let userAllowMentions = userPrefsDB[0].allowMentions;
 
 
         // Slap values into Embed
         prefEmbed.setTitle(`${message.author.username} Preferences`);
         prefEmbed.addFields(
-          { name: `Rank Background`, value: userBackground },
+          { name: `Rank Background`, value: userBackground, inline: true },
+          { name: `Allow Mentions`, value: userAllowMentions, inline: true },
           { name: `\u200B`, value: `\u200B` },
           { name: `Set Preferences`, value: `To edit a preference, use **\`${PREFIX}prefs [option] / [value]\`**, making sure to INCLUDE the forward slash (/) between the Option and Value!` },
-          { name: `Rank Background Information`, value: `If you want to know what backgrounds you can choose from, use \`${PREFIX}prefs background / list\`` }
+          { name: `Rank Background Information`, value: `If you want to know what backgrounds you can choose from, use \`${PREFIX}prefs background / list\`` },
+          { name: `Allow Mentions Information`, value: `This setting controls if the Bot should \`@mention\` you in Level Up/Down Messages.`}
         );
         return message.channel.send(prefEmbed);
 
@@ -278,7 +281,7 @@ module.exports = {
               .catch(err => {
                 console.error(err);
                 prefEmbed.setTitle(`Something went wrong...`);
-                prefEmbed.setDescription(`I was unable to update your background preferences. Please try again later...`);
+                prefEmbed.setDescription(`I was unable to update your \`background\` preferences. Please try again later...`);
                 return message.channel.send(prefEmbed);
               });
 
@@ -286,6 +289,56 @@ module.exports = {
               prefEmbed.setDescription(`${message.author} preferences for rank background were updated to use the **${settingValueBackup}** background!`);
               return message.channel.send(prefEmbed);
 
+
+            }
+
+            break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          // ALLOW MENTIONS
+          case 'allowmentions':
+          case 'allow mentions':
+          case 'mentions':
+
+            settingValue = settingValue.toLowerCase();
+
+            let validValues = [ 'true', 'false' ];
+            if ( !validValues.includes(settingValue) ) {
+
+              prefEmbed.setTitle(`Error!`)
+              .setDescription(`Sorry, but that wasn't a valid option!\nValid options for the \`allowMentions\` field are either **true** or **false**`);
+              return await message.channel.send(prefEmbed);
+
+            }
+            else {
+
+              // Push changed value
+              let updatePrefs = await UserPrefs.update({ allowMentions: settingValue }, { where: { userID: message.author.id } })
+              .catch(err => {
+                console.error(err);
+                prefEmbed.setTitle(`Something went wrong...`);
+                prefEmbed.setDescription(`I was unable to update your \`allowMentions\` preferences. Please try again later...`);
+                return message.channel.send(prefEmbed);
+              });
+
+
+              prefEmbed.setTitle(`Successfully updated preferences!`);
+              prefEmbed.setDescription(`${message.author} preferences for allowed Mentions were updated to **${settingValue}**!`);
+              return message.channel.send(prefEmbed);
 
             }
 

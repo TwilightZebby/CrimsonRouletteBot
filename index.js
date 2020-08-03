@@ -751,6 +751,26 @@ client.on("message", async (message) => {
               }
 
 
+
+              // CHECK FOR ALLOWMENTIONS USER PREFS
+              let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+              .catch(e => {
+                console.error(e);
+              });
+
+              let userAllowMentions = userPrefsDB[0].allowMentions;
+
+              if ( userAllowMentions === `false` ) {
+
+                return await announceChannel.send(lvlMessage, {
+                  allowedMentions: {
+                    parse: []
+                  }
+                });
+
+              }
+
+
               return await announceChannel.send(lvlMessage);
 
             } else {
@@ -820,6 +840,25 @@ client.on("message", async (message) => {
                 }
 
 
+
+              }
+
+
+              // CHECK FOR ALLOWMENTIONS USER PREFS
+              let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+              .catch(e => {
+                console.error(e);
+              });
+
+              let userAllowMentions = userPrefsDB[0].allowMentions;
+
+              if ( userAllowMentions === `false` ) {
+
+                return await announceChannel.send(lvlMessage, {
+                  allowedMentions: {
+                    parse: []
+                  }
+                });
 
               }
 
@@ -902,6 +941,26 @@ client.on("message", async (message) => {
               }
 
 
+
+              // CHECK FOR ALLOWMENTIONS USER PREFS
+              let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+              .catch(e => {
+                console.error(e);
+              });
+
+              let userAllowMentions = userPrefsDB[0].allowMentions;
+
+              if ( userAllowMentions === `false` ) {
+
+                return await announceChannel.send(lvlMessage, {
+                  allowedMentions: {
+                    parse: []
+                  }
+                });
+
+              }
+
+
               return await announceChannel.send(lvlMessage);
 
             } else {
@@ -924,6 +983,26 @@ client.on("message", async (message) => {
                     .catch(console.error);
 
                 }
+
+              }
+
+
+
+              // CHECK FOR ALLOWMENTIONS USER PREFS
+              let userPrefsDB = await UserPrefs.findOrCreate({ where: { userID: message.author.id } })
+              .catch(e => {
+                console.error(e);
+              });
+
+              let userAllowMentions = userPrefsDB[0].allowMentions;
+
+              if ( userAllowMentions === `false` ) {
+
+                return await announceChannel.send(lvlMessage, {
+                  allowedMentions: {
+                    parse: []
+                  }
+                });
 
               }
 

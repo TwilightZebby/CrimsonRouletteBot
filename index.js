@@ -729,7 +729,7 @@ client.on("message", async (message) => {
                   let oldRoleSearch = await LevelRoles.findOne({
                       where: {
                         guildID: message.guild.id,
-                        level: oldLevel
+                        level: uLevel
                       }
                     })
                     .catch(console.error);
@@ -818,7 +818,7 @@ client.on("message", async (message) => {
                     let oldRoleSearch = await LevelRoles.findOne({
                         where: {
                           guildID: message.guild.id,
-                          level: oldLevel
+                          level: uLevel
                         }
                       })
                       .catch(console.error);

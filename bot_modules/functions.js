@@ -169,7 +169,7 @@ module.exports = {
       
       
                   // Fetch all Roles User has
-                  let userRoles = message.member.roles.cache;
+                  let userRoles = Array.from(message.member.roles.cache.values());
                   let matchedRoles = [];
       
       
@@ -179,7 +179,7 @@ module.exports = {
                     let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
                     .catch(console.error);
       
-                    if ( searchForMatch !== undefined || searchForMatch !== null ) {
+                    if ( searchForMatch !== undefined && searchForMatch !== null ) {
       
                       matchedRoles.push(userRoles[i].id);
       
@@ -209,16 +209,20 @@ module.exports = {
       
       
                         // Remove previous (higher) role
-                        let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                        .catch(console.error);
-      
-                        if ( oldRoleSearch ) {
-      
-                          let oldRoleID = oldRoleSearch.roleID;
-                          let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                        for ( let j = 200; j > ulevel; j-- ) {
+
+                          let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
                           .catch(console.error);
       
+                          if ( oldRoleSearch ) {
+      
+                            let oldRoleID = oldRoleSearch.roleID;
+                            let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+      
+                          }
+
                         }
       
       
@@ -287,16 +291,20 @@ module.exports = {
       
       
                           // Remove previous (higher) role
-                          let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                          .catch(console.error);
-      
-                          if ( oldRoleSearch ) {
-      
-                            let oldRoleID = oldRoleSearch.roleID;
-                            let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                          for ( let j = 200; j > ulevel; j-- ) {
+
+                            let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
                             .catch(console.error);
-      
+                          
+                            if ( oldRoleSearch ) {
+                            
+                              let oldRoleID = oldRoleSearch.roleID;
+                              let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+                            
+                            }
+
                           }
       
       
@@ -352,7 +360,7 @@ module.exports = {
       
       
                   // Fetch all Roles User has
-                  let userRoles = message.member.roles.cache;
+                  let userRoles = Array.from(message.member.roles.cache.values());
                   let matchedRoles = [];
       
       
@@ -362,7 +370,7 @@ module.exports = {
                     let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
                     .catch(console.error);
       
-                    if ( searchForMatch !== undefined || searchForMatch !== null ) {
+                    if ( searchForMatch !== undefined && searchForMatch !== null ) {
       
                       matchedRoles.push(userRoles[i].id);
       
@@ -378,22 +386,46 @@ module.exports = {
       
       
                     // If there is an assigned Role for a lower level, assign that!
-                    for ( let i = ulevel; i >= 0; i-- ) {
-      
-                      let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                      .catch(console.error);
-      
-                      if ( newRoleSearch ) {
-      
+                    for (let i = ulevel; i >= 0; i--) {
+                    
+                      let newRoleSearch = await LevelRoles.findOne({
+                          where: {
+                            guildID: message.guild.id,
+                            level: i
+                          }
+                        })
+                        .catch(console.error);
+                      
+                      if (newRoleSearch) {
+                      
                         let newRoleID = newRoleSearch.roleID;
                         let newRoleObj = message.guild.roles.resolve(newRoleID);
                         let newRoleGrant = await message.member.roles.add(newRoleObj)
-                        .catch(console.error);
-      
+                          .catch(console.error);
+                      
+                      
+                        // Remove previous (higher) role
+                        for ( let j = 200; j > ulevel; j-- ) {
+                        
+                          let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
+                          .catch(console.error);
+                        
+                          if ( oldRoleSearch ) {
+                          
+                            let oldRoleID = oldRoleSearch.roleID;
+                            let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+                          
+                          }
+                        
+                        }
+                      
+                      
                         i = 0;
-      
+                      
                       }
-      
+                    
                     }
 
 
@@ -546,7 +578,7 @@ module.exports = {
       
       
                   // Fetch all Roles User has
-                  let userRoles = message.member.roles.cache;
+                  let userRoles = Array.from(message.member.roles.cache.values());
                   let matchedRoles = [];
       
       
@@ -556,7 +588,7 @@ module.exports = {
                     let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
                     .catch(console.error);
       
-                    if ( searchForMatch !== undefined || searchForMatch !== null ) {
+                    if ( searchForMatch !== undefined && searchForMatch !== null ) {
       
                       matchedRoles.push(userRoles[i].id);
       
@@ -586,17 +618,23 @@ module.exports = {
       
       
                         // Remove previous (higher) role
-                        let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                        .catch(console.error);
-      
-                        if ( oldRoleSearch ) {
-      
-                          let oldRoleID = oldRoleSearch.roleID;
-                          let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                        for ( let j = 200; j > ulevel; j-- ) {
+
+                          let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
                           .catch(console.error);
       
+                          if ( oldRoleSearch ) {
+      
+                            let oldRoleID = oldRoleSearch.roleID;
+                            let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+      
+                          }
+
                         }
+
+                        
       
       
                         i = 0;
@@ -666,16 +704,20 @@ module.exports = {
       
       
                           // Remove previous (higher) role
-                          let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                          .catch(console.error);
-      
-                          if ( oldRoleSearch ) {
-      
-                            let oldRoleID = oldRoleSearch.roleID;
-                            let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                          for ( let j = 200; j > ulevel; j-- ) {
+
+                            let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
                             .catch(console.error);
-      
+                          
+                            if ( oldRoleSearch ) {
+                            
+                              let oldRoleID = oldRoleSearch.roleID;
+                              let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+                            
+                            }
+
                           }
       
       
@@ -731,7 +773,7 @@ module.exports = {
       
       
                   // Fetch all Roles User has
-                  let userRoles = message.member.roles.cache;
+                  let userRoles = Array.from(message.member.roles.cache.values());
                   let matchedRoles = [];
       
       
@@ -741,7 +783,7 @@ module.exports = {
                     let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
                     .catch(console.error);
       
-                    if ( searchForMatch !== undefined || searchForMatch !== null ) {
+                    if ( searchForMatch !== undefined && searchForMatch !== null ) {
       
                       matchedRoles.push(userRoles[i].id);
       
@@ -757,22 +799,46 @@ module.exports = {
       
       
                     // If there is an assigned Role for a lower level, assign that!
-                    for ( let i = ulevel; i >= 0; i-- ) {
-      
-                      let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                      .catch(console.error);
-      
-                      if ( newRoleSearch ) {
-      
+                    for (let i = ulevel; i >= 0; i--) {
+                    
+                      let newRoleSearch = await LevelRoles.findOne({
+                          where: {
+                            guildID: message.guild.id,
+                            level: i
+                          }
+                        })
+                        .catch(console.error);
+                      
+                      if (newRoleSearch) {
+                      
                         let newRoleID = newRoleSearch.roleID;
                         let newRoleObj = message.guild.roles.resolve(newRoleID);
                         let newRoleGrant = await message.member.roles.add(newRoleObj)
-                        .catch(console.error);
-      
+                          .catch(console.error);
+                      
+                      
+                        // Remove previous (higher) role
+                        for ( let j = 200; j > ulevel; j-- ) {
+                        
+                          let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
+                          .catch(console.error);
+                        
+                          if ( oldRoleSearch ) {
+                          
+                            let oldRoleID = oldRoleSearch.roleID;
+                            let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+                          
+                          }
+                        
+                        }
+                      
+                      
                         i = 0;
-      
+                      
                       }
-      
+                    
                     }
 
 
@@ -1004,7 +1070,7 @@ module.exports = {
       
       
                   // Fetch all Roles User has
-                  let userRoles = message.member.roles.cache;
+                  let userRoles = Array.from(message.member.roles.cache.values());
                   let matchedRoles = [];
       
       
@@ -1014,7 +1080,7 @@ module.exports = {
                     let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
                     .catch(console.error);
       
-                    if ( searchForMatch !== undefined || searchForMatch !== null ) {
+                    if ( searchForMatch !== undefined && searchForMatch !== null ) {
       
                       matchedRoles.push(userRoles[i].id);
       
@@ -1044,16 +1110,20 @@ module.exports = {
       
       
                         // Remove previous (higher) role
-                        let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                        .catch(console.error);
-      
-                        if ( oldRoleSearch ) {
-      
-                          let oldRoleID = oldRoleSearch.roleID;
-                          let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                        for ( let j = 200; j > ulevel; j-- ) {
+
+                          let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
                           .catch(console.error);
       
+                          if ( oldRoleSearch ) {
+      
+                            let oldRoleID = oldRoleSearch.roleID;
+                            let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+      
+                          }
+
                         }
       
       
@@ -1124,16 +1194,20 @@ module.exports = {
       
       
                           // Remove previous (higher) role
-                          let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                          .catch(console.error);
-      
-                          if ( oldRoleSearch ) {
-      
-                            let oldRoleID = oldRoleSearch.roleID;
-                            let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                          for ( let j = 200; j > ulevel; j-- ) {
+
+                            let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
                             .catch(console.error);
-      
+                          
+                            if ( oldRoleSearch ) {
+                            
+                              let oldRoleID = oldRoleSearch.roleID;
+                              let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+                            
+                            }
+
                           }
       
       
@@ -1189,7 +1263,7 @@ module.exports = {
       
       
                   // Fetch all Roles User has
-                  let userRoles = message.member.roles.cache;
+                  let userRoles = Array.from(message.member.roles.cache.values());
                   let matchedRoles = [];
       
       
@@ -1199,7 +1273,7 @@ module.exports = {
                     let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
                     .catch(console.error);
       
-                    if ( searchForMatch !== undefined || searchForMatch !== null ) {
+                    if ( searchForMatch !== undefined && searchForMatch !== null ) {
       
                       matchedRoles.push(userRoles[i].id);
       
@@ -1215,22 +1289,46 @@ module.exports = {
       
       
                     // If there is an assigned Role for a lower level, assign that!
-                    for ( let i = ulevel; i >= 0; i-- ) {
-      
-                      let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                      .catch(console.error);
-      
-                      if ( newRoleSearch ) {
-      
+                    for (let i = ulevel; i >= 0; i--) {
+                    
+                      let newRoleSearch = await LevelRoles.findOne({
+                          where: {
+                            guildID: message.guild.id,
+                            level: i
+                          }
+                        })
+                        .catch(console.error);
+                      
+                      if (newRoleSearch) {
+                      
                         let newRoleID = newRoleSearch.roleID;
                         let newRoleObj = message.guild.roles.resolve(newRoleID);
                         let newRoleGrant = await message.member.roles.add(newRoleObj)
-                        .catch(console.error);
-      
+                          .catch(console.error);
+                      
+                      
+                        // Remove previous (higher) role
+                        for ( let j = 200; j > ulevel; j-- ) {
+                        
+                          let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
+                          .catch(console.error);
+                        
+                          if ( oldRoleSearch ) {
+                          
+                            let oldRoleID = oldRoleSearch.roleID;
+                            let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+                          
+                          }
+                        
+                        }
+                      
+                      
                         i = 0;
-      
+                      
                       }
-      
+                    
                     }
 
 
@@ -1384,7 +1482,7 @@ module.exports = {
       
       
                   // Fetch all Roles User has
-                  let userRoles = message.member.roles.cache;
+                  let userRoles = Array.from(message.member.roles.cache.values());
                   let matchedRoles = [];
       
       
@@ -1394,7 +1492,7 @@ module.exports = {
                     let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
                     .catch(console.error);
       
-                    if ( searchForMatch !== undefined || searchForMatch !== null ) {
+                    if ( searchForMatch !== undefined && searchForMatch !== null ) {
       
                       matchedRoles.push(userRoles[i].id);
       
@@ -1424,16 +1522,20 @@ module.exports = {
       
       
                         // Remove previous (higher) role
-                        let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                        .catch(console.error);
-      
-                        if ( oldRoleSearch ) {
-      
-                          let oldRoleID = oldRoleSearch.roleID;
-                          let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                        for ( let j = 200; j > ulevel; j-- ) {
+
+                          let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
                           .catch(console.error);
       
+                          if ( oldRoleSearch ) {
+      
+                            let oldRoleID = oldRoleSearch.roleID;
+                            let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+      
+                          }
+
                         }
       
       
@@ -1505,16 +1607,20 @@ module.exports = {
       
       
                           // Remove previous (higher) role
-                          let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: oldLevel } })
-                          .catch(console.error);
-      
-                          if ( oldRoleSearch ) {
-      
-                            let oldRoleID = oldRoleSearch.roleID;
-                            let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                          for ( let j = 200; j > ulevel; j-- ) {
+
+                            let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
                             .catch(console.error);
-      
+                          
+                            if ( oldRoleSearch ) {
+                            
+                              let oldRoleID = oldRoleSearch.roleID;
+                              let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+                            
+                            }
+
                           }
       
       
@@ -1571,7 +1677,7 @@ module.exports = {
       
       
                   // Fetch all Roles User has
-                  let userRoles = message.member.roles.cache;
+                  let userRoles = Array.from(message.member.roles.cache.values());
                   let matchedRoles = [];
       
       
@@ -1581,7 +1687,7 @@ module.exports = {
                     let searchForMatch = await LevelRoles.findOne({ where: { guildID: message.guild.id, roleID: userRoles[i].id } })
                     .catch(console.error);
       
-                    if ( searchForMatch !== undefined || searchForMatch !== null ) {
+                    if ( searchForMatch !== undefined && searchForMatch !== null ) {
       
                       matchedRoles.push(userRoles[i].id);
       
@@ -1597,22 +1703,46 @@ module.exports = {
       
       
                     // If there is an assigned Role for a lower level, assign that!
-                    for ( let i = ulevel; i >= 0; i-- ) {
-      
-                      let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
-                      .catch(console.error);
-      
-                      if ( newRoleSearch ) {
-      
+                    for (let i = ulevel; i >= 0; i--) {
+                    
+                      let newRoleSearch = await LevelRoles.findOne({
+                          where: {
+                            guildID: message.guild.id,
+                            level: i
+                          }
+                        })
+                        .catch(console.error);
+                      
+                      if (newRoleSearch) {
+                      
                         let newRoleID = newRoleSearch.roleID;
                         let newRoleObj = message.guild.roles.resolve(newRoleID);
                         let newRoleGrant = await message.member.roles.add(newRoleObj)
-                        .catch(console.error);
-      
+                          .catch(console.error);
+                      
+                      
+                        // Remove previous (higher) role
+                        for ( let j = 200; j > ulevel; j-- ) {
+                        
+                          let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
+                          .catch(console.error);
+                        
+                          if ( oldRoleSearch ) {
+                          
+                            let oldRoleID = oldRoleSearch.roleID;
+                            let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+                          
+                          }
+                        
+                        }
+                      
+                      
                         i = 0;
-      
+                      
                       }
-      
+                    
                     }
 
 

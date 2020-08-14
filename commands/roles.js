@@ -1,4 +1,4 @@
-let { PREFIX } = require('../config.js');
+let { PREFIX, BOTID } = require('../config.js');
 const { ConfigData, GuildLevels, LevelRoles, UserBG } = require('../bot_modules/tables.js');
 const Discord = require("discord.js");
 const { client } = require('../bot_modules/constants.js');
@@ -237,7 +237,7 @@ module.exports = {
 
 
     // Permissions check!
-    let botMember = message.guild.members.resolve('657859837023092746');
+    let botMember = message.guild.members.resolve(BOTID);
     let manageRole = botMember.hasPermission('MANAGE_ROLES', {
       checkAdmin: true
     });

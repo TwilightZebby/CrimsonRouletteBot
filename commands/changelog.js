@@ -16,19 +16,19 @@ module.exports = {
       PREFIX = await functFile.LoadPrefix(message.guild.id, ConfigData);
 
 
-      const updateEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('v1.4.3 Changelog');
+      const updateEmbed = new Discord.MessageEmbed().setColor('#07f51b').setFooter('v1.4.4 Changelog');
 
       // Date calculation
       // YYYY-MM-DD T HH:MM:SS
       // End with "Z" for UTC time
       // For a specific timezone, replace "Z" with "+HH:MM" or "-HH:MM"
-      let updateDate = Date.parse("2020-08-04T08:20:00+01:00");
+      let updateDate = Date.parse("2020-08-14T10:50:00+01:00");
       updateEmbed.setTimestamp(updateDate);
 
       
 
       // Changelog itself
-      updateEmbed.setTitle(`v1.4.3 - 4th August 2020`);
+      updateEmbed.setTitle(`v1.4.4 - 14th August 2020`);
 
 
       // Variables so that this is easier for me to read in this code form ;P
@@ -37,7 +37,8 @@ module.exports = {
       ];*/
       
       let changeArray = [
-        `• Fixed a bug which caused the "You need to be the Server Owner" Error to appear for the \`config\`, \`roles\`, and \`reset\` commands even if you own that Server`
+        `• Fixed a massive bug which prevented the Bot from removing Roles when you fall below that Role's Level`,
+        `• Minor tweaks to how the Bot sends the Server Owner a DM if it doesn't have "Read Messages" or "Send Messages" permissions`
       ];
       
       /*let removeArray = [

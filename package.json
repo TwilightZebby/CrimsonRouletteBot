@@ -1,6 +1,6 @@
 {
   "name": "crimsonroulettebot",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "A small Discord Bot which features risky Roulette features",
   "main": "index.js",
   "scripts": {

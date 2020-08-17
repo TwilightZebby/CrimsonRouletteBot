@@ -656,7 +656,195 @@ client.on("message", async (message) => {
           i += 99999999; // To make sure Loop is broken out of early
 
           if (dbConfig[0].lvlChannel === null || dbConfig[0].lvlChannel === undefined) {
-            return;
+
+            // Level Role Check
+            let roleSearch = await LevelRoles.findOne({
+                where: {
+                  guildID: message.guild.id,
+                  level: uLevel
+                }
+              })
+              .catch(console.error);
+
+
+            // Fetch all Roles User has
+            let userRoles = Array.from(message.member.roles.cache.values());
+            let matchedRoles = [];
+
+
+            // See if any of the User's Roles match IDs stored in DB
+            for (let i = 0; i < userRoles.length; i++) {
+              //console.log(userRoles[i].id);
+              let searchForMatch = await LevelRoles.findOne({
+                  where: {
+                    guildID: message.guild.id,
+                    roleID: userRoles[i].id
+                  }
+                })
+                .catch(console.error);
+
+              if (searchForMatch !== undefined && searchForMatch !== null) {
+
+                matchedRoles.push(userRoles[i].id);
+
+              }
+
+            }
+
+
+
+
+
+            if ( roleSearch === null || roleSearch === undefined ) {
+      
+              // If no stored Roles are found
+
+
+              // If there is an assigned Role for a lower level, assign that!
+              let wasNewRoleGiven = false;
+              for ( let i = uLevel; i >= 0; i-- ) {
+
+                let newRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: i } })
+                .catch(console.error);
+
+                if ( newRoleSearch ) {
+
+                  let newRoleID = newRoleSearch.roleID;
+                  let newRoleObj = message.guild.roles.resolve(newRoleID);
+                  let newRoleGrant = await message.member.roles.add(newRoleObj)
+                  .catch(console.error);
+
+
+                  // Remove previous (higher) role
+                  for ( let j = 200; j > uLevel; j-- ) {
+
+                    let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
+                    .catch(console.error);
+
+                    if ( oldRoleSearch ) {
+
+                      let oldRoleID = oldRoleSearch.roleID;
+                      let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                      let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                      .catch(console.error);
+
+                    }
+
+                  }
+
+                  
+
+
+                  i = 0;
+                  wasNewRoleGiven = true;
+
+                }
+
+              }
+
+
+
+
+
+              if ( wasNewRoleGiven === false ) {
+
+                // Remove previous (higher) role
+                for ( let j = 200; j > uLevel; j-- ) {
+
+                  let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
+                  .catch(console.error);
+
+                  if ( oldRoleSearch ) {
+
+                    let oldRoleID = oldRoleSearch.roleID;
+                    let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                    let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                    .catch(console.error);
+
+                  }
+
+                }
+
+              }
+
+
+
+
+              return;
+
+            } else {
+
+              // If there is a stored Role
+              let roleID = roleSearch.roleID;
+              let roleObj = message.guild.roles.resolve(roleID);
+              let roleAdd = await message.member.roles.add(roleObj)
+                .catch(console.error);
+
+
+              // Remove any previous Levelling Roles IF ANY
+              if (matchedRoles.length > 0) {
+
+                for (let i = 0; i < matchedRoles.length; i++) {
+
+                  let tempRole = matchedRoles[i];
+                  let tempRoleObj = message.guild.roles.resolve(tempRole);
+                  let roleRemove = await message.member.roles.remove(tempRoleObj)
+                    .catch(console.error);
+
+                }
+
+
+                // If there is an assigned Role for a lower level, assign that!
+                for (let i = uLevel; i >= 0; i--) {
+
+                  let newRoleSearch = await LevelRoles.findOne({
+                      where: {
+                        guildID: message.guild.id,
+                        level: i
+                      }
+                    })
+                    .catch(console.error);
+
+                  if (newRoleSearch) {
+
+                    let newRoleID = newRoleSearch.roleID;
+                    let newRoleObj = message.guild.roles.resolve(newRoleID);
+                    let newRoleGrant = await message.member.roles.add(newRoleObj)
+                      .catch(console.error);
+
+
+                    // Remove previous (higher) role
+                    for ( let j = 200; j > uLevel; j-- ) {
+
+                      let oldRoleSearch = await LevelRoles.findOne({ where: { guildID: message.guild.id, level: j } })
+                      .catch(console.error);
+  
+                      if ( oldRoleSearch ) {
+  
+                        let oldRoleID = oldRoleSearch.roleID;
+                        let oldRoleObj = message.guild.roles.resolve(oldRoleID);
+                        let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                        .catch(console.error);
+  
+                      }
+
+                    }
+
+
+                    i = 0;
+
+                  }
+
+                }
+
+
+
+              }
+
+
+              return;
+
+            }
           } else if (uLevel < oldULevel) {
 
             let announceChannel = message.guild.channels.resolve(dbConfig[0].lvlChannel);
@@ -787,7 +975,7 @@ client.on("message", async (message) => {
             
               if ( userAllowMentions === `false` ) {
               
-                return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                return await announceChannel.send(`${lvlMessage}`, {
                   allowedMentions: {
                     parse: []
                   }
@@ -796,7 +984,7 @@ client.on("message", async (message) => {
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
+              return announceChannel.send(lvlMessage);
 
             } else {
 
@@ -1020,7 +1208,7 @@ client.on("message", async (message) => {
             
               if ( userAllowMentions === `false` ) {
               
-                return await announceChannel.send(`${lvlMessage}  <-- **Caused by a Roulette Command!**`, {
+                return await announceChannel.send(`${lvlMessage}`, {
                   allowedMentions: {
                     parse: []
                   }
@@ -1029,7 +1217,7 @@ client.on("message", async (message) => {
               }
 
 
-              return announceChannel.send(lvlMessage + ` <-- **Caused by a Roulette Command!**`);
+              return announceChannel.send(lvlMessage);
 
             } else {
 

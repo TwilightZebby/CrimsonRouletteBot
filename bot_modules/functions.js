@@ -223,8 +223,13 @@ module.exports = {
       
                             let oldRoleID = oldRoleSearch.roleID;
                             let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                            .catch(console.error);
+                            
+                            if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+      
+                            }
       
                           }
       
@@ -256,8 +261,13 @@ module.exports = {
       
                           let oldRoleID = oldRoleSearch.roleID;
                           let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                          .catch(console.error);
+                          
+                          if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+    
+                          }
       
                         }
       
@@ -286,8 +296,13 @@ module.exports = {
       
                         let tempRole = matchedRoles[i];
                         let tempRoleObj = message.guild.roles.resolve(tempRole);
-                        let roleRemove = await message.member.roles.remove(tempRoleObj)
+                        
+                        if ( message.member.roles.cache.has(tempRoleObj.id) ) {
+
+                          let oldRoleRemove = await message.member.roles.remove(tempRoleObj)
                           .catch(console.error);
+  
+                        }
       
                       }
       
@@ -321,8 +336,13 @@ module.exports = {
         
                               let oldRoleID = oldRoleSearch.roleID;
                               let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                              .catch(console.error);
+                              
+                              if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                                let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                                .catch(console.error);
+        
+                              }
         
                             }
       
@@ -407,8 +427,13 @@ module.exports = {
       
                             let oldRoleID = oldRoleSearch.roleID;
                             let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                            .catch(console.error);
+                            
+                            if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+      
+                            }
       
                           }
 
@@ -440,8 +465,13 @@ module.exports = {
     
                           let oldRoleID = oldRoleSearch.roleID;
                           let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                          .catch(console.error);
+                          
+                          if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+    
+                          }
     
                         }
 
@@ -489,9 +519,14 @@ module.exports = {
       
                         let tempRole = matchedRoles[i];
                         let tempRoleObj = message.guild.roles.resolve(tempRole);
-                        let roleRemove = await message.member.roles.remove(tempRoleObj)
-                        .catch(console.error);
-      
+                        
+                        if ( message.member.roles.cache.has(tempRoleObj.id) ) {
+
+                          let oldRoleRemove = await message.member.roles.remove(tempRoleObj)
+                          .catch(console.error);
+  
+                        }
+                        
                       }
       
       
@@ -519,8 +554,13 @@ module.exports = {
                             
                               let oldRoleID = oldRoleSearch.roleID;
                               let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                              .catch(console.error);
+                              
+                              if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                                let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                                .catch(console.error);
+        
+                              }
                             
                             }
 
@@ -629,8 +669,13 @@ module.exports = {
       
                             let oldRoleID = oldRoleSearch.roleID;
                             let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                            .catch(console.error);
+                            
+                            if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+      
+                            }
       
                           }
 
@@ -662,8 +707,13 @@ module.exports = {
     
                           let oldRoleID = oldRoleSearch.roleID;
                           let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                          .catch(console.error);
+                          
+                          if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+    
+                          }
     
                         }
 
@@ -711,9 +761,14 @@ module.exports = {
       
                         let tempRole = matchedRoles[i];
                         let tempRoleObj = message.guild.roles.resolve(tempRole);
-                        let roleRemove = await message.member.roles.remove(tempRoleObj)
-                        .catch(console.error);
-      
+                        
+                        if ( message.member.roles.cache.has(tempRoleObj.id) ) {
+
+                          let oldRoleRemove = await message.member.roles.remove(tempRoleObj)
+                          .catch(console.error);
+  
+                        }
+
                       }
       
                     }
@@ -875,8 +930,13 @@ module.exports = {
       
                             let oldRoleID = oldRoleSearch.roleID;
                             let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                            .catch(console.error);
+                            
+                            if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+      
+                            }
       
                           }
       
@@ -908,8 +968,13 @@ module.exports = {
       
                           let oldRoleID = oldRoleSearch.roleID;
                           let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                          .catch(console.error);
+                          
+                          if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+    
+                          }
       
                         }
       
@@ -938,8 +1003,13 @@ module.exports = {
       
                         let tempRole = matchedRoles[i];
                         let tempRoleObj = message.guild.roles.resolve(tempRole);
-                        let roleRemove = await message.member.roles.remove(tempRoleObj)
+                        
+                        if ( message.member.roles.cache.has(tempRoleObj.id) ) {
+
+                          let oldRoleRemove = await message.member.roles.remove(tempRoleObj)
                           .catch(console.error);
+  
+                        }
       
                       }
       
@@ -973,8 +1043,13 @@ module.exports = {
         
                               let oldRoleID = oldRoleSearch.roleID;
                               let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                              .catch(console.error);
+                              
+                              if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                                let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                                .catch(console.error);
+        
+                              }
         
                             }
       
@@ -1059,8 +1134,13 @@ module.exports = {
       
                             let oldRoleID = oldRoleSearch.roleID;
                             let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                            .catch(console.error);
+                            
+                            if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+      
+                            }
       
                           }
 
@@ -1092,8 +1172,13 @@ module.exports = {
     
                           let oldRoleID = oldRoleSearch.roleID;
                           let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                          .catch(console.error);
+                          
+                          if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+    
+                          }
     
                         }
 
@@ -1141,8 +1226,13 @@ module.exports = {
       
                         let tempRole = matchedRoles[i];
                         let tempRoleObj = message.guild.roles.resolve(tempRole);
-                        let roleRemove = await message.member.roles.remove(tempRoleObj)
-                        .catch(console.error);
+                        
+                        if ( message.member.roles.cache.has(tempRoleObj.id) ) {
+
+                          let oldRoleRemove = await message.member.roles.remove(tempRoleObj)
+                          .catch(console.error);
+  
+                        }
       
                       }
       
@@ -1171,8 +1261,13 @@ module.exports = {
                             
                               let oldRoleID = oldRoleSearch.roleID;
                               let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                              .catch(console.error);
+                              
+                              if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                                let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                                .catch(console.error);
+        
+                              }
                             
                             }
 
@@ -1281,8 +1376,13 @@ module.exports = {
       
                             let oldRoleID = oldRoleSearch.roleID;
                             let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                            .catch(console.error);
+                            
+                            if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+      
+                            }
       
                           }
 
@@ -1314,8 +1414,13 @@ module.exports = {
     
                           let oldRoleID = oldRoleSearch.roleID;
                           let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                          .catch(console.error);
+                          
+                          if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+    
+                          }
     
                         }
 
@@ -1363,8 +1468,13 @@ module.exports = {
       
                         let tempRole = matchedRoles[i];
                         let tempRoleObj = message.guild.roles.resolve(tempRole);
-                        let roleRemove = await message.member.roles.remove(tempRoleObj)
-                        .catch(console.error);
+                        
+                        if ( message.member.roles.cache.has(tempRoleObj.id) ) {
+
+                          let oldRoleRemove = await message.member.roles.remove(tempRoleObj)
+                          .catch(console.error);
+  
+                        }
       
                       }
       
@@ -1605,8 +1715,13 @@ module.exports = {
       
                             let oldRoleID = oldRoleSearch.roleID;
                             let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                            .catch(console.error);
+                            
+                            if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+      
+                            }
       
                           }
       
@@ -1638,8 +1753,13 @@ module.exports = {
       
                           let oldRoleID = oldRoleSearch.roleID;
                           let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                          .catch(console.error);
+                          
+                          if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+    
+                          }
       
                         }
       
@@ -1668,8 +1788,13 @@ module.exports = {
       
                         let tempRole = matchedRoles[i];
                         let tempRoleObj = message.guild.roles.resolve(tempRole);
-                        let roleRemove = await message.member.roles.remove(tempRoleObj)
+                        
+                        if ( message.member.roles.cache.has(tempRoleObj.id) ) {
+
+                          let oldRoleRemove = await message.member.roles.remove(tempRoleObj)
                           .catch(console.error);
+  
+                        }
       
                       }
       
@@ -1703,8 +1828,13 @@ module.exports = {
         
                               let oldRoleID = oldRoleSearch.roleID;
                               let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                              .catch(console.error);
+                              
+                              if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                                let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                                .catch(console.error);
+        
+                              }
         
                             }
       
@@ -1789,8 +1919,13 @@ module.exports = {
       
                             let oldRoleID = oldRoleSearch.roleID;
                             let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                            .catch(console.error);
+                            
+                            if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+      
+                            }
       
                           }
 
@@ -1822,8 +1957,13 @@ module.exports = {
     
                           let oldRoleID = oldRoleSearch.roleID;
                           let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                          .catch(console.error);
+                          
+                          if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+    
+                          }
     
                         }
 
@@ -1871,8 +2011,13 @@ module.exports = {
       
                         let tempRole = matchedRoles[i];
                         let tempRoleObj = message.guild.roles.resolve(tempRole);
-                        let roleRemove = await message.member.roles.remove(tempRoleObj)
-                        .catch(console.error);
+                        
+                        if ( message.member.roles.cache.has(tempRoleObj.id) ) {
+
+                          let oldRoleRemove = await message.member.roles.remove(tempRoleObj)
+                          .catch(console.error);
+  
+                        }
       
                       }
       
@@ -1901,8 +2046,13 @@ module.exports = {
                             
                               let oldRoleID = oldRoleSearch.roleID;
                               let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                              .catch(console.error);
+                              
+                              if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                                let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                                .catch(console.error);
+        
+                              }
                             
                             }
 
@@ -2011,8 +2161,13 @@ module.exports = {
       
                             let oldRoleID = oldRoleSearch.roleID;
                             let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                            .catch(console.error);
+                            
+                            if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+      
+                            }
       
                           }
 
@@ -2044,8 +2199,13 @@ module.exports = {
     
                           let oldRoleID = oldRoleSearch.roleID;
                           let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                          .catch(console.error);
+                          
+                          if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+    
+                          }
     
                         }
 
@@ -2093,8 +2253,13 @@ module.exports = {
       
                         let tempRole = matchedRoles[i];
                         let tempRoleObj = message.guild.roles.resolve(tempRole);
-                        let roleRemove = await message.member.roles.remove(tempRoleObj)
-                        .catch(console.error);
+                        
+                        if ( message.member.roles.cache.has(tempRoleObj.id) ) {
+
+                          let oldRoleRemove = await message.member.roles.remove(tempRoleObj)
+                          .catch(console.error);
+  
+                        }
       
                       }
       
@@ -2257,8 +2422,13 @@ module.exports = {
       
                             let oldRoleID = oldRoleSearch.roleID;
                             let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                            .catch(console.error);
+                            
+                            if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+      
+                            }
       
                           }
       
@@ -2290,8 +2460,13 @@ module.exports = {
       
                           let oldRoleID = oldRoleSearch.roleID;
                           let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                          .catch(console.error);
+                          
+                          if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+    
+                          }
       
                         }
       
@@ -2320,8 +2495,13 @@ module.exports = {
       
                         let tempRole = matchedRoles[i];
                         let tempRoleObj = message.guild.roles.resolve(tempRole);
-                        let roleRemove = await message.member.roles.remove(tempRoleObj)
+                        
+                        if ( message.member.roles.cache.has(tempRoleObj.id) ) {
+
+                          let oldRoleRemove = await message.member.roles.remove(tempRoleObj)
                           .catch(console.error);
+  
+                        }
       
                       }
       
@@ -2355,8 +2535,13 @@ module.exports = {
         
                               let oldRoleID = oldRoleSearch.roleID;
                               let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                              .catch(console.error);
+                              
+                              if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                                let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                                .catch(console.error);
+        
+                              }
         
                             }
       
@@ -2441,8 +2626,13 @@ module.exports = {
       
                             let oldRoleID = oldRoleSearch.roleID;
                             let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                            .catch(console.error);
+                            
+                            if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+      
+                            }
       
                           }
 
@@ -2474,8 +2664,13 @@ module.exports = {
     
                           let oldRoleID = oldRoleSearch.roleID;
                           let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                          .catch(console.error);
+                          
+                          if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+    
+                          }
     
                         }
 
@@ -2524,8 +2719,13 @@ module.exports = {
       
                         let tempRole = matchedRoles[i];
                         let tempRoleObj = message.guild.roles.resolve(tempRole);
-                        let roleRemove = await message.member.roles.remove(tempRoleObj)
-                        .catch(console.error);
+                        
+                        if ( message.member.roles.cache.has(tempRoleObj.id) ) {
+
+                          let oldRoleRemove = await message.member.roles.remove(tempRoleObj)
+                          .catch(console.error);
+  
+                        }
       
                       }
       
@@ -2554,8 +2754,13 @@ module.exports = {
                             
                               let oldRoleID = oldRoleSearch.roleID;
                               let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                              .catch(console.error);
+                              
+                              if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                                let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                                .catch(console.error);
+        
+                              }
                             
                             }
 
@@ -2665,8 +2870,13 @@ module.exports = {
       
                             let oldRoleID = oldRoleSearch.roleID;
                             let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                            .catch(console.error);
+                            
+                            if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                              let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                              .catch(console.error);
+      
+                            }
       
                           }
 
@@ -2698,8 +2908,13 @@ module.exports = {
     
                           let oldRoleID = oldRoleSearch.roleID;
                           let oldRoleObj = message.guild.roles.resolve(oldRoleID);
-                          let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
-                          .catch(console.error);
+                          
+                          if ( message.member.roles.cache.has(oldRoleID) ) {
+
+                            let oldRoleRemove = await message.member.roles.remove(oldRoleObj)
+                            .catch(console.error);
+    
+                          }
     
                         }
 
@@ -2747,8 +2962,13 @@ module.exports = {
       
                         let tempRole = matchedRoles[i];
                         let tempRoleObj = message.guild.roles.resolve(tempRole);
-                        let roleRemove = await message.member.roles.remove(tempRoleObj)
-                        .catch(console.error);
+                        
+                        if ( message.member.roles.cache.has(tempRoleObj.id) ) {
+
+                          let oldRoleRemove = await message.member.roles.remove(tempRoleObj)
+                          .catch(console.error);
+  
+                        }
       
                       }
       

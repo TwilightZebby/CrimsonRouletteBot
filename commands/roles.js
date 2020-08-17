@@ -164,7 +164,10 @@ module.exports = {
       }, {
         name: `How to clear ALL Roles`,
         value: `To unassign *all* of the Roles from this Bot, use **\`${PREFIX}roles reset\`**.\nPlease note that all currently given Roles will *NOT* be taken off Users. You will have to do this yourself.\n(Using Server Settings -> Members)`
-      }, );
+      }, {
+        name: `Note:`,
+        value: `The Bot's highest Role **MUST** be above all the set Levelling Roles in order for the Bot to be able to grant or revoke them.`
+      } );
 
       return message.channel.send(configEmbed);
 

@@ -38,7 +38,9 @@ module.exports = {
       
       let changeArray = [
         `• Fixed bug that prevented the Bot from auto-giving/revoking Roles should you not have a Broadcast channel set in the \`config\` command`,
-        `• Corrected non-roulette level down messages`
+        `• Corrected non-roulette level down messages`,
+        `• Added extra code to help prevent the Bot from getting rate-limited when revoking previous levelling roles`,
+        `• Tweaked \`roles guide\` command to add a note about Role positionings`
       ];
       
       /*let removeArray = [

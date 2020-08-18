@@ -40,7 +40,8 @@ module.exports = {
         `• Fixed bug that prevented the Bot from auto-giving/revoking Roles should you not have a Broadcast channel set in the \`config\` command`,
         `• Corrected non-roulette level down messages`,
         `• Added extra code to help prevent the Bot from getting rate-limited when revoking previous levelling roles`,
-        `• Tweaked \`roles guide\` command to add a note about Role positionings`
+        `• Tweaked \`roles guide\` command to add a note about Role positionings`,
+        `• **POST-UPDATE HOTFIX:** Fixed the roulette command not working at all. It now works ;P`
       ];
       
       /*let removeArray = [

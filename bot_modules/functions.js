@@ -153,7 +153,7 @@ module.exports = {
       
                 i += 99999999; // Breaks out of loop
       
-                if (dbConfig[0].lvlChannel === null || dbConfig[0].lvlChannel === undefined) {
+                if (guildConfig[0].lvlChannel === null || guildConfig[0].lvlChannel === undefined) {
 
                   // Level Role Check
                   let roleSearch = await LevelRoles.findOne({
@@ -860,7 +860,7 @@ module.exports = {
       
                 i += 99999999; // Breaks out of loop
       
-                if (dbConfig[0].lvlChannel === null || dbConfig[0].lvlChannel === undefined) {
+                if (guildConfig[0].lvlChannel === null || guildConfig[0].lvlChannel === undefined) {
 
                   // Level Role Check
                   let roleSearch = await LevelRoles.findOne({
@@ -1645,7 +1645,7 @@ module.exports = {
       
                 i += 99999999; // Breaks out of loop
       
-                if (dbConfig[0].lvlChannel === null || dbConfig[0].lvlChannel === undefined) {
+                if (guildConfig[0].lvlChannel === null || guildConfig[0].lvlChannel === undefined) {
 
                   // Level Role Check
                   let roleSearch = await LevelRoles.findOne({
@@ -2352,7 +2352,7 @@ module.exports = {
       
                 i += 99999999; // Breaks out of loop
       
-                if (dbConfig[0].lvlChannel === null || dbConfig[0].lvlChannel === undefined) {
+                if (guildConfig[0].lvlChannel === null || guildConfig[0].lvlChannel === undefined) {
 
                   // Level Role Check
                   let roleSearch = await LevelRoles.findOne({

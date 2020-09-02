@@ -70,6 +70,24 @@ module.exports = {
           break;
 
 
+        case 'resolve':
+          // Test if a given Member ID is valid
+          if ( args.length !== 2 ) {
+            return await message.reply(`Sorry, but there should be the following arguments for this command:\n
+            \`resolve <userID>\``);
+          }
+
+          let userID = args[1];
+          let userOBJ = client.users.resolve(userID);
+
+          await message.channel.send(`**User ID:** ${userOBJ.id}
+          **Username:** ${userOBJ.username}
+          **Discrim:** ${userOBJ.discriminator}
+          **Is Bot:** ${userOBJ.bot}`);
+
+          break;
+
+
         default:
           await message.reply(`Sorry, that wasn't a valid argument. Please try again...`);
           break;

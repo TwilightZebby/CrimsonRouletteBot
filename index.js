@@ -241,10 +241,6 @@ client.on('guildMemberAdd', async (member) => {
 //     - To delete them from the Levels DB to make sure they don't pollute the Leaderboard(s)
 client.on('guildMemberRemove', async (member) => {
 
-  if (member.user.bot === true) {
-    return;
-  }
-
   let levelDelete = await GuildLevels.destroy({
       where: {
         guildID: member.guild.id,

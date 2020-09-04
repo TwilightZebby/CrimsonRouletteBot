@@ -448,9 +448,7 @@ client.on('guildDelete', async (guild) => {
   logEmbed.setTitle(`Left a Guild`)
   .addFields(
     { name: `Guild Name`, value: guildName },
-    { name: `Guild Owner`, value: `${guildOwner.user.username}\#${guildOwner.user.discriminator}` },
-    { name: `Member Count`, value: guildMemberCount },
-    { name: `Bot Count`, value: guildBotCount, inline: true }
+    { name: `Guild Owner`, value: `${guildOwner.user.username}\#${guildOwner.user.discriminator}` }
   )
   .setThumbnail(guildIcon);
 

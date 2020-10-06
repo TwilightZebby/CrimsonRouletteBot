@@ -1,3 +1,10 @@
+# ARCHIVED OLD CODE
+I have rewritten the code for my Bot, and have renamed it from "Crimson Roulette" to "Crimson Levels".
+
+My new code is stored in a new GitHub Repro. You can find my Bot on [top.gg](https://top.gg/bot/657859837023092746)
+
+Below is a copy of the old description before this rewrite.
+
 ---
 # Crimson Roulette Bot
 

@@ -1,7 +1,7 @@
 # ARCHIVED OLD CODE
 I have rewritten the code for my Bot, and have renamed it from "Crimson Roulette" to "Crimson Levels".
 
-My new code is stored in a new GitHub Repro. You can find my Bot on [top.gg](https://top.gg/bot/657859837023092746)
+My new code is stored in a new GitHub Repro. ~~You can find my Bot on [top.gg](https://top.gg/bot/657859837023092746)~~ Bot was shut down, you can find [it on this Repro](https://github.com/TwilightZebby/CrimsonLevelsBot)
 
 Below is a copy of the old description before this rewrite.
 

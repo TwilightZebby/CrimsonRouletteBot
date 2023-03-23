@@ -1,3 +1,8 @@
+# THE LICENSE
+The License for this Project, and all of TwilightZebby's Projects, can be [found here](https://github.com/TwilightZebby/license/blob/main/license.md).
+
+---
+
 # ARCHIVED OLD CODE
 I have rewritten the code for my Bot, and have renamed it from "Crimson Roulette" to "Crimson Levels".
 
